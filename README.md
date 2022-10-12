@@ -6,7 +6,7 @@ Group members (3-5) (no Student IDs, only names and github usernames):
 
 2. 
 
-3. 
+3. Imran Mustafa - Seg-fau1t
 
 4. 
 
