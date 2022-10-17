@@ -4,7 +4,7 @@ Group members (3-5) (no Student IDs, only names and github usernames):
 
 1. Reese Dominguez - fenreese
 
-2. 
+2. Cole Mollica - coleman2246
 
 3. Imran Mustafa - Seg-fau1t
 
