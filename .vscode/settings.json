@@ -1,0 +1,8 @@
+{
+    "[dart]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true
+        },
+        "editor.formatOnType": false, // probably helpful to make it less janky while typing, idk
+    }
+}
