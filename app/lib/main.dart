@@ -29,7 +29,10 @@ class MyApp extends StatelessWidget {
             }
             return const CircularProgressIndicator();
           }),
-      routes: {"signInPage": ((context) => const SignInForm())},
+      routes: {
+        "signInPage": ((context) => const SignInForm()),
+        "homePage": ((context) => const SignInForm())
+      },
     );
   }
 }

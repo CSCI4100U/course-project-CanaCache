@@ -2,6 +2,10 @@ import "package:flutter/material.dart";
 import "package:app/auth/model/auth.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:provider/provider.dart";
+import "package:app/utils/canna_pallet.dart";
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import "package:flutter_svg/flutter_svg.dart";
+import "package:app/common_widgets/canna_scaffold.dart";
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key, this.title}) : super(key: key);
@@ -13,17 +17,8 @@ class SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<SignInForm> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
-  bool _EmailError = false;
-  bool _LoginError = false;
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  validateEmail(String? email) {
-    if (email!.isEmpty) {}
-  }
 
   hideText() {
     setState(() {
@@ -32,36 +27,31 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   _signIn(BuildContext context) async {
-    UserCredential? cred = await UserAuth.signInWithGoogle(context: context);
-    //await UserAuth.deleteCurrentUser();
+    await UserAuth.signInWithGoogle(context: context);
   }
 
   Widget signInPage() {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text(""),
-        ),
-        key: _formKey,
-        body: Column(children: [
-          TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: "Email",
-              ),
-              validator: (value) => validateEmail(value)),
-          TextFormField(
-            controller: passwordController,
-            obscureText: _obscureText,
-            decoration: InputDecoration(
-                labelText: "Password",
-                suffixIcon: IconButton(
-                    icon: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () => hideText())),
-          ),
-          IconButton(
-              onPressed: () => _signIn(context), icon: const Icon(Icons.edit)),
-        ]));
+    return CannaScaffold(
+        body: Center(
+            child: Column(children: [
+      SvgPicture.asset("assets/vectors/logo.svg"),
+      const Padding(
+          padding: EdgeInsets.all(30),
+          child: SizedBox(
+              width: 200,
+              child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: CannaPallet.primaryBG)))),
+      SignInButton(
+        Buttons.Google,
+        text: "Sign in with Google",
+        onPressed: () => UserAuth.signInWithGoogle(context: context),
+      ),
+      SignInButton(Buttons.GitHub,
+          text: "Sign in with Github",
+          onPressed: () => UserAuth.signInWithGithub()),
+    ])));
   }
 
   @override
@@ -70,9 +60,9 @@ class _SignInFormState extends State<SignInForm> {
         stream: FirebaseAuth.instance.userChanges(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.hasData) {
+            print(snapshot);
             if (snapshot.data != null) {
-              return Center(child: Text("Signed In "));
-              // Navigate to home page
+              return signInPage();
             }
           }
           return signInPage();

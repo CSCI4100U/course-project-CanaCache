@@ -24,8 +24,14 @@ class UserAuth {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  static Future<UserCredential?> signInWithGithub() async {
+    GithubAuthProvider githubProvider = GithubAuthProvider();
+
+    return await FirebaseAuth.instance.signInWithProvider(githubProvider);
+  }
+
   static deleteCurrentUser() async {
-    await FirebaseAuth.instance.currentUser!.delete();
+    await FirebaseAuth.instance.signOut();
   }
 }
 
