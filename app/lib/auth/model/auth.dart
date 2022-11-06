@@ -20,14 +20,35 @@ class UserAuth {
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    try {
+      var result = await FirebaseAuth.instance.signInWithCredential(credential);
+      return result;
+    } on Exception catch (error) {
+      SnackBar snackBar = SnackBar(
+        content: Text("$error"),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    return null;
   }
 
-  static Future<UserCredential?> signInWithGithub() async {
+  static Future<UserCredential?> signInWithGithub(
+      {required BuildContext context}) async {
     GithubAuthProvider githubProvider = GithubAuthProvider();
 
-    return await FirebaseAuth.instance.signInWithProvider(githubProvider);
+    try {
+      var result =
+          await FirebaseAuth.instance.signInWithProvider(githubProvider);
+      return result;
+    } on Exception catch (error) {
+      SnackBar snackBar = SnackBar(
+        content: Text("$error"),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    return null;
   }
 
   static deleteCurrentUser() async {

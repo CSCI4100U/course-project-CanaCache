@@ -62,7 +62,7 @@ class _SignInFormState extends State<SignInForm> {
       ),
       SignInButton(Buttons.GitHub,
           text: "Sign in with Github",
-          onPressed: () => UserAuth.signInWithGithub()),
+          onPressed: () => UserAuth.signInWithGithub(context: context)),
     ]))));
   }
 
