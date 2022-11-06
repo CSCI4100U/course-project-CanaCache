@@ -43,8 +43,9 @@ class _SignInFormState extends State<SignInForm> {
 
   Widget signInPage() {
     return CannaScaffold(
-        body: Center(
-            child: Column(children: [
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(children: [
       SvgPicture.asset("assets/vectors/logo.svg"),
       const Padding(
           padding: EdgeInsets.all(30),
@@ -62,7 +63,7 @@ class _SignInFormState extends State<SignInForm> {
       SignInButton(Buttons.GitHub,
           text: "Sign in with Github",
           onPressed: () => UserAuth.signInWithGithub()),
-    ])));
+    ]))));
   }
 
   @override
