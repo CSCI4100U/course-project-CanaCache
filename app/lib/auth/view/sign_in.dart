@@ -1,9 +1,9 @@
+import "dart:async";
 import "package:flutter/material.dart";
 import "package:app/auth/model/auth.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:provider/provider.dart";
 import "package:app/utils/canna_pallet.dart";
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:app/common_widgets/canna_scaffold.dart";
 
@@ -17,17 +17,28 @@ class SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<SignInForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _obscureText = true;
+  //part of the code from the navigation is taken from https://stackoverflow.com/questions/54101589/navigating-to-a-new-screen-when-stream-value-in-bloc-changes
+  StreamSubscription? _streamSubscription;
 
-  hideText() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
+  @override
+  initState() {
+    super.initState();
+    _listen();
   }
 
-  _signIn(BuildContext context) async {
-    await UserAuth.signInWithGoogle(context: context);
+  @override
+  dispose() {
+    _streamSubscription!.cancel();
+    super.dispose();
+  }
+
+  _listen() {
+    _streamSubscription =
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        Navigator.pushNamed(context, "homePage");
+      }
+    });
   }
 
   Widget signInPage() {
@@ -56,19 +67,6 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.userChanges(),
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if (snapshot.hasData) {
-            print(snapshot);
-            if (snapshot.data != null) {
-              return signInPage();
-            }
-          }
-          return signInPage();
-        });
-    /*
-    
-        */
+    return signInPage();
   }
 }

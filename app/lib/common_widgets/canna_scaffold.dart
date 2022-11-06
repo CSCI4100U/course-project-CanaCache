@@ -4,13 +4,16 @@ import "package:app/common_widgets/canna_app_bar.dart";
 import "package:app/utils/canna_pallet.dart";
 import "package:app/auth/model/auth.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:app/common_widgets/canna_appbar_list_item.dart";
 
 class CannaScaffold extends StatefulWidget {
   final String? title;
   final GlobalKey<ScaffoldState> _scaffState = GlobalKey<ScaffoldState>();
   final Widget body;
+  List<Widget>? navItems = [];
 
-  CannaScaffold({Key? key, this.title, required this.body}) : super(key: key);
+  CannaScaffold({Key? key, this.title, required this.body, this.navItems})
+      : super(key: key);
 
   @override
   State<CannaScaffold> createState() => _CannaScaffoldState();
@@ -39,39 +42,43 @@ class _CannaScaffoldState extends State<CannaScaffold> {
     // will only append to the list if the user is loged in
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        children.add(IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => UserAuth.deleteCurrentUser()));
+        children.add(CannaAppBarListItem(
+            iconData: Icons.home,
+            label: "Home",
+            callBack: () => Navigator.pushNamed(context, "homePage")));
+
+        children.add(CannaAppBarListItem(
+            iconData: Icons.multiline_chart,
+            label: "Stats",
+            callBack: () => Navigator.pushNamed(context, "statsPage")));
+
+        children.add(CannaAppBarListItem(
+            iconData: Icons.settings_applications,
+            label: "Settings",
+            callBack: () => Navigator.pushNamed(context, "statsPage")));
+
+        children.add(CannaAppBarListItem(
+            iconData: Icons.logout,
+            label: "Logut",
+            callBack: () {
+              UserAuth.deleteCurrentUser();
+              Navigator.pushReplacementNamed(context, "signInPage");
+            }));
       }
     });
 
-    /*
+    if (widget.navItems != null) {
+      children = [...children, ...widget.navItems!];
+    }
 
-             ListTile(
-                leading: Icon(
-                  Icons.home,
-                ),
-                title: const Text('Page 1'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.train,
-                ),
-                title: const Text('Page 2'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-    */
     return children;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CannaAppbar(scaffState: widget._scaffState),
+        appBar:
+            CannaAppbar(titleStr: widget.title, scaffState: widget._scaffState),
         key: widget._scaffState,
         drawer: Drawer(
           child: ListView(

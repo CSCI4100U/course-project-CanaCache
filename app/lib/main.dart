@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
 import "package:app/auth/view/sign_in.dart";
-import "package:app/auth/model/auth.dart";
-import "package:provider/provider.dart";
 import "package:firebase_core/firebase_core.dart";
+import "package:app/homepage/view/homepage.dart";
 
 void main() {
   runApp(const MyApp());
@@ -30,8 +29,10 @@ class MyApp extends StatelessWidget {
             return const CircularProgressIndicator();
           }),
       routes: {
-        "signInPage": ((context) => const SignInForm()),
-        "homePage": ((context) => const SignInForm())
+        "homePage": (context) => const HomePage(),
+        "statsPage": (context) => const HomePage(),
+        "settingsPage": (context) => const HomePage(),
+        "signInPage": (context) => const SignInForm(),
       },
     );
   }
