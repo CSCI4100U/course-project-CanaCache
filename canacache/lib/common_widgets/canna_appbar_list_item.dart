@@ -6,20 +6,28 @@ class CannaAppBarListItem extends StatelessWidget {
   final String label;
   final VoidCallback callBack;
 
-  const CannaAppBarListItem(
-      {super.key, this.iconData, required this.label, required this.callBack});
+  const CannaAppBarListItem({
+    super.key,
+    this.iconData,
+    required this.label,
+    required this.callBack,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-        icon: Icon(
-          iconData,
-          color: CannaPallet.secondaryIconColor,
+      icon: Icon(
+        iconData,
+        color: CannaPallet.secondaryIconColor,
+      ),
+      label: Text(
+        label,
+        style: const TextStyle(
+          color: CannaPallet.primaryIconColor,
+          fontFamily: CannaPallet.primaryFontFamily,
         ),
-        label: Text(label,
-            style: const TextStyle(
-                color: CannaPallet.primaryIconColor,
-                fontFamily: CannaPallet.primaryFontFamily)),
-        onPressed: () => callBack());
+      ),
+      onPressed: () => callBack(),
+    );
   }
 }

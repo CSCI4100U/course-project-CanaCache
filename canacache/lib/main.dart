@@ -17,17 +17,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FutureBuilder(
-          future: Firebase.initializeApp(),
-          builder: (ctx, snapshot) {
-            if (snapshot.hasError) {
-              return const Center(child: Text("Error intializing Firebase"));
-            }
+        future: Firebase.initializeApp(),
+        builder: (ctx, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text("Error intializing Firebase"));
+          }
 
-            if (snapshot.connectionState == ConnectionState.done) {
-              return const SignInForm();
-            }
-            return const CircularProgressIndicator();
-          }),
+          if (snapshot.connectionState == ConnectionState.done) {
+            return const SignInForm();
+          }
+          return const CircularProgressIndicator();
+        },
+      ),
       routes: {
         "homePage": (context) => const HomePage(),
         "statsPage": (context) => const HomePage(),

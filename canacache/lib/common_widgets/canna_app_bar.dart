@@ -5,9 +5,12 @@ class CannaAppbar extends AppBar {
   final GlobalKey<ScaffoldState> scaffState;
   final String? titleStr;
 
-  CannaAppbar(
-      {super.key, this.titleStr, required this.scaffState, super.actions})
-      : super(
+  CannaAppbar({
+    super.key,
+    this.titleStr,
+    required this.scaffState,
+    super.actions,
+  }) : super(
           iconTheme: const IconThemeData(
             color: CannaPallet.primaryIconColor, //change your color here
           ),
@@ -16,7 +19,8 @@ class CannaAppbar extends AppBar {
           elevation: 1.0,
           automaticallyImplyLeading: true,
           leading: IconButton(
-              icon: const Icon(Icons.menu, size: 35),
-              onPressed: () => scaffState.currentState!.openDrawer()),
+            icon: const Icon(Icons.menu, size: 35),
+            onPressed: () => scaffState.currentState!.openDrawer(),
+          ),
         );
 }

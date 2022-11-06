@@ -6,8 +6,9 @@ import "package:firebase_auth/firebase_auth.dart";
 class UserAuth {
   // refer to here for docs https://firebase.google.com/docs/auth/flutter/federated-auth
   // a good chunk of the code in this class is taken from the docs listed above
-  static Future<UserCredential?> signInWithGoogle(
-      {required BuildContext context}) async {
+  static Future<UserCredential?> signInWithGoogle({
+    required BuildContext context,
+  }) async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
