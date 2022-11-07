@@ -1,26 +1,26 @@
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:canacache/common_widgets/canna_app_bar.dart";
-import "package:canacache/utils/canna_pallet.dart";
+import "package:canacache/common_widgets/cana_appbar.dart";
+import "package:canacache/utils/cana_palette.dart";
 import "package:canacache/auth/model/auth.dart";
 import "package:flutter_svg/flutter_svg.dart";
-import "package:canacache/common_widgets/canna_appbar_list_item.dart";
+import "package:canacache/common_widgets/cana_appbar_list_item.dart";
 
-class CannaScaffold extends StatefulWidget {
+class CanaScaffold extends StatefulWidget {
   final String? title;
   final GlobalKey<ScaffoldState> _scaffState = GlobalKey<ScaffoldState>();
   final Widget body;
   List<Widget>? navItems = [];
 
-  CannaScaffold({Key? key, this.title, required this.body, this.navItems})
+  CanaScaffold({Key? key, this.title, required this.body, this.navItems})
       : super(key: key);
 
   @override
-  State<CannaScaffold> createState() => _CannaScaffoldState();
+  State<CanaScaffold> createState() => _CanaScaffoldState();
 }
 
-class _CannaScaffoldState extends State<CannaScaffold> {
-  //CannaScaffold({super.key, required this.body});
+class _CanaScaffoldState extends State<CanaScaffold> {
+  //CanaScaffold({super.key, required this.body});
 
   List<Widget> generateDrawer(BuildContext context) {
     List<Widget> children = [];
@@ -30,7 +30,7 @@ class _CannaScaffoldState extends State<CannaScaffold> {
         height: 150,
         child: DrawerHeader(
           decoration: const BoxDecoration(
-            color: CannaPallet.primaryBG,
+            color: CanaPalette.primaryBG,
           ),
           child: Center(
             child: Directionality(
@@ -49,7 +49,7 @@ class _CannaScaffoldState extends State<CannaScaffold> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         children.add(
-          CannaAppBarListItem(
+          CanaAppBarListItem(
             iconData: Icons.home,
             label: "Home",
             callBack: () => Navigator.pushNamed(context, "homePage"),
@@ -57,7 +57,7 @@ class _CannaScaffoldState extends State<CannaScaffold> {
         );
 
         children.add(
-          CannaAppBarListItem(
+          CanaAppBarListItem(
             iconData: Icons.multiline_chart,
             label: "Stats",
             callBack: () => Navigator.pushNamed(context, "statsPage"),
@@ -65,7 +65,7 @@ class _CannaScaffoldState extends State<CannaScaffold> {
         );
 
         children.add(
-          CannaAppBarListItem(
+          CanaAppBarListItem(
             iconData: Icons.settings_applications,
             label: "Settings",
             callBack: () => Navigator.pushNamed(context, "statsPage"),
@@ -73,7 +73,7 @@ class _CannaScaffoldState extends State<CannaScaffold> {
         );
 
         children.add(
-          CannaAppBarListItem(
+          CanaAppBarListItem(
             iconData: Icons.logout,
             label: "Logut",
             callBack: () {
@@ -96,7 +96,7 @@ class _CannaScaffoldState extends State<CannaScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-          CannaAppbar(titleStr: widget.title, scaffState: widget._scaffState),
+          CanaAppBar(titleStr: widget.title, scaffState: widget._scaffState),
       key: widget._scaffState,
       drawer: Drawer(
         child: ListView(

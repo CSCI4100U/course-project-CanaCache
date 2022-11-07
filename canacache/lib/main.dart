@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "CannaCache",
+      title: "CanaCache",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (ctx, snapshot) {
           if (snapshot.hasError) {
-            return const Center(child: Text("Error intializing Firebase"));
+            return const Center(child: Text("Error initializing Firebase"));
           }
 
           if (snapshot.connectionState == ConnectionState.done) {

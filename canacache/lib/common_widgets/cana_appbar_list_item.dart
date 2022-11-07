@@ -1,12 +1,12 @@
 import "package:flutter/material.dart";
-import "package:canacache/utils/canna_pallet.dart";
+import "package:canacache/utils/cana_palette.dart";
 
-class CannaAppBarListItem extends StatelessWidget {
+class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
   final String label;
   final VoidCallback callBack;
 
-  const CannaAppBarListItem({
+  const CanaAppBarListItem({
     super.key,
     this.iconData,
     required this.label,
@@ -18,13 +18,13 @@ class CannaAppBarListItem extends StatelessWidget {
     return TextButton.icon(
       icon: Icon(
         iconData,
-        color: CannaPallet.secondaryIconColor,
+        color: CanaPalette.secondaryIconColor,
       ),
       label: Text(
         label,
         style: const TextStyle(
-          color: CannaPallet.primaryIconColor,
-          fontFamily: CannaPallet.primaryFontFamily,
+          color: CanaPalette.primaryIconColor,
+          fontFamily: CanaPalette.primaryFontFamily,
         ),
       ),
       onPressed: () => callBack(),

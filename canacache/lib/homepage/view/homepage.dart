@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:canacache/common_widgets/canna_scaffold.dart";
+import "package:canacache/common_widgets/cana_scaffold.dart";
 
 class HomePage extends StatefulWidget {
   final String? title;
@@ -13,6 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return CannaScaffold(body: const Center(child: Text("Te")));
+    return CanaScaffold(body: const Center(child: Text("Te")));
   }
 }

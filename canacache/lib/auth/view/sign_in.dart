@@ -2,10 +2,10 @@ import "dart:async";
 import "package:flutter/material.dart";
 import "package:canacache/auth/model/auth.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:canacache/utils/canna_pallet.dart";
+import "package:canacache/utils/cana_palette.dart";
 import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
-import "package:canacache/common_widgets/canna_scaffold.dart";
+import "package:canacache/common_widgets/cana_scaffold.dart";
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key, this.title}) : super(key: key);
@@ -42,7 +42,7 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   Widget signInPage() {
-    return CannaScaffold(
+    return CanaScaffold(
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -55,7 +55,7 @@ class _SignInFormState extends State<SignInForm> {
                   child: Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: CannaPallet.primaryBG),
+                    style: TextStyle(color: CanaPalette.primaryBG),
                   ),
                 ),
               ),
