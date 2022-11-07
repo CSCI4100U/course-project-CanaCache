@@ -5,6 +5,8 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:app/utils/canna_pallet.dart";
 import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:app/common_widgets/cana_snackbar.dart";
+
 import "package:app/common_widgets/canna_scaffold.dart";
 
 class SignInForm extends StatefulWidget {
@@ -36,12 +38,15 @@ class _SignInFormState extends State<SignInForm> {
     _streamSubscription =
         FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        Navigator.pushNamed(context, "homePage");
+        ScaffoldMessenger.of(context).showSnackBar(
+            sucessCanaSnackBar("Succesfully Signned in ${user.email}"));
+
+        Navigator.pushReplacementNamed(context, "homePage");
       }
     });
   }
 
-  Widget signInPage() {
+  Widget signInPage(BuildContext context) {
     return CannaScaffold(
         body: SingleChildScrollView(
             child: Center(
@@ -55,19 +60,19 @@ class _SignInFormState extends State<SignInForm> {
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: CannaPallet.primaryBG)))),
-      SignInButton(
-        Buttons.Google,
-        text: "Sign in with Google",
-        onPressed: () => UserAuth.signInWithGoogle(context: context),
-      ),
-      SignInButton(Buttons.GitHub,
-          text: "Sign in with Github",
-          onPressed: () => UserAuth.signInWithGithub(context: context)),
+      SignInButton(Buttons.Google, text: "Sign in with Google", onPressed: () {
+        challengeSnackBarAsync(
+            context, () => UserAuth.signInWithGoogle(context: context));
+      }),
+      SignInButton(Buttons.GitHub, text: "Sign in with Github", onPressed: () {
+        challengeSnackBarAsync(
+            context, () => UserAuth.signInWithGithub(context: context));
+      }),
     ]))));
   }
 
   @override
   Widget build(BuildContext context) {
-    return signInPage();
+    return signInPage(context);
   }
 }
