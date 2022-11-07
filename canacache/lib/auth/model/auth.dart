@@ -21,11 +21,12 @@ class UserAuth {
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  static Future<UserCredential?> signInWithGithub() async {
+  static Future<UserCredential?> signInWithGithub({
+    required BuildContext context,
+  }) async {
     GithubAuthProvider githubProvider = GithubAuthProvider();
 
     return await FirebaseAuth.instance.signInWithProvider(githubProvider);

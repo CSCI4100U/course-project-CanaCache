@@ -5,6 +5,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:canacache/utils/cana_palette.dart";
 import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:canacache/common_widgets/cana_snackbar.dart";
 import "package:canacache/common_widgets/cana_scaffold.dart";
 
 class SignInForm extends StatefulWidget {
@@ -36,12 +37,16 @@ class _SignInFormState extends State<SignInForm> {
     _streamSubscription =
         FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        Navigator.pushNamed(context, "homePage");
+        ScaffoldMessenger.of(context).showSnackBar(
+          sucessCanaSnackBar("Succesfully Signned in ${user.email}"),
+        );
+
+        Navigator.pushReplacementNamed(context, "homePage");
       }
     });
   }
 
-  Widget signInPage() {
+  Widget signInPage(BuildContext context) {
     return CanaScaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -62,12 +67,22 @@ class _SignInFormState extends State<SignInForm> {
               SignInButton(
                 Buttons.Google,
                 text: "Sign in with Google",
-                onPressed: () => UserAuth.signInWithGoogle(context: context),
+                onPressed: () {
+                  challengeSnackBarAsync(
+                    context,
+                    () => UserAuth.signInWithGoogle(context: context),
+                  );
+                },
               ),
               SignInButton(
                 Buttons.GitHub,
                 text: "Sign in with Github",
-                onPressed: () => UserAuth.signInWithGithub(),
+                onPressed: () {
+                  challengeSnackBarAsync(
+                    context,
+                    () => UserAuth.signInWithGithub(context: context),
+                  );
+                },
               ),
             ],
           ),
@@ -78,6 +93,6 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    return signInPage();
+    return signInPage(context);
   }
 }
