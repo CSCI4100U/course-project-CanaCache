@@ -45,14 +45,14 @@ class _CanaScaffoldState extends State<CanaScaffold> {
       ),
     );
 
-    // will only append to the list if the user is loged in
+    // will only append to the list if the user is logged in
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         children.add(
           CanaAppBarListItem(
             iconData: Icons.home,
             label: "Home",
-            callBack: () => Navigator.pushNamed(context, "homePage"),
+            callback: () => Navigator.pushNamed(context, "homePage"),
           ),
         );
 
@@ -60,7 +60,7 @@ class _CanaScaffoldState extends State<CanaScaffold> {
           CanaAppBarListItem(
             iconData: Icons.multiline_chart,
             label: "Stats",
-            callBack: () => Navigator.pushNamed(context, "statsPage"),
+            callback: () => Navigator.pushNamed(context, "statsPage"),
           ),
         );
 
@@ -68,15 +68,15 @@ class _CanaScaffoldState extends State<CanaScaffold> {
           CanaAppBarListItem(
             iconData: Icons.settings_applications,
             label: "Settings",
-            callBack: () => Navigator.pushNamed(context, "statsPage"),
+            callback: () => Navigator.pushNamed(context, "statsPage"),
           ),
         );
 
         children.add(
           CanaAppBarListItem(
             iconData: Icons.logout,
-            label: "Logut",
-            callBack: () {
+            label: "Logout",
+            callback: () {
               UserAuth.deleteCurrentUser();
               Navigator.pushReplacementNamed(context, "signInPage");
             },

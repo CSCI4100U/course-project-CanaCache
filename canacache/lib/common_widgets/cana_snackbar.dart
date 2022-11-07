@@ -11,7 +11,7 @@ SnackBar errorCanaSnackBar(String message) {
   );
 }
 
-SnackBar sucessCanaSnackBar(String message) {
+SnackBar successCanaSnackBar(String message) {
   return SnackBar(
     content: Text(
       message,
@@ -21,8 +21,8 @@ SnackBar sucessCanaSnackBar(String message) {
   );
 }
 
-// if an exception is thrown on action show an cana error snackbar otherwise show a cana sucess
-// snackbar with sucessText
+// if an exception is thrown on action show a cana error snackbar otherwise show a cana success
+// snackbar with successText
 // action must be an async function
 void challengeSnackBarAsync(
   BuildContext context,

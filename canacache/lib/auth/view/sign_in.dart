@@ -38,7 +38,7 @@ class _SignInFormState extends State<SignInForm> {
         FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          sucessCanaSnackBar("Succesfully Signned in ${user.email}"),
+          successCanaSnackBar("Successfully signed in as ${user.email}"),
         );
 
         Navigator.pushReplacementNamed(context, "homePage");
@@ -76,7 +76,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               SignInButton(
                 Buttons.GitHub,
-                text: "Sign in with Github",
+                text: "Sign in with GitHub",
                 onPressed: () {
                   challengeSnackBarAsync(
                     context,

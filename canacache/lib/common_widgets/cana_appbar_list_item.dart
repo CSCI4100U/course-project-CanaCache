@@ -4,13 +4,13 @@ import "package:canacache/utils/cana_palette.dart";
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
   final String label;
-  final VoidCallback callBack;
+  final VoidCallback callback;
 
   const CanaAppBarListItem({
     super.key,
     this.iconData,
     required this.label,
-    required this.callBack,
+    required this.callback,
   });
 
   @override
@@ -27,7 +27,7 @@ class CanaAppBarListItem extends StatelessWidget {
           fontFamily: CanaPalette.primaryFontFamily,
         ),
       ),
-      onPressed: () => callBack(),
+      onPressed: () => callback(),
     );
   }
 }
