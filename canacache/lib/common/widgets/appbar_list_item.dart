@@ -1,16 +1,18 @@
 import "package:flutter/material.dart";
-import "package:canacache/utils/cana_palette.dart";
+import "package:canacache/common/utils/palette.dart";
 
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
   final String label;
-  final VoidCallback callback;
+  final String route;
+  final VoidCallback? callback;
 
   const CanaAppBarListItem({
     super.key,
     this.iconData,
     required this.label,
-    required this.callback,
+    required this.route,
+    this.callback,
   });
 
   @override
@@ -27,7 +29,10 @@ class CanaAppBarListItem extends StatelessWidget {
           fontFamily: CanaPalette.primaryFontFamily,
         ),
       ),
-      onPressed: () => callback(),
+      onPressed: () {
+        if (callback != null) callback!();
+        Navigator.pushNamed(context, route);
+      },
     );
   }
 }

@@ -1,16 +1,17 @@
-import "package:flutter/material.dart";
+import "package:canacache/common/utils/palette.dart";
+import "package:canacache/common/utils/routes.dart";
+import "package:canacache/common/widgets/appbar.dart";
+import "package:canacache/common/widgets/appbar_list_item.dart";
+import "package:canacache/features/auth/model/auth.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:canacache/common_widgets/cana_appbar.dart";
-import "package:canacache/utils/cana_palette.dart";
-import "package:canacache/auth/model/auth.dart";
+import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
-import "package:canacache/common_widgets/cana_appbar_list_item.dart";
 
 class CanaScaffold extends StatefulWidget {
   final String? title;
   final GlobalKey<ScaffoldState> _scaffState = GlobalKey<ScaffoldState>();
   final Widget body;
-  List<Widget>? navItems = [];
+  final List<Widget>? navItems;
 
   CanaScaffold({Key? key, this.title, required this.body, this.navItems})
       : super(key: key);
@@ -48,40 +49,29 @@ class _CanaScaffoldState extends State<CanaScaffold> {
     // will only append to the list if the user is logged in
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        children.add(
+        children.addAll(const [
           CanaAppBarListItem(
             iconData: Icons.home,
             label: "Home",
-            callback: () => Navigator.pushNamed(context, "homePage"),
+            route: Routes.home,
           ),
-        );
-
-        children.add(
           CanaAppBarListItem(
             iconData: Icons.multiline_chart,
             label: "Stats",
-            callback: () => Navigator.pushNamed(context, "statsPage"),
+            route: Routes.stats,
           ),
-        );
-
-        children.add(
           CanaAppBarListItem(
             iconData: Icons.settings_applications,
             label: "Settings",
-            callback: () => Navigator.pushNamed(context, "statsPage"),
+            route: Routes.settings,
           ),
-        );
-
-        children.add(
           CanaAppBarListItem(
             iconData: Icons.logout,
             label: "Logout",
-            callback: () {
-              UserAuth.deleteCurrentUser();
-              Navigator.pushReplacementNamed(context, "signInPage");
-            },
+            route: Routes.signIn,
+            callback: UserAuth.deleteCurrentUser,
           ),
-        );
+        ]);
       }
     });
 
