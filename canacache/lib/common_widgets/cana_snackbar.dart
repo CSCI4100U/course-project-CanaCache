@@ -31,6 +31,7 @@ void challengeSnackBarAsync(
   try {
     await action();
   } on Exception catch (error) {
+    print(error);
     SnackBar snackBar = errorCanaSnackBar(error.toString());
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

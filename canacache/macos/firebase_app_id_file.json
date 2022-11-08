@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:595543031932:ios:f41f7910adf488b48cc9f9",
-  "FIREBASE_PROJECT_ID": "cana-cache",
-  "GCM_SENDER_ID": "595543031932"
+  "GOOGLE_APP_ID": "1:15510839196:ios:6e200f46ca6a1a344ef259",
+  "FIREBASE_PROJECT_ID": "canacache",
+  "GCM_SENDER_ID": "15510839196"
 }
