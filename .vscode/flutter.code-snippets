@@ -41,7 +41,9 @@
 		"prefix": "mvccon",
 		"description": "Insert a Controller for a StatefulWidget",
 		"body": [
-			"class $1Controller extends Controller<$1, $1State> {}",
+			"class $1Controller extends Controller<$1, $1State> {",
+			"  $0",
+			"}"
 		],
 		"scope": "dart"
 	},
