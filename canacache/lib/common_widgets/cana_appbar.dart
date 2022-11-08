@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:canacache/theming/models/cana_pallet_provider.dart";
 import "package:canacache/theming/models/cana_palette_model.dart";
+import "package:canacache/settings/model/settings_provider.dart";
 import "package:provider/provider.dart";
 
 class CanaAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -11,14 +11,16 @@ class CanaAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    CanaTheme selectedTheme =
-        Provider.of<CanaThemeProvider>(context).selectedTheme;
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
 
     return AppBar(
       iconTheme: IconThemeData(
         color: selectedTheme.primaryIconColor, //change your color here
       ),
-      title: Text(title ?? ""),
+      title: Text(title ?? "",
+          style: TextStyle(
+            color: selectedTheme.primaryTextColor,
+          )),
       backgroundColor: selectedTheme.primaryBgColor,
       elevation: 1.0,
       automaticallyImplyLeading: true,

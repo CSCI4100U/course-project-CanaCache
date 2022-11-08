@@ -3,14 +3,14 @@ import "package:canacache/auth/view/sign_in.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:canacache/homepage/view/homepage.dart";
 import "package:canacache/settings/view/settings_view.dart";
-import "package:canacache/theming/models/cana_pallet_provider.dart";
+import "package:canacache/settings/model/settings_provider.dart";
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CanaThemeProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
       ],
       child: const MyApp(),
     ),

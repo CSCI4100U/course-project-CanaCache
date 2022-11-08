@@ -21,11 +21,11 @@ class CanaPalette {
     ),
     "Dark Theme": CanaTheme(
       themeName: "Dark Theme",
-      primaryBgColor: const Color(0xFFD61A1A),
+      primaryBgColor: const Color(0xFF1C1B1F),
       primaryIconColor: const Color(0xFF8E918F),
       primaryTextColor: const Color(0xFFFFFFFF),
       primaryFontFamily: "RaleWay",
-      secBgColor: const Color(0xFF1C1B1F),
+      secBgColor: const Color(0xFF0c0b0b),
       secIconColor: const Color(0xFFD0BCFF),
       secTextColor: const Color(0xFFD0BCFF),
       secFontFamily: "RaleWay",
@@ -36,6 +36,13 @@ class CanaPalette {
     ),
   };
 
+  static CanaTheme initCanaTheme(String theme) {
+    if (!isValidTheme(theme)) {
+      theme = defaultTheme;
+    }
+    return cannaThemes[theme];
+  }
+
   static get cannaThemes => _cannaThemes;
 
   static CanaTheme getCanaTheme(String key) {
@@ -45,7 +52,7 @@ class CanaPalette {
     return _cannaThemes[key]!;
   }
 
-  static bool isValidTheme(String key) {
+  static bool isValidTheme(String? key) {
     return _cannaThemes.containsKey(key);
   }
 }
@@ -83,4 +90,9 @@ class CanaTheme {
     required this.errorTextColor,
     required this.errorFontFamily,
   });
+
+  @override
+  String toString() {
+    return themeName;
+  }
 }

@@ -1,12 +1,11 @@
 import "package:flutter/material.dart";
-import "package:canacache/theming/models/cana_pallet_provider.dart";
 import "package:canacache/theming/models/cana_palette_model.dart";
 import "package:provider/provider.dart";
+import "package:canacache/settings/model/settings_provider.dart";
 
 SnackBar errorCanaSnackBar(BuildContext context, String message) {
   CanaTheme selectedTheme =
-      Provider.of<CanaThemeProvider>(context, listen: false).selectedTheme;
-
+      Provider.of<SettingsProvider>(context, listen: false).getTheme();
   return SnackBar(
     content: Text(
       message,
@@ -18,8 +17,7 @@ SnackBar errorCanaSnackBar(BuildContext context, String message) {
 
 SnackBar successCanaSnackBar(BuildContext context, String message) {
   CanaTheme selectedTheme =
-      Provider.of<CanaThemeProvider>(context, listen: false).selectedTheme;
-
+      Provider.of<SettingsProvider>(context, listen: false).getTheme();
   return SnackBar(
     content: Text(
       message,

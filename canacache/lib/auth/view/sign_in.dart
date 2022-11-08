@@ -7,8 +7,8 @@ import "package:flutter_svg/flutter_svg.dart";
 import "package:canacache/common_widgets/cana_snackbar.dart";
 import "package:canacache/common_widgets/cana_scaffold.dart";
 import "package:provider/provider.dart";
-import "package:canacache/theming/models/cana_pallet_provider.dart";
 import "package:canacache/theming/models/cana_palette_model.dart";
+import "package:canacache/settings/model/settings_provider.dart";
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key, this.title}) : super(key: key);
@@ -45,8 +45,7 @@ class _SignInFormState extends State<SignInForm> {
             "Successfully signed in as ${user.email}",
           ),
         );
-
-        Navigator.pushReplacementNamed(context, "homePage");
+        Navigator.pushNamedAndRemoveUntil(context, "homePage", (val) => false);
       }
     });
   }
@@ -66,8 +65,8 @@ class _SignInFormState extends State<SignInForm> {
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Provider.of<CanaThemeProvider>(context)
-                          .selectedTheme
+                      color: Provider.of<SettingsProvider>(context)
+                          .getTheme()
                           .primaryTextColor,
                     ),
                   ),

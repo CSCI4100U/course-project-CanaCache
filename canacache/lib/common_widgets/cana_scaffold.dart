@@ -4,8 +4,8 @@ import "package:canacache/common_widgets/cana_appbar.dart";
 import "package:canacache/auth/model/auth.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:canacache/common_widgets/cana_appbar_list_item.dart";
-import "package:canacache/theming/models/cana_pallet_provider.dart";
 import "package:provider/provider.dart";
+import "package:canacache/settings/model/settings_provider.dart";
 
 class CanaScaffold extends StatefulWidget {
   final String? title;
@@ -29,8 +29,8 @@ class _CanaScaffoldState extends State<CanaScaffold> {
         height: 150,
         child: DrawerHeader(
           decoration: BoxDecoration(
-            color: Provider.of<CanaThemeProvider>(context)
-                .selectedTheme
+            color: Provider.of<SettingsProvider>(context)
+                .getTheme()
                 .primaryBgColor,
           ),
           child: Center(
@@ -79,8 +79,27 @@ class _CanaScaffoldState extends State<CanaScaffold> {
           label: "Logout",
           callback: () {
             UserAuth.deleteCurrentUser();
-            Navigator.pushReplacementNamed(context, "signInPage");
+
+            Navigator.pushNamedAndRemoveUntil(
+                context, "signInPage", (val) => false);
+            //Navigator.pushReplacementNamed(context, "signInPage");
           },
+        ),
+      );
+    } else {
+      children.add(
+        CanaAppBarListItem(
+          iconData: Icons.account_box,
+          label: "Sign In",
+          callback: () => Navigator.pushReplacementNamed(context, "signInPage"),
+        ),
+      );
+
+      children.add(
+        CanaAppBarListItem(
+          iconData: Icons.settings_applications,
+          label: "Settings",
+          callback: () => Navigator.pushNamed(context, "settingsPage"),
         ),
       );
     }
@@ -98,12 +117,11 @@ class _CanaScaffoldState extends State<CanaScaffold> {
     return Scaffold(
       appBar: CanaAppBar(title: widget.title, scaffState: widget._scaffState),
       backgroundColor:
-          Provider.of<CanaThemeProvider>(context).selectedTheme.secBgColor,
+          Provider.of<SettingsProvider>(context).getTheme().secBgColor,
       key: widget._scaffState,
       drawer: Drawer(
-        backgroundColor: Provider.of<CanaThemeProvider>(context)
-            .selectedTheme
-            .primaryBgColor,
+        backgroundColor:
+            Provider.of<SettingsProvider>(context).getTheme().primaryBgColor,
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,

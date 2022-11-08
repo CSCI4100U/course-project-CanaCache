@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import "package:canacache/theming/models/cana_pallet_provider.dart";
 import "package:canacache/theming/models/cana_palette_model.dart";
+import "package:canacache/settings/model/settings_provider.dart";
 
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
@@ -17,9 +17,7 @@ class CanaAppBarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CanaTheme selectedTheme =
-        Provider.of<CanaThemeProvider>(context).selectedTheme;
-
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
     return TextButton.icon(
       icon: Icon(
         iconData,
