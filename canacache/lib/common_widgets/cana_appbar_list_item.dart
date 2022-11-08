@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
-import "package:canacache/utils/cana_palette.dart";
+import "package:provider/provider.dart";
+import "package:canacache/theming/models/cana_pallet_provider.dart";
+import "package:canacache/theming/models/cana_palette_model.dart";
 
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
@@ -15,16 +17,19 @@ class CanaAppBarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CanaTheme selectedTheme =
+        Provider.of<CanaThemeProvider>(context).selectedTheme;
+
     return TextButton.icon(
       icon: Icon(
         iconData,
-        color: CanaPalette.secondaryIconColor,
+        color: selectedTheme.secIconColor,
       ),
       label: Text(
         label,
-        style: const TextStyle(
-          color: CanaPalette.primaryIconColor,
-          fontFamily: CanaPalette.primaryFontFamily,
+        style: TextStyle(
+          color: selectedTheme.primaryTextColor,
+          fontFamily: selectedTheme.primaryFontFamily,
         ),
       ),
       onPressed: () => callback(),

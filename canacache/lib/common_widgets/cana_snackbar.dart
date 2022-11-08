@@ -1,23 +1,31 @@
 import "package:flutter/material.dart";
-import "package:canacache/utils/cana_palette.dart";
+import "package:canacache/theming/models/cana_pallet_provider.dart";
+import "package:canacache/theming/models/cana_palette_model.dart";
+import "package:provider/provider.dart";
 
-SnackBar errorCanaSnackBar(String message) {
+SnackBar errorCanaSnackBar(BuildContext context, String message) {
+  CanaTheme selectedTheme =
+      Provider.of<CanaThemeProvider>(context, listen: false).selectedTheme;
+
   return SnackBar(
     content: Text(
       message,
-      style: const TextStyle(color: CanaPalette.primaryErrorIconColor),
+      style: TextStyle(color: selectedTheme.errorTextColor),
     ),
-    backgroundColor: CanaPalette.primaryErrorBG,
+    backgroundColor: selectedTheme.errorBgColor,
   );
 }
 
-SnackBar successCanaSnackBar(String message) {
+SnackBar successCanaSnackBar(BuildContext context, String message) {
+  CanaTheme selectedTheme =
+      Provider.of<CanaThemeProvider>(context, listen: false).selectedTheme;
+
   return SnackBar(
     content: Text(
       message,
-      style: const TextStyle(color: CanaPalette.primaryIconColor),
+      style: TextStyle(color: selectedTheme.primaryTextColor),
     ),
-    backgroundColor: CanaPalette.primaryBG,
+    backgroundColor: selectedTheme.primaryBgColor,
   );
 }
 
@@ -32,7 +40,8 @@ void challengeSnackBarAsync(
     await action();
   } on Exception catch (error) {
     print(error);
-    SnackBar snackBar = errorCanaSnackBar(error.toString());
+
+    SnackBar snackBar = errorCanaSnackBar(context, error.toString());
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

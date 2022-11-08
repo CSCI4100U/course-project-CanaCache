@@ -2,9 +2,19 @@ import "package:flutter/material.dart";
 import "package:canacache/auth/view/sign_in.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:canacache/homepage/view/homepage.dart";
+import "package:canacache/settings/view/settings_view.dart";
+import "package:canacache/theming/models/cana_pallet_provider.dart";
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CanaThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,9 +23,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "CanaCache",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (ctx, snapshot) {
@@ -32,7 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "homePage": (context) => const HomePage(),
         "statsPage": (context) => const HomePage(),
-        "settingsPage": (context) => const HomePage(),
+        "settingsPage": (context) => const SettingsPageView(title: "Settings"),
         "signInPage": (context) => const SignInForm(),
       },
     );
