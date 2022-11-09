@@ -31,6 +31,12 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  setUnit(Unit unit) {
+    _currentSettings.selectedUnit = unit;
+    _currentSettings.writeSettings();
+    notifyListeners();
+  }
+
   Unit getUnit() {
     return _currentSettings.selectedUnit;
   }

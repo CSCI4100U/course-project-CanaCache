@@ -1,6 +1,12 @@
 class Unit {
   String _unit = defaultUnit;
-  static String defaultUnit = "Km";
+  static String defaultUnit = "Kilometre";
+  static const Map<String, void> validUnits = {
+    "Kilometre": null,
+    "Metere": null,
+    "Miles": null,
+    "Yards": null,
+  };
 
   String get unit => _unit;
 
@@ -14,9 +20,9 @@ class Unit {
 
   Unit({required unit}) {
     if (isValidUnit(unit)) {
-      unit = unit;
+      _unit = unit;
     } else {
-      unit = defaultUnit;
+      _unit = defaultUnit;
     }
   }
 
@@ -24,14 +30,17 @@ class Unit {
     return Unit(unit: unit);
   }
 
-  static const Map<String, void> validUnits = {"Km": null, "Miles": null};
-
   static bool isValidUnit(String key) {
     return validUnits.containsKey(key);
   }
 
   @override
   String toString() {
-    return unit;
+    return _unit;
+  }
+
+  @override
+  bool operator ==(covariant Unit other) {
+    return other.unit == _unit;
   }
 }

@@ -33,6 +33,10 @@ class SettingsModel {
     _selectedTheme = theme;
   }
 
+  set selectedUnit(Unit unit) {
+    _selectedUnit = unit;
+  }
+
   setSelectedTheme(String key) {
     _selectedTheme = CanaPalette.getCanaTheme(key);
   }
@@ -42,7 +46,6 @@ class SettingsModel {
   }
 
   writeSettings() async {
-    print("selfewd them ewrite $_selectedTheme");
     await DBOperations.insertToDB(tableName, toMap());
   }
 
@@ -53,12 +56,9 @@ class SettingsModel {
       "setSelectedTheme": ""
     };
     Map<String, dynamic> startMap = defaults;
-    for (var row in rows) {
-      print("current row $row");
-    }
+
     if (rows.isNotEmpty) {
       startMap = rows[0];
-      print("start map $startMap");
       for (String column in columnNames) {
         if (!rows[0].containsKey(column)) {
           startMap = defaults;
