@@ -7,6 +7,7 @@ class SettingsModel {
       CanaPalette.initCanaTheme(CanaPalette.defaultTheme);
   Unit _selectedUnit = Unit.initUnit(Unit.defaultUnit);
 
+  //db info
   static const tableName = "settings";
   static const columnNames = ["selectedTheme", "selectedUnit"];
 
@@ -14,7 +15,6 @@ class SettingsModel {
 
   SettingsModel.fromMap(Map<String, dynamic> map) {
     _selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"] ?? "");
-
     _selectedUnit = Unit.initUnit(map["selectedUnit"] ?? "");
   }
 
@@ -50,6 +50,10 @@ class SettingsModel {
   }
 
   static Future<SettingsModel> initFromDB() async {
+    /*
+      This is pretty nasty, and should be re written, needs to revert to default value if 
+      no entry is found in the db
+    */
     List rows = await DBOperations.getDBTable(tableName);
     Map<String, dynamic> defaults = {
       "setSelectedUnit": "",
