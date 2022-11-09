@@ -1,23 +1,29 @@
-import "package:canacache/common/utils/palette.dart";
+import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-SnackBar errorCanaSnackBar(String message) {
+SnackBar errorCanaSnackBar(BuildContext context, String message) {
+  CanaTheme selectedTheme =
+      Provider.of<SettingsProvider>(context, listen: false).getTheme();
   return SnackBar(
     content: Text(
       message,
-      style: const TextStyle(color: CanaPalette.primaryErrorIconColor),
+      style: TextStyle(color: selectedTheme.errorTextColor),
     ),
-    backgroundColor: CanaPalette.primaryErrorBG,
+    backgroundColor: selectedTheme.errorBgColor,
   );
 }
 
-SnackBar successCanaSnackBar(String message) {
+SnackBar successCanaSnackBar(BuildContext context, String message) {
+  CanaTheme selectedTheme =
+      Provider.of<SettingsProvider>(context, listen: false).getTheme();
   return SnackBar(
     content: Text(
       message,
-      style: const TextStyle(color: CanaPalette.primaryIconColor),
+      style: TextStyle(color: selectedTheme.primaryTextColor),
     ),
-    backgroundColor: CanaPalette.primaryBG,
+    backgroundColor: selectedTheme.primaryBgColor,
   );
 }
 
@@ -31,7 +37,7 @@ void challengeSnackBarAsync(
   try {
     await action();
   } on Exception catch (error) {
-    SnackBar snackBar = errorCanaSnackBar(error.toString());
+    SnackBar snackBar = errorCanaSnackBar(context, error.toString());
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     rethrow;
   }

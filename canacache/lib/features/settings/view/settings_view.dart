@@ -1,13 +1,13 @@
+import "package:canacache/common/utils/snackbars.dart";
+import "package:canacache/common/widgets/picker.dart";
+import "package:canacache/common/widgets/scaffold.dart";
+import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:canacache/features/settings/model/units.dart";
+import "package:canacache/features/theming/models/cana_palette_model.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
-import "package:canacache/common_widgets/cana_scaffold.dart";
 import "package:settings_ui/settings_ui.dart";
-import "package:canacache/theming/models/cana_palette_model.dart";
-import "package:canacache/common_widgets/cana_snackbar.dart";
-import "package:canacache/settings/model/settings_provider.dart";
-import "package:firebase_auth/firebase_auth.dart";
-import "package:canacache/settings/model/units.dart";
-import "package:canacache/common_widgets/cana_picker.dart";
 
 class SettingsPageView extends StatefulWidget {
   const SettingsPageView({Key? key, this.title}) : super(key: key);

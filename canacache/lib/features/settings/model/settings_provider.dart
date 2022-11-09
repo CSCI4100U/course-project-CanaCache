@@ -1,7 +1,7 @@
+import "package:canacache/features/settings/model/settings_model.dart";
+import "package:canacache/features/settings/model/units.dart";
+import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:flutter/widgets.dart";
-import "package:canacache/settings/model/units.dart";
-import "package:canacache/theming/models/cana_palette_model.dart";
-import "package:canacache/settings/model/settings_model.dart";
 
 class SettingsProvider with ChangeNotifier {
   SettingsModel _currentSettings = SettingsModel();
@@ -9,7 +9,6 @@ class SettingsProvider with ChangeNotifier {
   SettingsProvider() {
     SettingsModel.initFromDB().then((SettingsModel settings) {
       _currentSettings = settings;
-      print(currentSettings.selectedTheme);
       _currentSettings.writeSettings();
       notifyListeners();
     });

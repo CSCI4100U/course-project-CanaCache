@@ -1,7 +1,7 @@
-import "package:canacache/theming/models/cana_palette_model.dart";
-import "package:provider/provider.dart";
-import "package:canacache/settings/model/settings_provider.dart";
+import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class CanaPicker {
   static canaShowDialog(

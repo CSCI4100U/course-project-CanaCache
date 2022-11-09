@@ -1,6 +1,6 @@
-import "package:canacache/theming/models/cana_palette_model.dart";
-import "package:canacache/settings/model/units.dart";
-import "package:canacache/local_database/db_setup.dart";
+import "package:canacache/common/utils/db_setup.dart";
+import "package:canacache/features/settings/model/units.dart";
+import "package:canacache/features/theming/models/cana_palette_model.dart";
 
 class SettingsModel {
   CanaTheme _selectedTheme =
