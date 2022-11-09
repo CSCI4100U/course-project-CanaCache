@@ -3,10 +3,10 @@ import "package:canacache/common/utils/palette.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/scaffold.dart";
+import "package:canacache/features/auth/controller/sign_in_controller.dart";
 import "package:flutter/material.dart";
 import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
-import "../controller/sign_in_controller.dart";
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key? key, this.title}) : super(key: key);

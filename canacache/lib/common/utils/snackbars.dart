@@ -1,5 +1,5 @@
-import "package:flutter/material.dart";
 import "package:canacache/common/utils/palette.dart";
+import "package:flutter/material.dart";
 
 SnackBar errorCanaSnackBar(String message) {
   return SnackBar(

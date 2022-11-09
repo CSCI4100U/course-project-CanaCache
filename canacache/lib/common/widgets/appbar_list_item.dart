@@ -1,5 +1,5 @@
-import "package:flutter/material.dart";
 import "package:canacache/common/utils/palette.dart";
+import "package:flutter/material.dart";
 
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;

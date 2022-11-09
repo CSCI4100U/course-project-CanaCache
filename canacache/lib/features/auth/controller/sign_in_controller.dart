@@ -1,8 +1,8 @@
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/utils/snackbars.dart";
-import "../model/sign_in_listener.dart";
-import "../model/auth.dart";
-import "../view/sign_in.dart";
+import "package:canacache/features/auth/model/auth.dart";
+import "package:canacache/features/auth/model/sign_in_listener.dart";
+import "package:canacache/features/auth/view/sign_in.dart";
 
 class SignInFormController extends Controller<SignInForm, SignInFormState> {
   final _listener = SignInListener();

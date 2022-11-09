@@ -1,7 +1,7 @@
 import "package:canacache/common/utils/routes.dart";
-import "package:flutter/material.dart";
 import "package:canacache/features/auth/view/sign_in.dart";
 import "package:firebase_core/firebase_core.dart";
+import "package:flutter/material.dart";
 
 void main() {
   runApp(const MyApp());

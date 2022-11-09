@@ -1,7 +1,7 @@
 import "package:canacache/common/utils/mvc.dart";
-import "../controller/homepage_controller.dart";
-import "package:flutter/material.dart";
 import "package:canacache/common/widgets/scaffold.dart";
+import "package:canacache/features/homepage/controller/homepage_controller.dart";
+import "package:flutter/material.dart";
 
 class HomePage extends StatefulWidget {
   final String? title;
