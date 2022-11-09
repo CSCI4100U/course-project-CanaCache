@@ -1,5 +1,5 @@
+import "package:canacache/common/utils/palette.dart";
 import "package:flutter/material.dart";
-import "package:canacache/utils/cana_palette.dart";
 
 SnackBar errorCanaSnackBar(String message) {
   return SnackBar(
@@ -31,8 +31,8 @@ void challengeSnackBarAsync(
   try {
     await action();
   } on Exception catch (error) {
-    print(error);
     SnackBar snackBar = errorCanaSnackBar(error.toString());
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    rethrow;
   }
 }

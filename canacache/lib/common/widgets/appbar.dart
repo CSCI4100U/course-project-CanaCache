@@ -1,5 +1,5 @@
+import "package:canacache/common/utils/palette.dart";
 import "package:flutter/material.dart";
-import "package:canacache/utils/cana_palette.dart";
 
 class CanaAppBar extends AppBar {
   final GlobalKey<ScaffoldState> scaffState;

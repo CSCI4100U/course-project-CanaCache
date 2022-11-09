@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
-import "package:canacache/auth/view/sign_in.dart";
+import "package:canacache/common/utils/routes.dart";
+import "package:canacache/features/auth/view/sign_in.dart";
 import "package:firebase_core/firebase_core.dart";
-import "package:canacache/homepage/view/homepage.dart";
+import "package:flutter/material.dart";
 
 void main() {
   runApp(const MyApp());
@@ -29,12 +29,7 @@ class MyApp extends StatelessWidget {
           return const CircularProgressIndicator();
         },
       ),
-      routes: {
-        "homePage": (context) => const HomePage(),
-        "statsPage": (context) => const HomePage(),
-        "settingsPage": (context) => const HomePage(),
-        "signInPage": (context) => const SignInForm(),
-      },
+      routes: Routes.routes,
     );
   }
 }

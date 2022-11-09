@@ -24,6 +24,8 @@ linter:
   rules:
     prefer_double_quotes: true
     require_trailing_commas: true
+    always_use_package_imports: true
+    directives_ordering: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
