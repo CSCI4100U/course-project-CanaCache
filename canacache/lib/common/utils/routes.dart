@@ -2,16 +2,31 @@ import "package:canacache/features/auth/view/sign_in.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:flutter/material.dart";
 
-class Routes {
-  static const home = "homePage";
-  static const stats = "statsPage";
-  static const settings = "settingsPage";
-  static const signIn = "signInPage";
+/// Main named routes for the app.
+///
+/// Usage: `Navigator.pushNamed(context, CanaRoute.home.name);`
+enum CanaRoute {
+  home,
+  stats,
+  settings,
+  signIn;
 
-  static final Map<String, Widget Function(BuildContext)> routes = {
-    home: (context) => const HomePage(),
-    stats: (context) => const HomePage(),
-    settings: (context) => const HomePage(),
-    signIn: (context) => const SignInForm(),
+  // needed because enhanced enum values need to be const, ie. not functions
+  // still gives type safety - if we forget a route here, it'll give an error
+  Widget Function(BuildContext context) get builder {
+    switch (this) {
+      case home:
+        return (context) => const HomePage();
+      case stats:
+        return (context) => const HomePage();
+      case settings:
+        return (context) => const HomePage();
+      case signIn:
+        return (context) => const SignInForm();
+    }
+  }
+
+  static final Map<String, Widget Function(BuildContext context)> routes = {
+    for (var r in CanaRoute.values) r.name: r.builder
   };
 }

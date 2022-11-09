@@ -25,7 +25,7 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
       successCanaSnackBar("Successfully signed in as $email"),
     );
 
-    Navigator.pushReplacementNamed(context, Routes.home);
+    Navigator.pushReplacementNamed(context, CanaRoute.home.name);
   }
 
   @override

@@ -53,23 +53,24 @@ class _CanaScaffoldState extends State<CanaScaffold> {
           CanaAppBarListItem(
             iconData: Icons.home,
             label: "Home",
-            route: Routes.home,
+            route: CanaRoute.home,
           ),
           CanaAppBarListItem(
             iconData: Icons.multiline_chart,
             label: "Stats",
-            route: Routes.stats,
+            route: CanaRoute.stats,
           ),
           CanaAppBarListItem(
             iconData: Icons.settings_applications,
             label: "Settings",
-            route: Routes.settings,
+            route: CanaRoute.settings,
           ),
           CanaAppBarListItem(
             iconData: Icons.logout,
             label: "Logout",
-            route: Routes.signIn,
+            route: CanaRoute.signIn,
             callback: UserAuth.deleteCurrentUser,
+            clearHistory: true,
           ),
         ]);
       }

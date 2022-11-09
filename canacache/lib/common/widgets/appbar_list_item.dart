@@ -1,11 +1,13 @@
 import "package:canacache/common/utils/palette.dart";
+import "package:canacache/common/utils/routes.dart";
 import "package:flutter/material.dart";
 
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
   final String label;
-  final String route;
+  final CanaRoute route;
   final VoidCallback? callback;
+  final bool clearHistory;
 
   const CanaAppBarListItem({
     super.key,
@@ -13,6 +15,7 @@ class CanaAppBarListItem extends StatelessWidget {
     required this.label,
     required this.route,
     this.callback,
+    this.clearHistory = false,
   });
 
   @override
@@ -31,7 +34,11 @@ class CanaAppBarListItem extends StatelessWidget {
       ),
       onPressed: () {
         if (callback != null) callback!();
-        Navigator.pushNamed(context, route);
+        if (clearHistory) {
+          Navigator.pushNamedAndRemoveUntil(context, route.name, (r) => false);
+        } else {
+          Navigator.pushNamed(context, route.name);
+        }
       },
     );
   }
