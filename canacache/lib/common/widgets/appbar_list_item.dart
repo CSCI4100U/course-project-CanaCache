@@ -1,3 +1,4 @@
+import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:flutter/material.dart";
@@ -6,7 +7,7 @@ import "package:provider/provider.dart";
 class CanaAppBarListItem extends StatelessWidget {
   final IconData? iconData;
   final String label;
-  final String route;
+  final CanaRoute route;
   final bool clearNavigation;
   final VoidCallback? callback;
 
@@ -41,9 +42,10 @@ class CanaAppBarListItem extends StatelessWidget {
         }
 
         if (clearNavigation) {
-          Navigator.pushNamedAndRemoveUntil(context, route, (val) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, route.name, (val) => false);
         } else {
-          Navigator.pushNamed(context, route);
+          Navigator.pushNamed(context, route.name);
         }
       },
     );

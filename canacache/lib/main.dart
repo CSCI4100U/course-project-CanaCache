@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           return const CircularProgressIndicator();
         },
       ),
-      routes: Routes.routes,
+      routes: CanaRoute.routes,
     );
   }
 }

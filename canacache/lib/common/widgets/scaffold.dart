@@ -47,54 +47,53 @@ class _CanaScaffoldState extends State<CanaScaffold> {
       ),
     );
 
-    Map<String, Widget> canidateItems = {
-      Routes.home: const CanaAppBarListItem(
+    Map<CanaRoute, Widget> candidateItems = {
+      CanaRoute.home: const CanaAppBarListItem(
         iconData: Icons.home,
         label: "Home",
-        route: Routes.home,
+        route: CanaRoute.home,
       ),
-      Routes.stats: const CanaAppBarListItem(
+      CanaRoute.stats: const CanaAppBarListItem(
         iconData: Icons.multiline_chart,
         label: "Stats",
-        route: Routes.stats,
+        route: CanaRoute.stats,
       ),
-      Routes.settings: const CanaAppBarListItem(
+      CanaRoute.settings: const CanaAppBarListItem(
         iconData: Icons.settings_applications,
         label: "Settings",
-        route: Routes.settings,
+        route: CanaRoute.settings,
       ),
-      Routes.logout: const CanaAppBarListItem(
+      CanaRoute.logout: const CanaAppBarListItem(
         iconData: Icons.logout,
         label: "Logout",
-        route: Routes.logout,
+        route: CanaRoute.logout,
         clearNavigation: true,
         callback: UserAuth.deleteCurrentUser,
       ),
-      Routes.signIn: const CanaAppBarListItem(
+      CanaRoute.signIn: const CanaAppBarListItem(
         iconData: Icons.account_box,
         label: "Sign In",
-        route: Routes.signIn,
+        route: CanaRoute.signIn,
         clearNavigation: true,
       ),
     };
 
-    List<String> requiredItems = [];
+    List<CanaRoute> requiredItems = [];
 
-    // will only append to the list if the user is logged in
-    //FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (FirebaseAuth.instance.currentUser != null) {
       requiredItems.addAll([
-        Routes.home,
-        Routes.stats,
-        Routes.settings,
-        Routes.logout,
+        CanaRoute.home,
+        CanaRoute.stats,
+        CanaRoute.settings,
+        CanaRoute.logout,
       ]);
     } else {
-      requiredItems.addAll([Routes.settings, Routes.signIn]);
+      requiredItems.addAll([CanaRoute.settings, CanaRoute.signIn]);
     }
 
-    requiredItems.forEach((element) => children.add(canidateItems[element]!));
-    //});
+    for (CanaRoute currentRoute in requiredItems) {
+      children.add(candidateItems[currentRoute]!);
+    }
 
     if (widget.navItems != null) {
       children = [...children, ...widget.navItems!];
