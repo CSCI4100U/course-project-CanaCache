@@ -13,19 +13,15 @@ class DBSchema {
 
 class DBTable {
   String tableTitle;
-  // <column name, type>
+
+  /// <column name, type>
   Map<String, String> columnTypeMap;
   DBTable({required this.tableTitle, required this.columnTypeMap});
 
   String createTableString() {
-    String schema = "";
+    String schema =
+        columnTypeMap.entries.map((e) => "${e.key} ${e.value}").join(", ");
 
-    columnTypeMap.forEach((colName, type) {
-      schema += "$colName $type, ";
-    });
-
-    // need to get rid of last comma and space
-    schema = schema.substring(0, schema.length - 2);
     return "$tableTitle($schema)";
   }
 

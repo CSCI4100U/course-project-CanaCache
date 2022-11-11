@@ -22,12 +22,16 @@ class DBOperations {
     return db;
   }
 
-  static Future insertToDB(DBTable table, Map data) async {
+  static Future insertToDB(
+    DBTable table,
+    Map data, {
+    ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.replace,
+  }) async {
     final db = await DBOperations.init();
     return db.insert(
       table.tableTitle,
       data,
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      conflictAlgorithm: conflictAlgorithm,
     );
   }
 

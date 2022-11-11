@@ -27,14 +27,6 @@ class SettingsModel {
     };
   }
 
-  setSelectedTheme(String key) {
-    selectedTheme = CanaPalette.getCanaTheme(key);
-  }
-
-  setSelectedDistanceUnit(DistanceUnit unit) {
-    selectedUnit.distanceUnit = unit;
-  }
-
   writeSettings() async {
     await DBOperations.insertToDB(table, toMap());
   }

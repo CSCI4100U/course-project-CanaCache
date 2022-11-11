@@ -1,5 +1,5 @@
+import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
-import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 

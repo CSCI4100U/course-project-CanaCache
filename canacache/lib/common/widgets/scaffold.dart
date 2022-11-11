@@ -1,3 +1,4 @@
+import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/widgets/appbar.dart";
 import "package:canacache/common/widgets/appbar_list_item.dart";
@@ -93,22 +94,20 @@ class _CanaScaffoldState extends State<CanaScaffold> {
       children.add(candidateItems[currentRoute]!);
     }
 
-    if (widget.navItems != null) {
-      children = [...children, ...widget.navItems!];
-    }
-
+    children.addAll(widget.navItems ?? []);
     return children;
   }
 
   @override
   Widget build(BuildContext context) {
+    CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
+
     return Scaffold(
       appBar: CanaAppBar(title: widget.title, scaffState: widget._scaffState),
-      backgroundColor: Provider.of<SettingsProvider>(context).theme.secBgColor,
+      backgroundColor: theme.secBgColor,
       key: widget._scaffState,
       drawer: Drawer(
-        backgroundColor:
-            Provider.of<SettingsProvider>(context).theme.primaryBgColor,
+        backgroundColor: theme.primaryBgColor,
         child: ListView(
           padding: EdgeInsets.zero,
           children: generateDrawer(context),
