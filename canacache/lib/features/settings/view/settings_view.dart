@@ -111,6 +111,29 @@ class _SettingsPage extends State<SettingsPageView> {
     return Column(children: content);
   }
 
+  SettingsTile generateSettingsTile(
+    BuildContext context,
+    String tileText,
+    String title,
+    Function callback,
+    IconData icon,
+  ) {
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
+
+    return SettingsTile.navigation(
+      leading: Icon(icon, color: selectedTheme.primaryIconColor),
+      title: Text(
+        title,
+        style: TextStyle(color: selectedTheme.primaryTextColor),
+      ),
+      value: Text(
+        tileText,
+        style: TextStyle(color: selectedTheme.primaryTextColor),
+      ),
+      onPressed: (context) => callback(),
+    );
+  }
+
   List<AbstractSettingsSection> generateSettingSections(BuildContext context) {
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
     Unit selectedUnit = Provider.of<SettingsProvider>(context).getUnit();
@@ -123,23 +146,17 @@ class _SettingsPage extends State<SettingsPageView> {
           "Theme",
           style: TextStyle(color: selectedTheme.primaryTextColor),
         ),
-        tiles: <SettingsTile>[
-          SettingsTile.navigation(
-            leading:
-                Icon(Icons.format_paint, color: selectedTheme.primaryIconColor),
-            title: Text(
-              "Theme Selection",
-              style: TextStyle(color: selectedTheme.primaryTextColor),
-            ),
-            value: Text(
-              selectedTheme.toString(),
-              style: TextStyle(color: selectedTheme.primaryTextColor),
-            ),
-            onPressed: (value) => CanaPicker.canaShowDialog(
+        tiles: [
+          generateSettingsTile(
+            context,
+            selectedTheme.toString(),
+            "Theme Selection",
+            () => CanaPicker.canaShowDialog(
               context,
               generateThemePickerContent(context),
               "Pick a Theme",
             ),
+            Icons.format_paint,
           ),
         ],
       ),
@@ -148,23 +165,18 @@ class _SettingsPage extends State<SettingsPageView> {
           "Units",
           style: TextStyle(color: selectedTheme.primaryTextColor),
         ),
-        tiles: <SettingsTile>[
-          SettingsTile.navigation(
-            leading: Icon(Icons.speed, color: selectedTheme.primaryIconColor),
-            title: Text(
-              "Distance",
-              style: TextStyle(color: selectedTheme.primaryTextColor),
-            ),
-            value: Text(
-              selectedUnit.distanceUnit.toString(),
-              style: TextStyle(color: selectedTheme.primaryTextColor),
-            ),
-            onPressed: (value) => CanaPicker.canaShowDialog(
+        tiles: [
+          generateSettingsTile(
+            context,
+            selectedUnit.distanceUnit.toString(),
+            "Distance",
+            () => CanaPicker.canaShowDialog(
               context,
               generateUnitPickerContent(context),
               "Pick Unit",
             ),
-          ),
+            Icons.speed,
+          )
         ],
       ),
     ]);
