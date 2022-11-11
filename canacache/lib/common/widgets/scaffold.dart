@@ -25,13 +25,14 @@ class CanaScaffold extends StatefulWidget {
 class _CanaScaffoldState extends State<CanaScaffold> {
   List<Widget> generateDrawer(BuildContext context) {
     List<Widget> children = [];
+    CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
     children.add(
       SizedBox(
         height: 150,
         child: DrawerHeader(
           decoration: BoxDecoration(
-            color: Provider.of<SettingsProvider>(context).theme.primaryBgColor,
+            color: theme.primaryBgColor,
           ),
           child: Center(
             child: Directionality(
