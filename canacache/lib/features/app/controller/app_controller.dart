@@ -21,6 +21,7 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
 
   @override
   void dispose() {
+    _scheduleReminder();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -49,12 +50,12 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
 
   /// Should be called whenever the user closes the app.
   Future<void> _scheduleReminder() {
-    const delay = kDebugMode ? Duration(seconds: 5) : Duration(days: 7);
+    const delay = kDebugMode ? Duration(seconds: 10) : Duration(days: 7);
     return _notifications.schedule(
       NotificationChannel.reminders,
       ScheduledNotificationID.reminders,
       "It's been a while",
-      "You haven't opened CanaCache for a whole week. Ready for some geocaching?",
+      "You haven't opened CanaCache for a long time. Ready for some geocaching?",
       tz.TZDateTime.now(tz.local).add(delay),
     );
   }
