@@ -46,52 +46,45 @@ class _CanaScaffoldState extends State<CanaScaffold> {
       ),
     );
 
-    Map<CanaRoute, Widget> candidateItems = {
-      CanaRoute.home: const CanaAppBarListItem(
-        iconData: Icons.home,
-        label: "Home",
-        route: CanaRoute.home,
-      ),
-      CanaRoute.stats: const CanaAppBarListItem(
-        iconData: Icons.multiline_chart,
-        label: "Stats",
-        route: CanaRoute.stats,
-      ),
-      CanaRoute.settings: const CanaAppBarListItem(
-        iconData: Icons.settings_applications,
-        label: "Settings",
-        route: CanaRoute.settings,
-      ),
-      CanaRoute.logout: const CanaAppBarListItem(
-        iconData: Icons.logout,
-        label: "Logout",
-        route: CanaRoute.logout,
-        clearNavigation: true,
-        callback: UserAuth.deleteCurrentUser,
-      ),
-      CanaRoute.signIn: const CanaAppBarListItem(
-        iconData: Icons.account_box,
-        label: "Sign In",
-        route: CanaRoute.signIn,
-        clearNavigation: true,
-      ),
-    };
-
-    List<CanaRoute> requiredItems = [];
-
     if (FirebaseAuth.instance.currentUser != null) {
-      requiredItems.addAll([
-        CanaRoute.home,
-        CanaRoute.stats,
-        CanaRoute.settings,
-        CanaRoute.logout,
+      children.addAll([
+        const CanaAppBarListItem(
+          iconData: Icons.home,
+          label: "Home",
+          route: CanaRoute.home,
+        ),
+        const CanaAppBarListItem(
+          iconData: Icons.multiline_chart,
+          label: "Stats",
+          route: CanaRoute.stats,
+        ),
+        const CanaAppBarListItem(
+          iconData: Icons.settings_applications,
+          label: "Settings",
+          route: CanaRoute.settings,
+        ),
+        const CanaAppBarListItem(
+          iconData: Icons.logout,
+          label: "Logout",
+          route: CanaRoute.logout,
+          clearNavigation: true,
+          callback: UserAuth.deleteCurrentUser,
+        ),
       ]);
     } else {
-      requiredItems.addAll([CanaRoute.settings, CanaRoute.signIn]);
-    }
-
-    for (CanaRoute currentRoute in requiredItems) {
-      children.add(candidateItems[currentRoute]!);
+      children.addAll([
+        const CanaAppBarListItem(
+          iconData: Icons.settings_applications,
+          label: "Settings",
+          route: CanaRoute.settings,
+        ),
+        const CanaAppBarListItem(
+          iconData: Icons.account_box,
+          label: "Sign In",
+          route: CanaRoute.signIn,
+          clearNavigation: true,
+        )
+      ]);
     }
 
     children.addAll(widget.navItems ?? []);
