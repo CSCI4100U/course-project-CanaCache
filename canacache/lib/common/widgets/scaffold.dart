@@ -30,9 +30,7 @@ class _CanaScaffoldState extends State<CanaScaffold> {
         height: 150,
         child: DrawerHeader(
           decoration: BoxDecoration(
-            color: Provider.of<SettingsProvider>(context)
-                .getTheme()
-                .primaryBgColor,
+            color: Provider.of<SettingsProvider>(context).theme.primaryBgColor,
           ),
           child: Center(
             child: Directionality(
@@ -106,12 +104,11 @@ class _CanaScaffoldState extends State<CanaScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CanaAppBar(title: widget.title, scaffState: widget._scaffState),
-      backgroundColor:
-          Provider.of<SettingsProvider>(context).getTheme().secBgColor,
+      backgroundColor: Provider.of<SettingsProvider>(context).theme.secBgColor,
       key: widget._scaffState,
       drawer: Drawer(
         backgroundColor:
-            Provider.of<SettingsProvider>(context).getTheme().primaryBgColor,
+            Provider.of<SettingsProvider>(context).theme.primaryBgColor,
         child: ListView(
           padding: EdgeInsets.zero,
           children: generateDrawer(context),

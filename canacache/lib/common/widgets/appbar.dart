@@ -11,7 +11,7 @@ class CanaAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return AppBar(
       iconTheme: IconThemeData(

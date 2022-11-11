@@ -10,7 +10,7 @@ class CanaPicker {
     String title,
   ) async {
     CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).getTheme();
+        Provider.of<SettingsProvider>(context, listen: false).theme;
 
     await showDialog(
       context: context,

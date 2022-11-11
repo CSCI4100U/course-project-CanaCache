@@ -3,7 +3,7 @@ import "package:path/path.dart" as path;
 import "package:sqflite/sqflite.dart";
 
 class DBOperations {
-  static String dbName = "cannacache.db";
+  static String dbName = "canacache.db";
 
   static Future init() async {
     //partially taken from in lecture

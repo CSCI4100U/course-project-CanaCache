@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 class CanaPalette {
   static String defaultTheme = "Default";
 
-  static final Map<String, CanaTheme> _cannaThemes = {
+  static final Map<String, CanaTheme> _canaThemes = {
     "Default": CanaTheme(
       themeName: "Default",
       primaryBgColor: const Color(0xFFFFFFFF),
@@ -40,20 +40,20 @@ class CanaPalette {
     if (!isValidTheme(theme)) {
       theme = defaultTheme;
     }
-    return cannaThemes[theme];
+    return canaThemes[theme];
   }
 
-  static get cannaThemes => _cannaThemes;
+  static get canaThemes => _canaThemes;
 
   static CanaTheme getCanaTheme(String key) {
     if (!isValidTheme(key)) {
       throw Exception("Invalid Theme Key Passed");
     }
-    return _cannaThemes[key]!;
+    return _canaThemes[key]!;
   }
 
   static bool isValidTheme(String? key) {
-    return _cannaThemes.containsKey(key);
+    return _canaThemes.containsKey(key);
   }
 }
 

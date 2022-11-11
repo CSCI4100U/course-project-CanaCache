@@ -5,7 +5,7 @@ import "package:provider/provider.dart";
 
 SnackBar errorCanaSnackBar(BuildContext context, String message) {
   CanaTheme selectedTheme =
-      Provider.of<SettingsProvider>(context, listen: false).getTheme();
+      Provider.of<SettingsProvider>(context, listen: false).theme;
   return SnackBar(
     content: Text(
       message,
@@ -17,7 +17,7 @@ SnackBar errorCanaSnackBar(BuildContext context, String message) {
 
 SnackBar successCanaSnackBar(BuildContext context, String message) {
   CanaTheme selectedTheme =
-      Provider.of<SettingsProvider>(context, listen: false).getTheme();
+      Provider.of<SettingsProvider>(context, listen: false).theme;
   return SnackBar(
     content: Text(
       message,

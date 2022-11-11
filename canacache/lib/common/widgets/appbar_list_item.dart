@@ -22,7 +22,7 @@ class CanaAppBarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return TextButton.icon(
       icon: Icon(

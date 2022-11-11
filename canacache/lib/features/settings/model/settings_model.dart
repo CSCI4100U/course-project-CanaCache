@@ -1,7 +1,7 @@
+import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/features/settings/model/units.dart";
-import "package:canacache/features/theming/models/cana_palette_model.dart";
 
 class SettingsModel {
   // Set up all settings defaults

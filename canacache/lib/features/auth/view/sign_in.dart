@@ -4,6 +4,7 @@ import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/auth/controller/sign_in_controller.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:flutter/material.dart";
 import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
@@ -31,6 +32,8 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
 
   @override
   Widget build(BuildContext context) {
+    CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
+
     return CanaScaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -45,9 +48,7 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Provider.of<SettingsProvider>(context)
-                          .getTheme()
-                          .primaryTextColor,
+                      color: theme.primaryTextColor,
                     ),
                   ),
                 ),

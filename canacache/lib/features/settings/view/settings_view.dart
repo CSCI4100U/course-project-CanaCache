@@ -1,9 +1,9 @@
+import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
-import "package:canacache/features/theming/models/cana_palette_model.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
@@ -19,48 +19,67 @@ class SettingsPageView extends StatefulWidget {
 }
 
 class _SettingsPage extends State<SettingsPageView> {
-  Column generateUnitPickerContent(BuildContext context) {
-    List<Widget> content = [];
-
+  Widget generatePickerItem(
+    BuildContext context,
+    String snackBarText,
+    String itemText,
+    bool highlight,
+    VoidCallback callback,
+  ) {
     CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).getTheme();
+        Provider.of<SettingsProvider>(context, listen: false).theme;
 
-    Unit providedUnit =
-        Provider.of<SettingsProvider>(context, listen: false).getUnit();
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 20),
+      child: InkWell(
+        onTap: () {
+          callback();
 
-    for (DistanceUnit k in DistanceUnit.values) {
-      Unit currentUnit = Unit(unit: k);
-      content.add(
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 20),
-          child: InkWell(
-            onTap: () {
-              Provider.of<SettingsProvider>(context, listen: false)
-                  .setUnit(currentUnit);
-
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                successCanaSnackBar(
-                  context,
-                  "Changing Distance Unit to ${currentUnit.distanceUnit}",
-                ),
-              );
-            },
-            child: Container(
-              color: currentUnit.distanceUnit == providedUnit.distanceUnit
-                  ? selectedTheme.secBgColor
-                  : selectedTheme.primaryBgColor,
-              child: Center(
-                child: Text(
-                  currentUnit.distanceUnit.toString(),
-                  style: TextStyle(
-                    color: selectedTheme.primaryTextColor,
-                    fontSize: 40,
-                  ),
-                ),
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            successCanaSnackBar(
+              context,
+              snackBarText,
+            ),
+          );
+        },
+        child: Container(
+          color: highlight
+              ? selectedTheme.secBgColor
+              : selectedTheme.primaryBgColor,
+          child: Center(
+            child: Text(
+              itemText,
+              style: TextStyle(
+                color: selectedTheme.primaryTextColor,
+                fontSize: 40,
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Column generateUnitPickerContent(BuildContext context) {
+    List<Widget> content = [];
+
+    Unit providedUnit =
+        Provider.of<SettingsProvider>(context, listen: false).unit;
+
+    for (DistanceUnit k in DistanceUnit.values) {
+      Unit currentUnit = Unit(unit: k);
+
+      content.add(
+        generatePickerItem(
+          context,
+          "Changing Distance Unit to ${currentUnit.distanceUnit}",
+          currentUnit.distanceUnit.toString(),
+          currentUnit.distanceUnit == providedUnit.distanceUnit,
+          () {
+            Provider.of<SettingsProvider>(context, listen: false).unit =
+                currentUnit;
+          },
         ),
       );
     }
@@ -68,42 +87,28 @@ class _SettingsPage extends State<SettingsPageView> {
   }
 
   Column generateThemePickerContent(BuildContext context) {
+    /*
+BuildContext context,
+    String snackBarText,
+    String itemText,
+    bool highlight,
+    VoidCallback callback,
+
+         */
     List<Widget> content = [];
     CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).getTheme();
+        Provider.of<SettingsProvider>(context, listen: false).theme;
 
-    CanaPalette.cannaThemes.forEach((String k, CanaTheme value) {
+    CanaPalette.canaThemes.forEach((String themeName, CanaTheme value) {
       content.add(
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 20),
-          child: InkWell(
-            onTap: () {
-              Provider.of<SettingsProvider>(context, listen: false)
-                  .setTheme(value);
-
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                successCanaSnackBar(
-                  context,
-                  "Changing Theme to $k",
-                ),
-              );
-            },
-            child: Container(
-              color: k == selectedTheme.themeName
-                  ? selectedTheme.secBgColor
-                  : selectedTheme.primaryBgColor,
-              child: Center(
-                child: Text(
-                  k,
-                  style: TextStyle(
-                    color: selectedTheme.primaryTextColor,
-                    fontSize: 40,
-                  ),
-                ),
-              ),
-            ),
-          ),
+        generatePickerItem(
+          context,
+          "Changing Theme to $themeName",
+          themeName,
+          themeName == selectedTheme.themeName,
+          () {
+            Provider.of<SettingsProvider>(context, listen: false).theme = value;
+          },
         ),
       );
     });
@@ -118,7 +123,7 @@ class _SettingsPage extends State<SettingsPageView> {
     Function callback,
     IconData icon,
   ) {
-    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return SettingsTile.navigation(
       leading: Icon(icon, color: selectedTheme.primaryIconColor),
@@ -135,8 +140,8 @@ class _SettingsPage extends State<SettingsPageView> {
   }
 
   List<AbstractSettingsSection> generateSettingSections(BuildContext context) {
-    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
-    Unit selectedUnit = Provider.of<SettingsProvider>(context).getUnit();
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
+    Unit selectedUnit = Provider.of<SettingsProvider>(context).unit;
 
     List<AbstractSettingsSection> sections = [];
 
@@ -188,7 +193,7 @@ class _SettingsPage extends State<SettingsPageView> {
 
   @override
   Widget build(BuildContext context) {
-    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).getTheme();
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return CanaScaffold(
       body: SettingsList(
