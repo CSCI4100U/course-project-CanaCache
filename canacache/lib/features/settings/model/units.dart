@@ -1,46 +1,39 @@
-class Unit {
-  String _unit = defaultUnit;
-  static String defaultUnit = "Kilometre";
-  static const Map<String, void> validUnits = {
-    "Kilometre": null,
-    "Metere": null,
-    "Miles": null,
-    "Yards": null,
-  };
-
-  String get unit => _unit;
-
-  set unit(String key) {
-    if (!isValidUnit(key)) {
-      throw Exception("Invalid Unit Passed");
-    }
-
-    _unit = key;
-  }
-
-  Unit({required unit}) {
-    if (isValidUnit(unit)) {
-      _unit = unit;
-    } else {
-      _unit = defaultUnit;
-    }
-  }
-
-  static Unit initUnit(String unit) {
-    return Unit(unit: unit);
-  }
-
-  static bool isValidUnit(String key) {
-    return validUnits.containsKey(key);
-  }
+enum DistanceUnit {
+  kilometer,
+  meter,
+  mile,
+  yard;
 
   @override
   String toString() {
-    return _unit;
+    return "${name[0].toUpperCase()}${name.substring(1)}";
   }
 
-  @override
-  bool operator ==(covariant Unit other) {
-    return other.unit == _unit;
+  static DistanceUnit? fromString(String word) {
+    for (DistanceUnit unit in DistanceUnit.values) {
+      if (unit.name == word) {
+        return unit;
+      }
+    }
+    return null;
+  }
+}
+
+class Unit {
+  static DistanceUnit defaultUnit = DistanceUnit.kilometer;
+  DistanceUnit _distanceUnit = defaultUnit;
+
+  DistanceUnit get distanceUnit => _distanceUnit;
+
+  set distanceUnit(DistanceUnit unit) {
+    _distanceUnit = unit;
+  }
+
+  Unit({required unit}) {
+    _distanceUnit = unit;
+  }
+
+  static Unit initUnit(DistanceUnit unit) {
+    return Unit(unit: unit);
   }
 }

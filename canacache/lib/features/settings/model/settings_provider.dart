@@ -20,10 +20,6 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  CanaTheme getTheme() {
-    return _currentSettings.selectedTheme;
-  }
-
   setTheme(CanaTheme theme) {
     _currentSettings.selectedTheme = theme;
     _currentSettings.writeSettings();
@@ -36,9 +32,9 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Unit getUnit() {
-    return _currentSettings.selectedUnit;
-  }
+  Unit getUnit() => _currentSettings.selectedUnit;
+
+  CanaTheme getTheme() => _currentSettings.selectedTheme;
 
   SettingsModel get currentSettings => _currentSettings;
 }

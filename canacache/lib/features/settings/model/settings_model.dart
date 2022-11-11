@@ -1,27 +1,29 @@
+import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/features/settings/model/units.dart";
 import "package:canacache/features/theming/models/cana_palette_model.dart";
 
 class SettingsModel {
+  // Set up all settings defaults
   CanaTheme _selectedTheme =
       CanaPalette.initCanaTheme(CanaPalette.defaultTheme);
+
   Unit _selectedUnit = Unit.initUnit(Unit.defaultUnit);
 
   //db info
-  static const tableName = "settings";
-  static const columnNames = ["selectedTheme", "selectedUnit"];
+  static DBTable table = DBSchema.tables["settings"]!;
 
   SettingsModel();
 
   SettingsModel.fromMap(Map<String, dynamic> map) {
-    _selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"] ?? "");
-    _selectedUnit = Unit.initUnit(map["selectedUnit"] ?? "");
+    _selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"]);
+    _selectedUnit = Unit.initUnit(map["selectedDistanceUnit"]);
   }
 
   Map<String, dynamic> toMap() {
     return {
       "selectedTheme": selectedTheme.toString(),
-      "selectedUnit": selectedUnit.toString(),
+      "selectedDistanceUnit": selectedUnit.distanceUnit.name,
       "id": 0
     };
   }
@@ -41,12 +43,12 @@ class SettingsModel {
     _selectedTheme = CanaPalette.getCanaTheme(key);
   }
 
-  setSelectedUnit(String key) {
-    _selectedUnit.unit = key;
+  setSelectedDistanceUnit(DistanceUnit unit) {
+    _selectedUnit.distanceUnit = unit;
   }
 
   writeSettings() async {
-    await DBOperations.insertToDB(tableName, toMap());
+    await DBOperations.insertToDB(table, toMap());
   }
 
   static Future<SettingsModel> initFromDB() async {
@@ -54,21 +56,21 @@ class SettingsModel {
       This is pretty nasty, and should be re written, needs to revert to default value if 
       no entry is found in the db
     */
-    List rows = await DBOperations.getDBTable(tableName);
+    List rows = await DBOperations.getDBTable(table.tableTitle);
     Map<String, dynamic> defaults = {
-      "setSelectedUnit": "",
-      "setSelectedTheme": ""
+      "selectedDistanceUnit": Unit.defaultUnit,
+      "selectedTheme": CanaPalette.defaultTheme
     };
-    Map<String, dynamic> startMap = defaults;
 
-    if (rows.isNotEmpty) {
-      startMap = rows[0];
-      for (String column in columnNames) {
-        if (!rows[0].containsKey(column)) {
-          startMap = defaults;
-          break;
-        }
-      }
+    Map<String, dynamic> startMap = {};
+
+    // need to verify results exist
+    // then need to make sure all expected columns are present
+    if (rows.isNotEmpty && table.verifyMapRow(rows[0])) {
+      startMap["selectedDistanceUnit"] =
+          DistanceUnit.fromString(rows[0]["selectedDistanceUnit"]) ??
+              Unit.defaultUnit;
+      startMap["selectedTheme"] = rows[0]["selectedTheme"];
     }
 
     return SettingsModel.fromMap(startMap);

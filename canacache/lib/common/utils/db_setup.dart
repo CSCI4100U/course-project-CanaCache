@@ -1,22 +1,19 @@
+import "package:canacache/common/utils/db_schema.dart";
 import "package:sqflite/sqflite.dart";
 import "package:path/path.dart" as path;
 
 class DBOperations {
   static String dbName = "cannacache.db";
 
-  //<Table Name, Schema>
-  static Map<String, String> tables = {
-    "settings": "selectedTheme TEXT, selectedUnit TEXT, id PRIMARY KEY"
-  };
-
   static Future init() async {
     //partially taken from in lecture
     var db = openDatabase(
       path.join(await getDatabasesPath(), dbName),
       onCreate: (db, version) {
-        tables.forEach((key, value) {
+        DBSchema.tables.forEach((String tableName, DBTable table) {
+          print("CREATE TABLE ${table.createTableString()}");
           db.execute(
-            "CREATE TABLE $key($value)",
+            "CREATE TABLE ${table.createTableString()}",
           );
         });
       },
@@ -26,28 +23,16 @@ class DBOperations {
     return db;
   }
 
-  static bool isValidTable(String table) {
-    return tables.containsKey(table);
-  }
-
-  static Future insertToDB(String table, Map data) async {
-    if (!isValidTable(table)) {
-      throw Exception("Invalid Table Passed");
-    }
-    print("data insert functio $data");
+  static Future insertToDB(DBTable table, Map data) async {
     final db = await DBOperations.init();
     return db.insert(
-      table,
+      table.tableTitle,
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   static Future<List> getDBTable(String table) async {
-    if (!isValidTable(table)) {
-      throw Exception("Invalid Table Passed");
-    }
-
     final db = await DBOperations.init();
 
     return await db.query(table);

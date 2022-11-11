@@ -28,7 +28,7 @@ class _SettingsPage extends State<SettingsPageView> {
     Unit providedUnit =
         Provider.of<SettingsProvider>(context, listen: false).getUnit();
 
-    Unit.validUnits.forEach((String k, _) {
+    for (DistanceUnit k in DistanceUnit.values) {
       Unit currentUnit = Unit(unit: k);
       content.add(
         Padding(
@@ -42,17 +42,17 @@ class _SettingsPage extends State<SettingsPageView> {
               ScaffoldMessenger.of(context).showSnackBar(
                 successCanaSnackBar(
                   context,
-                  "Changing Unit to $currentUnit",
+                  "Changing Distance Unit to ${currentUnit.distanceUnit}",
                 ),
               );
             },
             child: Container(
-              color: currentUnit == providedUnit
+              color: currentUnit.distanceUnit == providedUnit.distanceUnit
                   ? selectedTheme.secBgColor
                   : selectedTheme.primaryBgColor,
               child: Center(
                 child: Text(
-                  currentUnit.toString(),
+                  currentUnit.distanceUnit.toString(),
                   style: TextStyle(
                     color: selectedTheme.primaryTextColor,
                     fontSize: 40,
@@ -63,7 +63,7 @@ class _SettingsPage extends State<SettingsPageView> {
           ),
         ),
       );
-    });
+    }
     return Column(children: content);
   }
 
@@ -151,10 +151,12 @@ class _SettingsPage extends State<SettingsPageView> {
         tiles: <SettingsTile>[
           SettingsTile.navigation(
             leading: Icon(Icons.speed, color: selectedTheme.primaryIconColor),
-            title: Text("Distance",
-                style: TextStyle(color: selectedTheme.primaryTextColor)),
+            title: Text(
+              "Distance",
+              style: TextStyle(color: selectedTheme.primaryTextColor),
+            ),
             value: Text(
-              selectedUnit.toString(),
+              selectedUnit.distanceUnit.toString(),
               style: TextStyle(color: selectedTheme.primaryTextColor),
             ),
             onPressed: (value) => CanaPicker.canaShowDialog(
