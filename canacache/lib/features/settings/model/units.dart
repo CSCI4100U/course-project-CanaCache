@@ -9,6 +9,8 @@ enum DistanceUnit {
     return "${name[0].toUpperCase()}${name.substring(1)}";
   }
 
+  static DistanceUnit defaultUnit = DistanceUnit.kilometer;
+
   static DistanceUnit? fromString(String word) {
     for (DistanceUnit unit in DistanceUnit.values) {
       if (unit.name == word) {
@@ -20,20 +22,10 @@ enum DistanceUnit {
 }
 
 class Unit {
-  static DistanceUnit defaultUnit = DistanceUnit.kilometer;
-  DistanceUnit _distanceUnit = defaultUnit;
-
-  DistanceUnit get distanceUnit => _distanceUnit;
-
-  set distanceUnit(DistanceUnit unit) {
-    _distanceUnit = unit;
-  }
+  // Class only exists for future use, may want to add other units (time format, temp, etc)
+  DistanceUnit distanceUnit = DistanceUnit.defaultUnit;
 
   Unit({required unit}) {
-    _distanceUnit = unit;
-  }
-
-  static Unit initUnit(DistanceUnit unit) {
-    return Unit(unit: unit);
+    distanceUnit = unit;
   }
 }

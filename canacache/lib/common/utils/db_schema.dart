@@ -26,7 +26,6 @@ class DBTable {
 
     // need to get rid of last comma and space
     schema = schema.substring(0, schema.length - 2);
-    print("schemae uoeutnhoetnuhoetnuhoetnu $tableTitle($schema)");
     return "$tableTitle($schema)";
   }
 

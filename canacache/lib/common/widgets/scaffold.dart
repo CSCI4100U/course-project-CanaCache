@@ -12,7 +12,7 @@ class CanaScaffold extends StatefulWidget {
   final String? title;
   final GlobalKey<ScaffoldState> _scaffState = GlobalKey<ScaffoldState>();
   final Widget body;
-  List<Widget>? navItems = [];
+  final List<Widget>? navItems;
 
   CanaScaffold({Key? key, this.title, required this.body, this.navItems})
       : super(key: key);

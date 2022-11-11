@@ -1,6 +1,6 @@
 import "package:canacache/common/utils/db_schema.dart";
-import "package:sqflite/sqflite.dart";
 import "package:path/path.dart" as path;
+import "package:sqflite/sqflite.dart";
 
 class DBOperations {
   static String dbName = "cannacache.db";
@@ -11,7 +11,6 @@ class DBOperations {
       path.join(await getDatabasesPath(), dbName),
       onCreate: (db, version) {
         DBSchema.tables.forEach((String tableName, DBTable table) {
-          print("CREATE TABLE ${table.createTableString()}");
           db.execute(
             "CREATE TABLE ${table.createTableString()}",
           );

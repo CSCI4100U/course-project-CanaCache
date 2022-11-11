@@ -5,10 +5,9 @@ import "package:canacache/features/theming/models/cana_palette_model.dart";
 
 class SettingsModel {
   // Set up all settings defaults
-  CanaTheme _selectedTheme =
-      CanaPalette.initCanaTheme(CanaPalette.defaultTheme);
+  CanaTheme selectedTheme = CanaPalette.initCanaTheme(CanaPalette.defaultTheme);
 
-  Unit _selectedUnit = Unit.initUnit(Unit.defaultUnit);
+  Unit selectedUnit = Unit(unit: DistanceUnit.defaultUnit);
 
   //db info
   static DBTable table = DBSchema.tables["settings"]!;
@@ -16,8 +15,8 @@ class SettingsModel {
   SettingsModel();
 
   SettingsModel.fromMap(Map<String, dynamic> map) {
-    _selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"]);
-    _selectedUnit = Unit.initUnit(map["selectedDistanceUnit"]);
+    selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"]);
+    selectedUnit = Unit(unit: map["selectedDistanceUnit"]);
   }
 
   Map<String, dynamic> toMap() {
@@ -28,23 +27,12 @@ class SettingsModel {
     };
   }
 
-  CanaTheme get selectedTheme => _selectedTheme;
-  Unit get selectedUnit => _selectedUnit;
-
-  set selectedTheme(CanaTheme theme) {
-    _selectedTheme = theme;
-  }
-
-  set selectedUnit(Unit unit) {
-    _selectedUnit = unit;
-  }
-
   setSelectedTheme(String key) {
-    _selectedTheme = CanaPalette.getCanaTheme(key);
+    selectedTheme = CanaPalette.getCanaTheme(key);
   }
 
   setSelectedDistanceUnit(DistanceUnit unit) {
-    _selectedUnit.distanceUnit = unit;
+    selectedUnit.distanceUnit = unit;
   }
 
   writeSettings() async {
@@ -58,7 +46,7 @@ class SettingsModel {
     */
     List rows = await DBOperations.getDBTable(table.tableTitle);
     Map<String, dynamic> defaults = {
-      "selectedDistanceUnit": Unit.defaultUnit,
+      "selectedDistanceUnit": DistanceUnit.defaultUnit,
       "selectedTheme": CanaPalette.defaultTheme
     };
 
@@ -69,8 +57,10 @@ class SettingsModel {
     if (rows.isNotEmpty && table.verifyMapRow(rows[0])) {
       startMap["selectedDistanceUnit"] =
           DistanceUnit.fromString(rows[0]["selectedDistanceUnit"]) ??
-              Unit.defaultUnit;
+              DistanceUnit.defaultUnit;
       startMap["selectedTheme"] = rows[0]["selectedTheme"];
+    } else {
+      startMap = defaults;
     }
 
     return SettingsModel.fromMap(startMap);
