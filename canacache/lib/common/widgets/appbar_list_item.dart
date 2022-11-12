@@ -42,11 +42,7 @@ class CanaAppBarListItem extends StatelessWidget {
         }
 
         if (clearNavigation) {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            route.name,
-            (val) => false,
-          );
+          Navigator.pushNamedAndRemoveUntil(context, route.name, (_) => false);
         } else {
           Navigator.pushNamed(context, route.name);
         }
