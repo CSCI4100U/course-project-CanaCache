@@ -1,5 +1,6 @@
 import "package:canacache/features/auth/view/sign_in.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
+import "package:canacache/features/settings/view/settings_view.dart";
 import "package:flutter/material.dart";
 
 /// Main named routes for the app.
@@ -9,7 +10,8 @@ enum CanaRoute {
   home,
   stats,
   settings,
-  signIn;
+  signIn,
+  logout;
 
   // needed because enhanced enum values need to be const, ie. not functions
   // still gives type safety - if we forget a route here, it'll give an error
@@ -20,8 +22,10 @@ enum CanaRoute {
       case stats:
         return (context) => const HomePage();
       case settings:
-        return (context) => const HomePage();
+        return (context) => const SettingsPageView();
       case signIn:
+        return (context) => const SignInForm();
+      case logout:
         return (context) => const SignInForm();
     }
   }

@@ -26,6 +26,7 @@ linter:
     require_trailing_commas: true
     always_use_package_imports: true
     directives_ordering: true
+    unawaited_futures: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
