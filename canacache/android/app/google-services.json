@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "15510839196",
+    "project_id": "canacache",
+    "storage_bucket": "canacache.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15510839196:android:59c96c14cd3ec3f54ef259",
+        "android_client_info": {
+          "package_name": "com.canacache"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15510839196-0idblamooirr39ai4q0n6tsgpc0qk8ck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.canacache",
+            "certificate_hash": "306e3e42cd1ef0b5b343993c856075a72ddf5a1e"
+          }
+        },
+        {
+          "client_id": "15510839196-rcstcc5ssphj7kfq8h5l20ioq5kqp506.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.canacache",
+            "certificate_hash": "f60874558ab8e61f6a7006bd5ccbe334653f493a"
+          }
+        },
+        {
+          "client_id": "15510839196-5fu12sfmhbnmvjmrtcbf2sojdgc4dnqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA57gnVWuYK7XnhCb7mRFkHq3KJlCwhA9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15510839196-5fu12sfmhbnmvjmrtcbf2sojdgc4dnqh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15510839196-ipb3a418aq6uc45lvos7tls4hpeib465.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.canacache"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
