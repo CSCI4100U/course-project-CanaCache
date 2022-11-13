@@ -16,7 +16,7 @@ class CanaFirestore {
   // this is the worst possible code ever written
   // optional: figure out how to template EVERYTHING
   static Future<Cache?>? getCache(String id) async {
-    return await getCollection("caches")
+    return getCollection("caches")
         .doc(id)
         .withConverter<Cache>(
           fromFirestore: (snapshot, _) =>
@@ -29,7 +29,7 @@ class CanaFirestore {
   }
 
   static Future<List<Cache>>? getCaches() async {
-    return await getCollection("caches").get().then(
+    return getCollection("caches").get().then(
           (value) => value.docs
               .map((cache) => Cache.fromJson(cache.data(), cache.reference))
               .toList(),
@@ -49,7 +49,7 @@ class CanaFirestore {
   }
 
   static Future<Item?>? getItem(String id) async {
-    return await getCollection("items")
+    return getCollection("items")
         .doc(id)
         .withConverter<Item>(
           fromFirestore: (snapshot, _) =>
@@ -62,7 +62,7 @@ class CanaFirestore {
   }
 
   static Future<List<Item>>? getItems() async {
-    return await getCollection("items").get().then(
+    return getCollection("items").get().then(
           (value) => value.docs
               .map((item) => Item.fromJson(item.data(), item.reference))
               .toList(),
@@ -82,7 +82,7 @@ class CanaFirestore {
   }
 
   static Future<User?>? getUser(String id) async {
-    return await getCollection("users")
+    return getCollection("users")
         .doc(id)
         .withConverter<User>(
           fromFirestore: (snapshot, _) =>
@@ -95,7 +95,7 @@ class CanaFirestore {
   }
 
   static Future<List<User>>? getUsers() async {
-    return await getCollection("users").get().then(
+    return getCollection("users").get().then(
           (value) => value.docs
               .map((user) => User.fromJson(user.data(), user.reference))
               .toList(),
