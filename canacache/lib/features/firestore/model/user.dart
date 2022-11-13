@@ -41,7 +41,6 @@ class User {
 
   /// Create Firebase document from [User]
   Map<String, dynamic> toJson() => {
-        "id": id,
         "position": position,
         "cachesCreated": cachesCreated,
         "recentCaches": recentCaches,
