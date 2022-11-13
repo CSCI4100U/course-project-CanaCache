@@ -24,7 +24,7 @@ class Cache {
     this.updatedAt,
   });
 
-  /// constructor from Firebase DocumentReference
+  /// Create [Cache] instance from Firebase document
   @override
   factory Cache.fromJson(
     Map<String, dynamic> map,
@@ -40,7 +40,6 @@ class Cache {
         updatedAt: map["updatedAt"],
       );
 
-  @override
   Map<String, dynamic> toJson() => {
         "location": location,
         "name": name,

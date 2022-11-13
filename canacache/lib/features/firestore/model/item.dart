@@ -20,6 +20,7 @@ class Item {
     this.id,
   });
 
+  /// Create [Item] instance from Firebase document
   factory Item.fromJson(
     Map<String, dynamic> json,
     DocumentReference reference,
