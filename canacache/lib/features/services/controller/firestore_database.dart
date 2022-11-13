@@ -7,7 +7,7 @@ class CanaFirestore {
   CanaFirestore();
 
   // easier to just call CanaFirestore.getCollection("caches") for example
-  CollectionReference<Map<String, dynamic>> getCollection(String name) {
+  static CollectionReference<Map<String, dynamic>> getCollection(String name) {
     return FirebaseFirestore.instance.collection(name);
   }
 
