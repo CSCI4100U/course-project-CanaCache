@@ -14,7 +14,7 @@ class CanaFirestore {
   }
 
   // this is the worst possible code ever written
-  // TODO: figure out how to template EVERYTHING
+  // optional: figure out how to template EVERYTHING
   static Future<Cache?>? getCache(String id) async {
     return await getCollection("caches")
         .doc(id)
