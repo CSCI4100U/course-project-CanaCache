@@ -15,6 +15,8 @@ class CanaFirestore {
 
   // this is the worst possible code ever written
   // optional: figure out how to template EVERYTHING
+
+  // caches
   static Future<Cache?>? getCache(String id) async {
     return getCollection("caches")
         .doc(id)
@@ -48,6 +50,7 @@ class CanaFirestore {
     return await getCollection("caches").doc(cache.id).delete();
   }
 
+  // items
   static Future<Item?>? getItem(String id) async {
     return getCollection("items")
         .doc(id)
@@ -81,6 +84,7 @@ class CanaFirestore {
     return await getCollection("items").doc(item.id).delete();
   }
 
+  // users
   static Future<User?>? getUser(String id) async {
     return getCollection("users")
         .doc(id)
