@@ -1,19 +1,116 @@
-import "package:canacache/features/services/model/cache.dart";
+import "dart:convert";
+
+import "package:canacache/features/firestore/model/cache.dart";
+import "package:canacache/features/firestore/model/item.dart";
+import "package:canacache/features/firestore/model/user.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 
 class CanaFirestore {
   static String userID = "";
-
-  CanaFirestore();
 
   // easier to just call CanaFirestore.getCollection("caches") for example
   static CollectionReference<Map<String, dynamic>> getCollection(String name) {
     return FirebaseFirestore.instance.collection(name);
   }
 
-  // TODO: queries
+  // this is the worst possible code ever written
+  // TODO: figure out how to template EVERYTHING
+  static Future<Cache?>? getCache(String id) async {
+    return await getCollection("caches")
+        .doc(id)
+        .withConverter<Cache>(
+          fromFirestore: (snapshot, _) =>
+              Cache.fromJson(snapshot.data()!, snapshot.reference),
+          toFirestore: (model, _) => json.decode(cacheToJson(model)),
+        )
+        .get()
+        .then((data) => data.data())
+        .catchError((e) => null);
+  }
 
-  Future<void> insertCache(Cache cache) async {
-    // getCollection('caches')
+  static Future<List<Cache>>? getCaches() async {
+    return await getCollection("caches").get().then(
+          (value) => value.docs
+              .map((cache) => Cache.fromJson(cache.data(), cache.reference))
+              .toList(),
+        );
+  }
+
+  static Future<void> createCache(Cache cache) async {
+    return await getCollection("caches").doc().set(cache.toJson());
+  }
+
+  static Future<void> updateCache(Cache cache) async {
+    return await getCollection("caches").doc(cache.id).update(cache.toJson());
+  }
+
+  static Future<void> deleteCache(Cache cache) async {
+    return await getCollection("caches").doc(cache.id).delete();
+  }
+
+  static Future<Item?>? getItem(String id) async {
+    return await getCollection("items")
+        .doc(id)
+        .withConverter<Item>(
+          fromFirestore: (snapshot, _) =>
+              Item.fromJson(snapshot.data()!, snapshot.reference),
+          toFirestore: (model, _) => json.decode(itemToJson(model)),
+        )
+        .get()
+        .then((data) => data.data())
+        .catchError((e) => null);
+  }
+
+  static Future<List<Item>>? getItems() async {
+    return await getCollection("items").get().then(
+          (value) => value.docs
+              .map((item) => Item.fromJson(item.data(), item.reference))
+              .toList(),
+        );
+  }
+
+  static Future<void> createItem(Item item) async {
+    return await getCollection("items").doc().set(item.toJson());
+  }
+
+  static Future<void> updateItem(Item item) async {
+    return await getCollection("items").doc(item.id).update(item.toJson());
+  }
+
+  static Future<void> deleteItem(Item item) async {
+    return await getCollection("items").doc(item.id).delete();
+  }
+
+  static Future<User?>? getUser(String id) async {
+    return await getCollection("users")
+        .doc(id)
+        .withConverter<User>(
+          fromFirestore: (snapshot, _) =>
+              User.fromJson(snapshot.data()!, snapshot.reference),
+          toFirestore: (model, _) => json.decode(userToJson(model)),
+        )
+        .get()
+        .then((data) => data.data())
+        .catchError((e) => null);
+  }
+
+  static Future<List<User>>? getUsers() async {
+    return await getCollection("users").get().then(
+          (value) => value.docs
+              .map((user) => User.fromJson(user.data(), user.reference))
+              .toList(),
+        );
+  }
+
+  static Future<void> createUser(User user) async {
+    return await getCollection("users").doc().set(user.toJson());
+  }
+
+  static Future<void> updateUser(User user) async {
+    return await getCollection("users").doc(user.id).update(user.toJson());
+  }
+
+  static Future<void> deleteUser(User user) async {
+    return await getCollection("users").doc(user.id).delete();
   }
 }
