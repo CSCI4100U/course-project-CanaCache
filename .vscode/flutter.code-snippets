@@ -19,6 +19,9 @@
 		"prefix": "mvcview",
 		"description": "Insert a StatefulWidget with a ViewState",
 		"body": [
+			"import \"package:canacache/common/utils/mvc.dart\";",
+			"import \"package:flutter/material.dart\";",
+			"",
 			"class $1 extends StatefulWidget {",
 			"  const $1({ Key? key }) : super(key: key);",
 			"",
@@ -35,16 +38,20 @@
 			"  }",
 			"}"
 		],
-		"scope": "dart"
+		"scope": "dart",
+		"isFileTemplate": true,
 	},
 	"Flutter MVC Controller": {
 		"prefix": "mvccon",
 		"description": "Insert a Controller for a StatefulWidget",
 		"body": [
+			"import \"package:canacache/common/utils/mvc.dart\";",
+			"",
 			"class $1Controller extends Controller<$1, $1State> {",
 			"  $0",
 			"}"
 		],
-		"scope": "dart"
+		"scope": "dart",
+		"isFileTemplate": true,
 	},
 }

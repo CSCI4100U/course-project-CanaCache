@@ -55,6 +55,11 @@ class _CanaScaffoldState extends State<CanaScaffold> {
           route: CanaRoute.home,
         ),
         const CanaAppBarListItem(
+          iconData: Icons.location_on,
+          label: "Caches",
+          route: CanaRoute.caches,
+        ),
+        const CanaAppBarListItem(
           iconData: Icons.multiline_chart,
           label: "Stats",
           route: CanaRoute.stats,
