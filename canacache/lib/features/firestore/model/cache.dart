@@ -1,52 +1,53 @@
-import "dart:convert";
+import "package:canacache/features/firestore/model/firestore_database.dart";
+import "package:canacache/features/firestore/model/serializer.dart";
+import "package:canacache/features/firestore/model/user.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 
-String cacheToJson(Cache cache) => json.encode(cache.toJson());
-
 /// A landmark or other important location
-class Cache {
-  GeoPoint location;
-  String name;
-  String? id;
-  List<DocumentReference>? items;
-  List<DocumentReference>? recentVisitors;
-  Timestamp? createdAt;
-  Timestamp? updatedAt;
+class Cache implements DocumentModel {
+  static final serializer = Serializer<Cache>(
+    fromJson: Cache.fromJson,
+    toJson: (cache) => cache.toJson(),
+    collection: "caches",
+  );
 
-  /// Creates a [Cache] instance
+  @override
+  Serializer<Cache> get serializer_ => serializer;
+
+  @override
+  String? id;
+
+  Timestamp createdAt;
+  DocumentReference<User> createdBy;
+  String name;
+  GeoPoint position;
+  Timestamp updatedAt;
+
+  /// Create a [Cache] instance
   Cache({
-    required this.name,
-    required this.location,
     this.id,
-    this.items,
-    this.recentVisitors,
-    this.createdAt,
-    this.updatedAt,
-  });
+    Timestamp? createdAt,
+    required this.createdBy,
+    required this.name,
+    required this.position,
+    Timestamp? updatedAt,
+  })  : createdAt = createdAt ?? Timestamp.now(),
+        updatedAt = updatedAt ?? Timestamp.now();
 
   /// Create [Cache] instance from Firebase document
-  @override
-  factory Cache.fromJson(
-    Map<String, dynamic> map,
-    DocumentReference reference,
-  ) =>
-      Cache(
-        id: reference.id,
-        location: map["location"],
-        name: map["name"],
-        items: map["items"],
-        recentVisitors: map["recentVisitors"],
-        createdAt: map["createdAt"],
-        updatedAt: map["updatedAt"],
-      );
+  Cache.fromJson(Map<String, dynamic> json, this.id)
+      : createdAt = json["createdAt"],
+        createdBy = json["createdBy"],
+        name = json["name"],
+        position = json["position"],
+        updatedAt = json["updatedAt"];
 
   Map<String, dynamic> toJson() => {
-        "location": location,
-        "name": name,
-        "items": items,
-        "recentVisitors": recentVisitors,
         "createdAt": createdAt,
-        "updatedAt": updatedAt,
+        "createdBy": createdBy,
+        "name": name,
+        "position": position,
+        "updatedAt": Timestamp.now(), // change updatedAt on write
       };
 
   // TODO: implement this

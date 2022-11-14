@@ -1,48 +1,42 @@
-import "dart:convert";
-
 import "package:canacache/features/firestore/model/cache.dart";
+import "package:canacache/features/firestore/model/firestore_database.dart";
+import "package:canacache/features/firestore/model/serializer.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 
-String userToJson(User user) => json.encode(user.toJson());
-
 /// A user participating in CanaCache
-class User {
-  /// UID taken from Firebase auth
+class User implements DocumentModel {
+  static final serializer = Serializer<User>(
+    fromJson: User.fromJson,
+    toJson: (user) => user.toJson(),
+    collection: "users",
+  );
+
+  @override
+  Serializer<User> get serializer_ => serializer;
+
+  @override
   String id;
 
-  /// [Geopoint] representing the user's current location
   GeoPoint position;
-
-  /// A list of [Cache]s the [User] created
-  List<DocumentReference>? cachesCreated;
-
-  /// A list of recent [Cache]s visited by the [User]
-  List<DocumentReference>? recentCaches;
+  List<DocumentReference<Cache>>? visitedCaches;
 
   /// Create [User] instance.
   User({
     required this.id,
     required this.position,
-    this.cachesCreated,
-    this.recentCaches,
+    this.visitedCaches,
   });
 
   /// Create [User] instance from Firebase document
-  factory User.fromJson(
-    Map<String, dynamic> json,
-    DocumentReference reference,
-  ) =>
-      User(
-        id: reference.id,
-        position: json["position"],
-        cachesCreated: json["cachesCreated"],
-        recentCaches: json["recentCaches"],
-      );
+  User.fromJson(Map<String, dynamic> json, this.id)
+      : position = json["position"],
+        visitedCaches = json["visitedCaches"]?.map(
+          (r) => CanaFirestore.convertReference(serializer, r),
+        );
 
   /// Create Firebase document from [User]
   Map<String, dynamic> toJson() => {
         "position": position,
-        "cachesCreated": cachesCreated,
-        "recentCaches": recentCaches,
+        "visitedCaches": visitedCaches,
       };
 }
