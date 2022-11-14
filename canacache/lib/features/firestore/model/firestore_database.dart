@@ -11,19 +11,10 @@ abstract class DocumentModel {
 class CanaFirestore {
   static String userID = "";
 
-  static DocumentReference<T> convertReference<T extends DocumentModel>(
-    Serializer<T> serializer,
-    DocumentReference reference,
-  ) {
-    return reference.withConverter(
-      fromFirestore: serializer.fromFirestore,
-      toFirestore: serializer.toFirestore,
-    );
-  }
-
   static CollectionReference<T> getCollection<T extends DocumentModel>(
     Serializer<T> serializer,
   ) {
+    print(serializer.collection);
     return FirebaseFirestore.instance
         .collection(serializer.collection)
         .withConverter<T>(
@@ -39,6 +30,14 @@ class CanaFirestore {
     return snapshot.docs.map((doc) => doc.data()).toList();
   }
 
+  static Stream<List<T>> streamObjects<T extends DocumentModel>(
+    Serializer<T> serializer,
+  ) {
+    return getCollection(serializer)
+        .snapshots()
+        .map((s) => s.docs.map((d) => d.data()).toList());
+  }
+
   static Future<void> createObject<T extends DocumentModel>(T object) {
     return getCollection(object.serializer_).doc(object.id).set(object);
   }
@@ -49,5 +48,26 @@ class CanaFirestore {
 
   static Future<void> deleteObject<T extends DocumentModel>(T object) {
     return getCollection(object.serializer_).doc(object.id!).delete();
+  }
+
+  static DocumentReference<T> convertReference<T extends DocumentModel>(
+    Serializer<T> serializer,
+    DocumentReference reference,
+  ) {
+    return reference.withConverter(
+      fromFirestore: serializer.fromFirestore,
+      toFirestore: serializer.toFirestore,
+    );
+  }
+
+  static Future<List<T>> getFromReferences<T extends DocumentModel>(
+    List<DocumentReference<T>> references,
+  ) async {
+    final List<T> objects = [];
+    for (final reference in references) {
+      final snapshot = await reference.get();
+      if (snapshot.exists) objects.add(snapshot.data()!);
+    }
+    return objects;
   }
 }

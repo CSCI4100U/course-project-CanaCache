@@ -35,8 +35,14 @@ class Item implements DocumentModel {
   /// Create [Item] instance from Firebase document
   Item.fromJson(Map<String, dynamic> json, this.id)
       : addedAt = json["addedAt"],
-        addedBy = json["addedBy"],
-        cache = json["cache"],
+        addedBy = CanaFirestore.convertReference(
+          User.serializer,
+          json["addedBy"],
+        ),
+        cache = CanaFirestore.convertReference(
+          Cache.serializer,
+          json["cache"],
+        ),
         name = json["name"];
 
   Map<String, dynamic> toJson() => {

@@ -1,4 +1,5 @@
 import "package:canacache/features/auth/view/sign_in.dart";
+import "package:canacache/features/firestore/view/cache_list.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
 import "package:flutter/material.dart";
@@ -8,6 +9,7 @@ import "package:flutter/material.dart";
 /// Usage: `Navigator.pushNamed(context, CanaRoute.home.name);`
 enum CanaRoute {
   home,
+  caches,
   stats,
   settings,
   signIn,
@@ -19,6 +21,8 @@ enum CanaRoute {
     switch (this) {
       case home:
         return (context) => const HomePage();
+      case caches:
+        return (context) => const CacheList();
       case stats:
         return (context) => const HomePage();
       case settings:
