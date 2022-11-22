@@ -4,6 +4,5 @@ import "package:canacache/features/firestore/model/firestore_database.dart";
 import "package:canacache/features/firestore/view/cache_list.dart";
 
 class CacheListController extends Controller<CacheList, CacheListState> {
-  Stream<List<Cache>> getCacheStream() =>
-      CanaFirestore.streamObjects(Cache.serializer);
+  Stream<List<Cache>> getCacheStream() => streamObjects(Cache.serializer);
 }
