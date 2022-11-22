@@ -28,6 +28,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
                   maxZoom: MapModel.maxZoom,
                   zoom: MapModel.zoom,
                   center: MapModel.startLocal,
+                  controller: MapModel.mapController
                 ),
               layers: [
                 TileLayerOptions(
@@ -35,7 +36,10 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
                   additionalOptions: {
                     "accessToken": MapModel.token,
                   },
-                )
+                ),
+                MarkerLayerOptions(
+                    markers: MapModel.markers
+                ),
               ],
             )
           ],
