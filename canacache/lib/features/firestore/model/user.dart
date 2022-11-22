@@ -31,7 +31,7 @@ class User implements DocumentModel {
   User.fromJson(Map<String, dynamic> json, this.id)
       : position = json["position"],
         visitedCaches = json["visitedCaches"]?.map(
-          (r) => CanaFirestore.convertReference(serializer, r),
+          (r) => convertReference(serializer, r),
         );
 
   /// Create Firebase document from [User]
