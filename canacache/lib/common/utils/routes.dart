@@ -1,5 +1,5 @@
 import "package:canacache/features/auth/view/sign_in.dart";
-import "package:canacache/features/firestore/view/cache_list.dart";
+import "package:canacache/features/firestore/view/cache_list_page.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
 import "package:flutter/material.dart";
@@ -22,7 +22,7 @@ enum CanaRoute {
       case home:
         return (context) => const HomePage();
       case caches:
-        return (context) => const CacheList();
+        return (context) => const CacheListPage();
       case stats:
         return (context) => const HomePage();
       case settings:
