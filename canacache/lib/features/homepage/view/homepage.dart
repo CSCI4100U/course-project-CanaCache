@@ -20,30 +20,31 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
   @override
   Widget build(BuildContext context) {
     return CanaScaffold(
-        body: Stack(
-          children: [
-            FlutterMap(
-                options: MapOptions(
-                  minZoom: MapModel.minZoom,
-                  maxZoom: MapModel.maxZoom,
-                  zoom: MapModel.zoom,
-                  center: MapModel.startLocal,
-                  controller: MapModel.mapController
-                ),
-              layers: [
-                TileLayerOptions(
-                  urlTemplate: MapModel.mapID,
-                  additionalOptions: {
-                    "accessToken": MapModel.token,
-                  },
-                ),
-                MarkerLayerOptions(
-                    markers: MapModel.markers
-                ),
-              ],
-            )
-          ],
-        ),
+      title: "Home",
+      body: Stack(
+        children: [
+          FlutterMap(
+            options: MapOptions(
+                minZoom: MapModel.minZoom,
+                maxZoom: MapModel.maxZoom,
+                zoom: MapModel.zoom,
+                center: MapModel.startLocal,
+                controller: MapModel.mapController,
+            ),
+            layers: [
+              TileLayerOptions(
+                urlTemplate: MapModel.mapID,
+                additionalOptions: {
+                  "accessToken": MapModel.token,
+                },
+              ),
+              MarkerLayerOptions(
+                  markers: MapModel.markers,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
