@@ -37,7 +37,7 @@ class Cache implements DocumentModel {
   /// Create [Cache] instance from Firebase document
   Cache.fromJson(Map<String, dynamic> json, this.id)
       : createdAt = json["createdAt"],
-        createdBy = convertReference(
+        createdBy = CanaFirestore.convertReference(
           User.serializer,
           json["createdBy"],
         ),
