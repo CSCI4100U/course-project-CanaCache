@@ -1,4 +1,5 @@
 import "package:canacache/features/auth/view/sign_in.dart";
+import "package:canacache/features/favourites/view/favourites_view.dart";
 import "package:canacache/features/firestore/view/cache_list_page.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
@@ -13,6 +14,7 @@ enum CanaRoute {
   stats,
   settings,
   signIn,
+  favourites,
   logout;
 
   // needed because enhanced enum values need to be const, ie. not functions
@@ -31,6 +33,8 @@ enum CanaRoute {
         return (context) => const SignInForm();
       case logout:
         return (context) => const SignInForm();
+      case favourites:
+        return (context) => const FavouritesView();
     }
   }
 
