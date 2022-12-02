@@ -4,6 +4,8 @@ import "package:canacache/common/widgets/appbar.dart";
 import "package:canacache/common/widgets/appbar_list_item.dart";
 import "package:canacache/features/auth/model/auth.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:http/http.dart" as http;
+import "dart:convert";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
@@ -97,6 +99,59 @@ class _CanaScaffoldState extends State<CanaScaffold> {
     return children;
   }
 
+  Widget generateWeather(BuildContext context) {
+    // refer to https://open-meteo.com/en/docs#latitude=43.94&longitude=-78.89&hourly=temperature_2m,weathercode&daily=weathercode&timeformat=unixtime&timezone=America%2FNew_York
+    // for information on how to use the this api
+
+    String requestString =
+        "https://api.open-meteo.com/v1/forecast?latitude=43.94&longitude=-78.89&hourly=temperature_2m,weathercode&daily=weathercode&timeformat=unixtime&timezone=America%2FNew_York";
+    CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
+
+    return FutureBuilder<http.Response>(
+      future: http.get(Uri.parse(requestString)),
+      builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
+        if (snapshot.hasData) {
+          Map<String, dynamic> data = jsonDecode(snapshot.data!.body);
+          int latestWeatherCode = data["hourly"]["weathercode"].last;
+          double latestTemp = data["hourly"]["temperature_2m"].last;
+
+          IconData weatherIcon = Icons.sunny;
+          if ([1, 2, 3, 45, 48].contains(latestWeatherCode)) {
+            weatherIcon = Icons.foggy;
+          } else if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82]
+              .contains(latestWeatherCode)) {
+            weatherIcon = Icons.water_drop;
+          } else if ([71, 73, 75, 77, 95, 96, 99, 85, 86]
+              .contains(latestWeatherCode)) {
+            weatherIcon = Icons.snowing;
+          }
+
+          return Column(
+            children: [
+              Icon(weatherIcon, color: theme.secIconColor),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Text(
+                  "$latestTemp C",
+                  style: TextStyle(
+                    color: theme.primaryTextColor,
+                  ),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return SizedBox(height: 100);
+        }
+      },
+    );
+
+    /*
+        ,)
+
+            */
+  }
+
   @override
   Widget build(BuildContext context) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
@@ -107,9 +162,16 @@ class _CanaScaffoldState extends State<CanaScaffold> {
       key: widget._scaffState,
       drawer: Drawer(
         backgroundColor: theme.primaryBgColor,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: generateDrawer(context),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: generateDrawer(context),
+              ),
+            ),
+            generateWeather(context),
+          ],
         ),
       ),
       body: widget.body,
