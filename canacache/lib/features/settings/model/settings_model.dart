@@ -1,7 +1,8 @@
+import "dart:convert";
+import "dart:io";
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/features/settings/model/units.dart";
+import "package:path_provider/path_provider.dart";
 
 class SettingsModel {
   // Set up all settings defaults
@@ -9,52 +10,40 @@ class SettingsModel {
 
   Unit selectedUnit = Unit(unit: DistanceUnit.defaultUnit);
 
-  //db info
-  static DBTable table = DBSchema.tables["settings"]!;
-
+  static String fileName = "settings.json";
   SettingsModel();
 
-  SettingsModel.fromMap(Map<String, dynamic> map) {
+  SettingsModel.fromJson(Map<String, dynamic> map) {
     selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"]);
-    selectedUnit = Unit(unit: map["selectedDistanceUnit"]);
+    selectedUnit =
+        Unit(unit: DistanceUnit.fromString(map["selectedDistanceUnit"]));
   }
 
   Map<String, dynamic> toMap() {
     return {
       "selectedTheme": selectedTheme.toString(),
-      "selectedDistanceUnit": selectedUnit.distanceUnit.name,
-      "id": 0
+      "selectedDistanceUnit": selectedUnit.distanceUnit.name
     };
   }
 
   writeSettings() async {
-    await DBOperations.insertToDB(table, toMap());
+    File file =
+        File("${(await getExternalStorageDirectory())!.path}/$fileName");
+    file.writeAsStringSync(jsonEncode(toMap()));
+    //await DBOperations.insertToDB(table, toMap());
   }
 
-  static Future<SettingsModel> initFromDB() async {
-    /*
-      This is pretty nasty, and should be re written, needs to revert to default value if 
-      no entry is found in the db
-    */
-    List rows = await DBOperations.getDBTable(table.tableTitle);
-    Map<String, dynamic> defaults = {
-      "selectedDistanceUnit": DistanceUnit.defaultUnit,
-      "selectedTheme": CanaPalette.defaultTheme
-    };
+  static Future<SettingsModel> initFromJson() async {
+    File file =
+        File("${(await getExternalStorageDirectory())!.path}/$fileName");
 
-    Map<String, dynamic> startMap = {};
-
-    // need to verify results exist
-    // then need to make sure all expected columns are present
-    if (rows.isNotEmpty && table.verifyMapRow(rows[0])) {
-      startMap["selectedDistanceUnit"] =
-          DistanceUnit.fromString(rows[0]["selectedDistanceUnit"]) ??
-              DistanceUnit.defaultUnit;
-      startMap["selectedTheme"] = rows[0]["selectedTheme"];
-    } else {
-      startMap = defaults;
+    if (!file.existsSync()) {
+      file.createSync();
+      await SettingsModel().writeSettings();
     }
 
-    return SettingsModel.fromMap(startMap);
+    return SettingsModel.fromJson(
+      jsonDecode(file.readAsStringSync()),
+    );
   }
 }
