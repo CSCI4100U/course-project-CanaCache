@@ -1,9 +1,8 @@
 import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/controller/cache_list_controller.dart";
+import "package:canacache/features/firestore/model/collections/cache_items.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/model/documents/item.dart";
-import "package:canacache/features/firestore/model/firestore_database.dart";
 import "package:canacache/features/firestore/view/item_list.dart";
 import "package:flutter/material.dart";
 
@@ -44,7 +43,7 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
           children: [
             tile,
             StreamBuilder(
-              stream: streamObjects(Item.serializer, cache.ref),
+              stream: CacheItems(cache.ref).streamObjects(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   Error.throwWithStackTrace(
