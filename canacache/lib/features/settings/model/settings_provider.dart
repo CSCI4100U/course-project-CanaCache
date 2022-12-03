@@ -7,7 +7,7 @@ class SettingsProvider with ChangeNotifier {
   SettingsModel _currentSettings = SettingsModel();
 
   SettingsProvider() {
-    SettingsModel.initFromDB().then((SettingsModel settings) {
+    SettingsModel.initFromJson().then((SettingsModel settings) {
       _currentSettings = settings;
       _currentSettings.writeSettings();
       notifyListeners();
