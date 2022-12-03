@@ -1,15 +1,11 @@
-class DBSchema {
-  static final Map<String, DBTable> tables = {
-    "settings": DBTable(
-      tableTitle: "settings",
-      columnTypeMap: {
-        "selectedTheme": "TEXT",
-        "selectedDistanceUnit": "TEXT",
-        "id": "PRIMARY KEY"
-      },
-    ),
-  };
-}
+enum LocalDBTables { steps }
+
+Map<LocalDBTables, DBTable> dbTables = {
+  LocalDBTables.steps: DBTable(
+    tableTitle: "steps",
+    columnTypeMap: {"timeSlice": "TEXT", "steps": "INT"},
+  ),
+};
 
 class DBTable {
   String tableTitle;

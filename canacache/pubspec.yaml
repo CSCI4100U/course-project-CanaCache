@@ -50,6 +50,10 @@ dependencies:
   settings_ui: ^2.0.2
   sqflite: ^2.2.0+3
   path: ^1.8.2
+  http: ^0.13.5
+  geolocator: ^9.0.2
+  pedometer: ^3.0.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
