@@ -1,36 +1,40 @@
+import "package:canacache/features/firestore/model/collections/caches.dart";
+import "package:canacache/features/firestore/model/collections/user_items.dart";
+import "package:canacache/features/firestore/model/collections/users.dart";
 import "package:canacache/features/firestore/model/document_model.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/model/firestore_database.dart";
-import "package:canacache/features/firestore/model/serializer.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 
 /// A user participating in CanaCache
 class CanaUser extends DocumentModel<CanaUser> {
-  static final serializer = Serializer(
-    fromJson: CanaUser.fromJson,
-    toJson: (user) => user.toJson(),
-    collection: "users",
-  );
-  @override
-  Serializer<CanaUser> get serializer_ => serializer;
-
   // fields
   List<DocumentReference<Cache>> visitedCaches;
 
-  /// Create [CanaUser] instance.
   CanaUser({
     required String id,
     this.visitedCaches = const [],
-  }) : super.fromId(id);
+  }) : super(Users().getDocumentReference(id));
 
-  /// Create [CanaUser] instance from Firebase document
-  CanaUser.fromJson(Map<String, dynamic> json, super.ref)
-      : visitedCaches = json["visitedCaches"].map(
-          (r) => convertDocumentReference(serializer, r),
+  CanaUser.withRef({
+    required DocumentReference<CanaUser> ref,
+    this.visitedCaches = const [],
+  }) : super(ref);
+
+  CanaUser.fromMap(Map<String, dynamic> map, super.ref)
+      : visitedCaches = Caches().convertDocumentReferences(
+          map["visitedCaches"],
         );
 
-  /// Create Firebase document from [CanaUser]
-  Map<String, dynamic> toJson() => {
+  @override
+  Map<String, dynamic> toMap() => {
         "visitedCaches": visitedCaches,
       };
+
+  @override
+  Future<void> delete() async {
+    for (final item in await UserItems(ref).getObjects()) {
+      await item.delete();
+    }
+    return super.delete();
+  }
 }

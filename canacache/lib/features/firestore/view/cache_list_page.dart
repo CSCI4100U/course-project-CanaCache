@@ -1,6 +1,5 @@
 import "package:canacache/common/widgets/scaffold.dart";
-import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/model/firestore_database.dart";
+import "package:canacache/features/firestore/model/collections/caches.dart";
 import "package:canacache/features/firestore/view/cache_list.dart";
 import "package:flutter/material.dart";
 
@@ -17,7 +16,7 @@ class _CacheListPageState extends State<CacheListPage> {
     return CanaScaffold(
       title: "Caches",
       body: StreamBuilder(
-        stream: streamObjects(Cache.serializer),
+        stream: Caches().streamObjects(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             Error.throwWithStackTrace(snapshot.error!, snapshot.stackTrace!);

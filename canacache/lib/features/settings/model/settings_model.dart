@@ -1,60 +1,50 @@
+import "dart:convert";
+import "dart:io";
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/features/settings/model/units.dart";
+import "package:path_provider/path_provider.dart";
 
 class SettingsModel {
   // Set up all settings defaults
-  CanaTheme selectedTheme = CanaPalette.initCanaTheme(CanaPalette.defaultTheme);
+  CanaTheme selectedTheme = CanaTheme.defaultTheme;
+  Unit selectedUnit = Unit(
+    distanceUnit: DistanceUnit.defaultUnit,
+  );
 
-  Unit selectedUnit = Unit(unit: DistanceUnit.defaultUnit);
-
-  //db info
-  static DBTable table = DBSchema.tables["settings"]!;
+  static const fileName = "settings.json";
 
   SettingsModel();
 
-  SettingsModel.fromMap(Map<String, dynamic> map) {
-    selectedTheme = CanaPalette.initCanaTheme(map["selectedTheme"]);
-    selectedUnit = Unit(unit: map["selectedDistanceUnit"]);
+  SettingsModel.fromJson(Map<String, dynamic> map)
+      : selectedTheme = CanaTheme.values.byName(map["selectedTheme"]),
+        selectedUnit = Unit(
+          distanceUnit: DistanceUnit.values.byName(map["selectedDistanceUnit"]),
+        );
+
+  Map<String, dynamic> toMap() => {
+        "selectedTheme": selectedTheme.name,
+        "selectedDistanceUnit": selectedUnit.distanceUnit.name,
+      };
+
+  Future<void> writeSettings() async {
+    final file = await getFile();
+    file.writeAsStringSync(json.encode(toMap()));
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "selectedTheme": selectedTheme.toString(),
-      "selectedDistanceUnit": selectedUnit.distanceUnit.name,
-      "id": 0
-    };
-  }
+  static Future<SettingsModel> initFromJson() async {
+    final file = await getFile();
 
-  writeSettings() async {
-    await DBOperations.insertToDB(table, toMap());
-  }
-
-  static Future<SettingsModel> initFromDB() async {
-    /*
-      This is pretty nasty, and should be re written, needs to revert to default value if 
-      no entry is found in the db
-    */
-    List rows = await DBOperations.getDBTable(table.tableTitle);
-    Map<String, dynamic> defaults = {
-      "selectedDistanceUnit": DistanceUnit.defaultUnit,
-      "selectedTheme": CanaPalette.defaultTheme
-    };
-
-    Map<String, dynamic> startMap = {};
-
-    // need to verify results exist
-    // then need to make sure all expected columns are present
-    if (rows.isNotEmpty && table.verifyMapRow(rows[0])) {
-      startMap["selectedDistanceUnit"] =
-          DistanceUnit.fromString(rows[0]["selectedDistanceUnit"]) ??
-              DistanceUnit.defaultUnit;
-      startMap["selectedTheme"] = rows[0]["selectedTheme"];
-    } else {
-      startMap = defaults;
+    if (!file.existsSync()) {
+      file.createSync();
+      await SettingsModel().writeSettings();
     }
 
-    return SettingsModel.fromMap(startMap);
+    return SettingsModel.fromJson(json.decode(file.readAsStringSync()));
+  }
+
+  static Future<File> getFile() async {
+    final externalStorageDirectory = await getExternalStorageDirectory();
+    final path = "${externalStorageDirectory!.path}/$fileName";
+    return File(path);
   }
 }
