@@ -3,7 +3,8 @@ import "package:canacache/features/favourites/view/favourites_view.dart";
 import "package:canacache/features/firestore/view/cache_list_page.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
-import "package:canacache/features/stats/view/stats.dart";
+import "package:canacache/features/stats/view/stats_nav_view.dart";
+import "package:canacache/features/stats/view/stats_steps_view.dart";
 import "package:flutter/material.dart";
 
 /// Main named routes for the app.
@@ -30,7 +31,7 @@ enum CanaRoute {
       case stats:
         return (context) => const StatHomeView();
       case statsSteps:
-        return (context) => const StatHomeView();
+        return (context) => const StepStatView();
       case settings:
         return (context) => const SettingsPageView();
       case signIn:

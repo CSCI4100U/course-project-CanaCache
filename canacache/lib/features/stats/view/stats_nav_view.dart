@@ -1,15 +1,9 @@
-import "package:flutter/material.dart";
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/widgets/appbar_list_item.dart";
-import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/utils/routes.dart";
-import "package:canacache/common/utils/snackbars.dart";
+import "package:canacache/common/widgets/appbar_list_item.dart";
 import "package:canacache/common/widgets/scaffold.dart";
-import "package:canacache/features/auth/controller/sign_in_controller.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
-import "package:flutter_signin_button/flutter_signin_button.dart";
-import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
 
 class StatHomeView extends StatelessWidget {
@@ -28,7 +22,7 @@ class StatHomeView extends StatelessWidget {
     buttons.addAll(
       [
         const CanaAppBarListItem(
-          label: "Steps Stas",
+          label: "Steps Stats",
           iconData: Icons.directions_walk,
           route: CanaRoute.statsSteps,
         ),
@@ -50,6 +44,12 @@ class StatHomeView extends StatelessWidget {
           iconData: Icons.run_circle,
           route: CanaRoute.statsSteps,
         ),
+        divider,
+        const CanaAppBarListItem(
+          label: "Dummy Data (Will populate db with dummy data)",
+          iconData: Icons.recycling,
+          route: CanaRoute.statsSteps,
+        ),
       ],
     );
     return buttons;
@@ -60,13 +60,16 @@ class StatHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CanaScaffold(
-        title: "Stats",
-        body: Padding(
-          padding: const EdgeInsets.only(top: 5, left: 5),
+      title: "Stats",
+      body: Padding(
+        padding: const EdgeInsets.only(top: 5, left: 5),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: generateNavButtons(context),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
