@@ -104,8 +104,8 @@ BuildContext context,
         generatePickerItem(
           context,
           "Changing Theme to ${theme.themeName}",
-          theme.name,
-          theme.name == selectedTheme.name,
+          theme.themeName,
+          theme == selectedTheme,
           () {
             Provider.of<SettingsProvider>(context, listen: false).theme = theme;
           },

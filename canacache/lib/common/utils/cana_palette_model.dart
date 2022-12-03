@@ -66,4 +66,7 @@ enum CanaTheme {
     required this.errorTextColor,
     required this.errorFontFamily,
   });
+
+  @override
+  String toString() => themeName;
 }

@@ -7,43 +7,44 @@ import "package:path_provider/path_provider.dart";
 class SettingsModel {
   // Set up all settings defaults
   CanaTheme selectedTheme = CanaTheme.defaultTheme;
-  Unit selectedUnit = Unit(distanceUnit: DistanceUnit.defaultUnit);
+  Unit selectedUnit = Unit(
+    distanceUnit: DistanceUnit.defaultUnit,
+  );
 
-  static String fileName = "settings.json";
+  static const fileName = "settings.json";
+
   SettingsModel();
 
-  SettingsModel.fromJson(Map<String, dynamic> map) {
-    selectedTheme = CanaTheme.values.byName(map["selectedTheme"]);
-    selectedUnit = Unit(
-      distanceUnit: DistanceUnit.values.byName(map["selectedDistanceUnit"]),
-    );
-  }
+  SettingsModel.fromJson(Map<String, dynamic> map)
+      : selectedTheme = CanaTheme.values.byName(map["selectedTheme"]),
+        selectedUnit = Unit(
+          distanceUnit: DistanceUnit.values.byName(map["selectedDistanceUnit"]),
+        );
 
-  Map<String, dynamic> toMap() {
-    return {
-      "selectedTheme": selectedTheme.name,
-      "selectedDistanceUnit": selectedUnit.distanceUnit.name,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        "selectedTheme": selectedTheme.name,
+        "selectedDistanceUnit": selectedUnit.distanceUnit.name,
+      };
 
   Future<void> writeSettings() async {
-    File file =
-        File("${(await getExternalStorageDirectory())!.path}/$fileName");
-    file.writeAsStringSync(jsonEncode(toMap()));
-    //await DBOperations.insertToDB(table, toMap());
+    final file = await getFile();
+    file.writeAsStringSync(json.encode(toMap()));
   }
 
   static Future<SettingsModel> initFromJson() async {
-    final externalStorageDirectory = await getExternalStorageDirectory();
-    File file = File("${externalStorageDirectory!.path}/$fileName");
+    final file = await getFile();
 
     if (!file.existsSync()) {
       file.createSync();
       await SettingsModel().writeSettings();
     }
 
-    return SettingsModel.fromJson(
-      jsonDecode(file.readAsStringSync()),
-    );
+    return SettingsModel.fromJson(json.decode(file.readAsStringSync()));
+  }
+
+  static Future<File> getFile() async {
+    final externalStorageDirectory = await getExternalStorageDirectory();
+    final path = "${externalStorageDirectory!.path}/$fileName";
+    return File(path);
   }
 }

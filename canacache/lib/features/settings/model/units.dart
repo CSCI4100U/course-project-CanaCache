@@ -10,15 +10,6 @@ enum DistanceUnit {
   }
 
   static DistanceUnit defaultUnit = DistanceUnit.kilometer;
-
-  static DistanceUnit? fromString(String word) {
-    for (DistanceUnit unit in DistanceUnit.values) {
-      if (unit.name == word) {
-        return unit;
-      }
-    }
-    return null;
-  }
 }
 
 class Unit {
