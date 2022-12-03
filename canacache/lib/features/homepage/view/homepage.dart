@@ -1,7 +1,7 @@
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
-import "package:canacache/features/homepage/controller/map_model.dart";
+import "package:canacache/features/homepage/controller/map_model.dart" as map;
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
 
@@ -24,23 +24,10 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
       body: Stack(
         children: [
           FlutterMap(
-            options: MapOptions(
-                minZoom: MapModel.minZoom,
-                maxZoom: MapModel.maxZoom,
-                zoom: MapModel.zoom,
-                center: MapModel.startLocal,
-                controller: MapModel.mapController,
-            ),
+            options: map.options,
             layers: [
-              TileLayerOptions(
-                urlTemplate: MapModel.mapID,
-                additionalOptions: {
-                  "accessToken": MapModel.token,
-                },
-              ),
-              MarkerLayerOptions(
-                  markers: MapModel.markers,
-              ),
+              map.auth,
+              map.caches,
             ],
           )
         ],
