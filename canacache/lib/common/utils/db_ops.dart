@@ -2,32 +2,30 @@ import "package:canacache/common/utils/db_schema.dart";
 import "package:path/path.dart" as path;
 import "package:sqflite/sqflite.dart";
 
-String dbName = "canacache.db";
+const dbFilename = "canacache.db";
 
-Future initDB() async {
+Future<Database> init() async {
   //partially taken from in lecture
   var db = openDatabase(
-    path.join(await getDatabasesPath(), dbName),
+    path.join(await getDatabasesPath(), dbFilename),
     onCreate: (db, version) {
-      dbTables.forEach((LocalDBTables tableName, DBTable table) {
-        print("creating table $tableName");
-        db.execute(
-          "CREATE TABLE ${table.createTableString()}",
-        );
-      });
+      for (final table in DBTable.values) {
+        db.execute("CREATE TABLE ${table.createTableString()}");
+      }
     },
-    version: 1,
+    version: 2,
   );
 
   return db;
 }
 
-Future insertToDB(
+Future<int> insertToDB(
   DBTable table,
-  Map data, {
+  Map<String, Object?> data, {
   ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.replace,
 }) async {
-  final db = await initDB();
+  final db = await init();
+
   return db.insert(
     table.tableTitle,
     data,
@@ -35,8 +33,8 @@ Future insertToDB(
   );
 }
 
-Future<List> getDBTable(String table) async {
-  final db = await initDB();
+Future<List<Map<String, Object?>>> getDBTable(String table) async {
+  final db = await init();
 
   return await db.query(table);
 }

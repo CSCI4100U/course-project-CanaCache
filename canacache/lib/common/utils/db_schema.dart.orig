@@ -1,19 +1,27 @@
+<<<<<<< HEAD
 enum LocalDBTables { steps }
 
 Map<LocalDBTables, DBTable> dbTables = {
-  LocalDBTables.steps: const DBTable(
+  LocalDBTables.steps: DBTable(
     tableTitle: "steps",
-    columnTypeMap: {"timeSlice": "TEXT UNIQUE", "steps": "INT"},
+    columnTypeMap: {"timeSlice": "TEXT", "steps": "INT"},
   ),
 };
+=======
+enum DBTable {
+  settings("settings", {
+    "selectedTheme": "TEXT",
+    "selectedDistanceUnit": "TEXT",
+    "id": "PRIMARY KEY"
+  });
+>>>>>>> origin/main
 
-class DBTable {
   final String tableTitle;
 
   /// <column name, type>
   final Map<String, String> columnTypeMap;
 
-  const DBTable({required this.tableTitle, required this.columnTypeMap});
+  const DBTable(this.tableTitle, this.columnTypeMap);
 
   String createTableString() {
     String schema =

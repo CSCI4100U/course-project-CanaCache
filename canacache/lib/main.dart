@@ -11,7 +11,7 @@ void main() {
 
   StepRecorder recorder = StepRecorder();
   Timer.periodic(
-    const Duration(seconds: 1),
-    (Timer t) => recorder.makeEpoch(),
+    const Duration(seconds: 10),
+    (Timer t) => recorder.newEpoch(),
   );
 }

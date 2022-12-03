@@ -10,13 +10,12 @@ Future initDB() async {
     path.join(await getDatabasesPath(), dbName),
     onCreate: (db, version) {
       dbTables.forEach((LocalDBTables tableName, DBTable table) {
-        print("creating table $tableName");
         db.execute(
           "CREATE TABLE ${table.createTableString()}",
         );
       });
     },
-    version: 1,
+    version: 2,
   );
 
   return db;
