@@ -68,7 +68,7 @@ class _SettingsPage extends State<SettingsPageView> {
         Provider.of<SettingsProvider>(context, listen: false).unit;
 
     for (DistanceUnit k in DistanceUnit.values) {
-      Unit currentUnit = Unit(unit: k);
+      Unit currentUnit = Unit(distanceUnit: k);
 
       content.add(
         generatePickerItem(
@@ -99,19 +99,19 @@ BuildContext context,
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
 
-    CanaPalette.canaThemes.forEach((String themeName, CanaTheme value) {
+    for (final theme in CanaTheme.values) {
       content.add(
         generatePickerItem(
           context,
-          "Changing Theme to $themeName",
-          themeName,
-          themeName == selectedTheme.themeName,
+          "Changing Theme to ${theme.themeName}",
+          theme.name,
+          theme.name == selectedTheme.name,
           () {
-            Provider.of<SettingsProvider>(context, listen: false).theme = value;
+            Provider.of<SettingsProvider>(context, listen: false).theme = theme;
           },
         ),
       );
-    });
+    }
 
     return Column(children: content);
   }
@@ -156,7 +156,7 @@ BuildContext context,
             context,
             selectedTheme.toString(),
             "Theme Selection",
-            () => CanaPicker.canaShowDialog(
+            () => canaShowDialog(
               context,
               generateThemePickerContent(context),
               "Pick a Theme",
@@ -175,7 +175,7 @@ BuildContext context,
             context,
             selectedUnit.distanceUnit.toString(),
             "Distance",
-            () => CanaPicker.canaShowDialog(
+            () => canaShowDialog(
               context,
               generateUnitPickerContent(context),
               "Pick Unit",

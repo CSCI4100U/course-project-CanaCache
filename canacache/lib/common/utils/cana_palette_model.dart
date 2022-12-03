@@ -1,63 +1,39 @@
 import "package:flutter/material.dart";
 
-class CanaPalette {
-  static String defaultTheme = "Default";
+enum CanaTheme {
+  light(
+    themeName: "Light Theme",
+    primaryBgColor: Color(0xFFFFFFFF),
+    primaryIconColor: Color(0xFF8E918F),
+    primaryTextColor: Color(0xFF8E918F),
+    primaryFontFamily: "RaleWay",
+    secBgColor: Color(0xFFE6E4E4),
+    secIconColor: Color(0xFFD0BCFF),
+    secTextColor: Color(0xFFD0BCFF),
+    secFontFamily: "RaleWay",
+    errorBgColor: Color(0xFFD61A1A),
+    errorIconColor: Color(0xFFFFFFFF),
+    errorTextColor: Color(0xFFFFFFFF),
+    errorFontFamily: "RaleWay",
+  ),
+  dark(
+    themeName: "Dark Theme",
+    primaryBgColor: Color(0xFF1C1B1F),
+    primaryIconColor: Color(0xFF8E918F),
+    primaryTextColor: Color(0xFFFFFFFF),
+    primaryFontFamily: "RaleWay",
+    secBgColor: Color(0xFF0c0b0b),
+    secIconColor: Color(0xFFD0BCFF),
+    secTextColor: Color(0xFFD0BCFF),
+    secFontFamily: "RaleWay",
+    errorBgColor: Color(0xFFD61A1A),
+    errorIconColor: Color(0xFFFFFFFF),
+    errorTextColor: Color(0xFFFFFFFF),
+    errorFontFamily: "RaleWay",
+  );
 
-  static final Map<String, CanaTheme> _canaThemes = {
-    "Default": CanaTheme(
-      themeName: "Default",
-      primaryBgColor: const Color(0xFFFFFFFF),
-      primaryIconColor: const Color(0xFF8E918F),
-      primaryTextColor: const Color(0xFF8E918F),
-      primaryFontFamily: "RaleWay",
-      secBgColor: const Color(0xFFE6E4E4),
-      secIconColor: const Color(0xFFD0BCFF),
-      secTextColor: const Color(0xFFD0BCFF),
-      secFontFamily: "RaleWay",
-      errorBgColor: const Color(0xFFD61A1A),
-      errorIconColor: const Color(0xFFFFFFFF),
-      errorTextColor: const Color(0xFFFFFFFF),
-      errorFontFamily: "RaleWay",
-    ),
-    "Dark Theme": CanaTheme(
-      themeName: "Dark Theme",
-      primaryBgColor: const Color(0xFF1C1B1F),
-      primaryIconColor: const Color(0xFF8E918F),
-      primaryTextColor: const Color(0xFFFFFFFF),
-      primaryFontFamily: "RaleWay",
-      secBgColor: const Color(0xFF0c0b0b),
-      secIconColor: const Color(0xFFD0BCFF),
-      secTextColor: const Color(0xFFD0BCFF),
-      secFontFamily: "RaleWay",
-      errorBgColor: const Color(0xFFD61A1A),
-      errorIconColor: const Color(0xFFFFFFFF),
-      errorTextColor: const Color(0xFFFFFFFF),
-      errorFontFamily: "RaleWay",
-    ),
-  };
+  static const defaultTheme = light;
 
-  static CanaTheme initCanaTheme(String theme) {
-    if (!isValidTheme(theme)) {
-      theme = defaultTheme;
-    }
-    return canaThemes[theme];
-  }
-
-  static get canaThemes => _canaThemes;
-
-  static CanaTheme getCanaTheme(String key) {
-    if (!isValidTheme(key)) {
-      throw Exception("Invalid Theme Key Passed");
-    }
-    return _canaThemes[key]!;
-  }
-
-  static bool isValidTheme(String? key) {
-    return _canaThemes.containsKey(key);
-  }
-}
-
-class CanaTheme {
   final String themeName;
 
   final Color primaryBgColor;
@@ -75,7 +51,7 @@ class CanaTheme {
   final Color errorTextColor;
   final String errorFontFamily;
 
-  CanaTheme({
+  const CanaTheme({
     required this.themeName,
     required this.primaryBgColor,
     required this.primaryIconColor,
@@ -90,9 +66,4 @@ class CanaTheme {
     required this.errorTextColor,
     required this.errorFontFamily,
   });
-
-  @override
-  String toString() {
-    return themeName;
-  }
 }

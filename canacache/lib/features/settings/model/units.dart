@@ -25,7 +25,5 @@ class Unit {
   // Class only exists for future use, may want to add other units (time format, temp, etc)
   DistanceUnit distanceUnit = DistanceUnit.defaultUnit;
 
-  Unit({required unit}) {
-    distanceUnit = unit;
-  }
+  Unit({required this.distanceUnit});
 }

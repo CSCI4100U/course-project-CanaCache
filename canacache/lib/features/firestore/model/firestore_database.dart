@@ -12,7 +12,7 @@ CollectionReference<T> getCollection<T extends DocumentModel<T>>(
 
   // i really don't like this. this should be represented in the type system.
   if (serializer is SubcollectionSerializer) {
-    if (parent == null) throw ArgumentError("Missing parent");
+    if (parent == null) throw ArgumentError("Missing parent"); // orphan moment
     collection = parent.collection(serializer.collection);
   } else {
     // and it's not a subcollection

@@ -2,7 +2,7 @@ import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/widgets/appbar.dart";
 import "package:canacache/common/widgets/appbar_list_item.dart";
-import "package:canacache/features/auth/model/auth.dart";
+import "package:canacache/features/auth/model/auth.dart" as auth;
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
@@ -74,7 +74,7 @@ class _CanaScaffoldState extends State<CanaScaffold> {
           label: "Logout",
           route: CanaRoute.logout,
           clearNavigation: true,
-          callback: UserAuth.deleteCurrentUser,
+          callback: auth.signOut,
         ),
       ]);
     } else {

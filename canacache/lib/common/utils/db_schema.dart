@@ -1,22 +1,16 @@
-class DBSchema {
-  static final Map<String, DBTable> tables = {
-    "settings": DBTable(
-      tableTitle: "settings",
-      columnTypeMap: {
-        "selectedTheme": "TEXT",
-        "selectedDistanceUnit": "TEXT",
-        "id": "PRIMARY KEY"
-      },
-    ),
-  };
-}
+enum DBTable {
+  settings("settings", {
+    "selectedTheme": "TEXT",
+    "selectedDistanceUnit": "TEXT",
+    "id": "PRIMARY KEY"
+  });
 
-class DBTable {
-  String tableTitle;
+  final String tableTitle;
 
   /// <column name, type>
-  Map<String, String> columnTypeMap;
-  DBTable({required this.tableTitle, required this.columnTypeMap});
+  final Map<String, String> columnTypeMap;
+
+  const DBTable(this.tableTitle, this.columnTypeMap);
 
   String createTableString() {
     String schema =
