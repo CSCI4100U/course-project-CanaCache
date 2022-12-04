@@ -3,7 +3,7 @@ import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/common/utils/routes.dart";
-import "package:canacache/common/widgets/scaffold.dart";
+import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
@@ -96,14 +96,14 @@ class StatHomeView extends StatelessWidget {
         NavItem(
           label: "Dummy Data (Will populate db with dummy data)",
           iconData: Icons.recycling,
-          callback: () => generatePlaceHolderData(),
+          callback: () => generatePlaceHolderData(context),
         ),
       ],
     );
     return buttons;
   }
 
-  generatePlaceHolderData() async {
+  generatePlaceHolderData(BuildContext context) async {
     var db = await initDB();
 
     DateTime trueNow = DateTime.now();
@@ -137,6 +137,8 @@ class StatHomeView extends StatelessWidget {
 
       await db.execute(dbString, args);
     }
+    SnackBar snack = successCanaSnackBar(context, "Added 1000 samples");
+    ScaffoldMessenger.of(context).showSnackBar(snack);
 
     // generate random for today
     /*

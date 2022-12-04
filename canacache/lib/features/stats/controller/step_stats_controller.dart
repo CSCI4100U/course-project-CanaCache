@@ -24,6 +24,7 @@ class StepStatController extends Controller<StepStatView, StepStatViewState> {
   dateButtonController(int index) async {
     await _modelState.setDateState(index);
     var res = await _modelState.readDBData();
+    print(res);
 
     setState(
       () {

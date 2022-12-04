@@ -27,13 +27,13 @@ class StepRecorder {
     _stepCountStream = Pedometer.stepCountStream;
 
     _stepCountStream.listen(onStepCount);
-    print("setup listen");
   }
 
   // this class will record steps for current hour in a database
 
   newEpoch() async {
     int dSteps = stepsSinceAppStart - lastEpochStepCount;
+    print("d steps $dSteps");
     if (dSteps > 0) {
       DateTime now = DateTime.now();
       DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
@@ -54,6 +54,7 @@ class StepRecorder {
   }
 
   void onStepCount(StepCount event) {
+    print("on step");
     if (firstRecording) {
       firstRecording = false;
       stepsSinceSystemBoot = event.steps;

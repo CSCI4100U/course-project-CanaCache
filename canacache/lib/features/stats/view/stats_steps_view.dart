@@ -56,7 +56,7 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
       title: "Step Stats",
       body: Padding(
         padding:
-            const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 30),
+            const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 60),
         child: Column(
           children: [
             Flexible(flex: 10, child: chart),

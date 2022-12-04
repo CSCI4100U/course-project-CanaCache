@@ -13,4 +13,10 @@ void main() async {
   ]);
 
   runApp(const CanaApp());
+
+  StepRecorder recorder = StepRecorder();
+  Timer.periodic(
+    const Duration(seconds: 5),
+    (Timer t) => recorder.newEpoch(),
+  );
 }

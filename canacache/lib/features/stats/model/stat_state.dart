@@ -39,11 +39,11 @@ enum DateState {
         return DateTime(now.year, now.month, now.day, now.hour)
             .subtract(const Duration(days: 1));
       case week:
-        return DateTime(now.year, now.month, now.day - 7, now.hour);
+        return DateTime(now.year, now.month, now.day - 6, now.hour);
       case month:
         return DateTime(now.year, now.month - 1, now.day, now.hour);
       case year:
-        return DateTime(now.year - 1, now.month, now.day, now.hour);
+        return DateTime(now.year - 1, now.month + 1, now.day, now.hour);
     }
   }
 }
@@ -71,7 +71,7 @@ class FLChartReqInfo {
   determineScale() {
     if (maxY < 1000) {
       prefix = "";
-      scale = 100;
+      scale = 1;
     } else if (maxY < 999999) {
       prefix = "K";
     } else {
@@ -89,10 +89,10 @@ class FLChartReqInfo {
     int hoursIntoDay = date.hour;
 
     minX = -(24 - hoursIntoDay.toDouble());
-    maxX = hoursIntoDay.toDouble() - 1;
+    maxX = hoursIntoDay.toDouble();
 
     // loop through last 24 hours
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 25; i++) {
       double stepCount = 0;
 
       double correction = minX - now.hour;
@@ -157,8 +157,19 @@ class FLChartReqInfo {
 
       currentDate = currentDate.add(const Duration(hours: 1));
     }
-    // off by one error, cant figure out where so just subtracted one
-    maxX -= 1;
+
+    // to get the last day worth of data
+    String formatedMonth = DateFormat("MMM").format(currentDate);
+    bottomAxisLabels[maxX.toInt()] = "$formatedMonth ${currentDate.day}";
+    spots.add(
+      FlSpot(
+        maxX,
+        currentDaySteps,
+      ),
+    );
+    if (currentDaySteps > maxY) {
+      maxY = currentDaySteps;
+    }
   }
 
   generateMonthLogic() {
@@ -180,7 +191,7 @@ class FLChartReqInfo {
           DateTime(lastDate.year, lastDate.month);
 
       if (inNewMonth) {
-        String formatedMonth = DateFormat("MMM").format(currentDate);
+        String formatedMonth = DateFormat("MMM").format(lastDate);
         bottomAxisLabels[maxX.toInt()] = formatedMonth;
 
         if (currentMonthSteps > maxY) {
@@ -204,8 +215,23 @@ class FLChartReqInfo {
 
       currentDate = currentDate.add(const Duration(hours: 1));
     }
+    String formatedMonth = DateFormat("MMM").format(lastDate);
+    bottomAxisLabels[maxX.toInt()] = formatedMonth;
+
+    if (currentMonthSteps > maxY) {
+      maxY = currentMonthSteps;
+    }
+
+    spots.add(
+      FlSpot(
+        maxX,
+        currentMonthSteps,
+      ),
+    );
+
+    //maxX--;
+
     // off by one error, cant figure out where so just subtracted one
-    maxX -= 1;
   }
 
   FLChartReqInfo({required this.rawData, required this.state}) {
