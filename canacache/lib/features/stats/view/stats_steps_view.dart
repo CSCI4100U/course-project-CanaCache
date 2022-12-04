@@ -3,6 +3,7 @@ import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/stats/controller/step_stats_controller.dart";
+import "package:canacache/features/stats/model/stat_state.dart";
 import "package:fl_chart/fl_chart.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
@@ -46,50 +47,65 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
       children: dateOptions,
     );
 
-    LineChart chart = LineChart(generateData());
+    LineChart chart = LineChart(generateData(context));
 
     return CanaScaffold(
       title: "Step Stats",
-      body: buttons,
-      /*
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned(
-            bottom: 10,
-            child: buttons,
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Flexible(flex: 9, child: chart),
+            Flexible(
+              flex: 1,
+              child: buttons,
+            ),
+          ],
+        ),
       ),
-      */
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff68737d),
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
+  Widget Function(double value, TitleMeta meta) closure(BuildContext context) {
+    CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
+
+    Widget bottomTitleWidgets(double value, TitleMeta meta) {
+      var style = TextStyle(
+        color: theme.primaryTextColor,
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      );
+
+      Widget text;
+      if (con.dateState == DateState.day) {
+        if (value.toInt() % 2 == 0) {
+          text = Text(value.toInt().toString(), style: style);
+        } else {
+          text = Text('', style: style);
+        }
+      } else {
+        switch (value.toInt()) {
+          case 2:
+            text = Text('MAR', style: style);
+            break;
+          case 5:
+            text = Text('JUN', style: style);
+            break;
+          case 8:
+            text = Text('SEP', style: style);
+            break;
+          default:
+            text = Text('', style: style);
+            break;
+        }
+      }
+      return SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: text,
+      );
     }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: text,
-    );
+
+    return bottomTitleWidgets;
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -99,6 +115,7 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
       fontSize: 15,
     );
     String text;
+    /*
     switch (value.toInt()) {
       case 1:
         text = '10K';
@@ -112,16 +129,18 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
       default:
         return Container();
     }
+    */
+    text = "${(value ~/ 1000).toString()}k";
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
-  LineChartData generateData() {
+  LineChartData generateData(BuildContext context) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
+        horizontalInterval: 1000,
+        verticalInterval: 1000,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
@@ -146,15 +165,15 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
-            interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            reservedSize: 42,
+            interval: 2,
+            getTitlesWidget: closure(context),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 1,
+            interval: (con.plotInfo.maxY / 10) + 1,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
@@ -165,21 +184,13 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: con.plotInfo.maxX,
       minY: 0,
-      maxY: 6,
+      maxY: con.plotInfo.maxY,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 1),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
-          isCurved: true,
+          spots: con.plotInfo.spots,
+          isCurved: false,
           gradient: LinearGradient(
             colors: gradientColors,
           ),

@@ -6,13 +6,20 @@ import "package:canacache/features/stats/view/stats_steps_view.dart";
 class StepStatController extends Controller<StepStatView, StepStatViewState> {
   final StatStateModel _modelState = StatStateModel(table: LocalDBTables.steps);
 
-  dateButtonController(int index) {
-    setState(
-      () => _modelState.setDateState(index),
-    );
+  @override
+  void initState() {
+    super.initState();
+    _modelState.readDBData();
+  }
+
+  dateButtonController(int index) async {
+    await _modelState.setDateState(index);
+    setState(() {});
   }
 
   get selections => _modelState.dateStateSelections;
+  get dateState => _modelState.dateState;
+  get plotInfo => _modelState.plotInfo;
 
   graphButtonController() {}
 }

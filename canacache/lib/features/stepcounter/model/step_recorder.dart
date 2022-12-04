@@ -1,7 +1,7 @@
-import "package:canacache/common/utils/db_setup.dart";
-import "package:canacache/common/utils/db_schema.dart";
-import "package:pedometer/pedometer.dart";
 import "dart:async";
+import "package:canacache/common/utils/db_schema.dart";
+import "package:canacache/common/utils/db_setup.dart";
+import "package:pedometer/pedometer.dart";
 import "package:permission_handler/permission_handler.dart";
 
 class StepRecorder {
