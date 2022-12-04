@@ -23,6 +23,7 @@ class CanaAppState extends ViewState<CanaApp, CanaAppController> {
       providers: con.providers,
       child: MaterialApp(
         title: "CanaCache",
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
