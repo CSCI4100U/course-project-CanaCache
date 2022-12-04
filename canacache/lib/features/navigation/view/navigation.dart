@@ -22,12 +22,12 @@ class NavigationPage extends StatefulWidget {
     TabBarItem(
       iconData: Icons.multiline_chart,
       title: "Stats",
-      page: HomePage(),
+      page: Placeholder(),
     ),
     TabBarItem(
       iconData: Icons.person,
       title: "Account",
-      page: HomePage(),
+      page: Placeholder(),
     ),
   ];
 
