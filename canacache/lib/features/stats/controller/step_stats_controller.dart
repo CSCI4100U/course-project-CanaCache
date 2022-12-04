@@ -1,26 +1,18 @@
+import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/mvc.dart";
+import "package:canacache/features/stats/model/stat_state.dart";
 import "package:canacache/features/stats/view/stats_steps_view.dart";
 
-enum DateState { day, week, month, year }
-
 class StepStatController extends Controller<StepStatView, StepStatViewState> {
-  List<bool> selections = List.generate(4, (_) => false);
-  int selectedIndex = 0;
-
-  @override
-  initState() {
-    super.initState();
-    selections[selectedIndex] = true;
-  }
+  final StatStateModel _modelState = StatStateModel(table: LocalDBTables.steps);
 
   dateButtonController(int index) {
-    selections = List.generate(4, (_) => false);
-    selectedIndex = index;
-
     setState(
-      () {
-        selections[selectedIndex] = true;
-      },
+      () => _modelState.setDateState(index),
     );
   }
+
+  get selections => _modelState.dateStateSelections;
+
+  graphButtonController() {}
 }
