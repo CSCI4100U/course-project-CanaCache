@@ -1,6 +1,8 @@
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
+import "package:canacache/features/homepage/controller/map_model.dart" as map;
 import "package:flutter/material.dart";
+import "package:flutter_map/flutter_map.dart";
 
 class HomePage extends StatefulWidget {
   final String? title;
@@ -16,6 +18,12 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("Te"));
+    return FlutterMap(
+      options: map.options,
+      layers: [
+        map.auth,
+        map.caches,
+      ],
+    );
   }
 }

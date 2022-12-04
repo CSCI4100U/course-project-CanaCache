@@ -69,6 +69,9 @@ class _NavigationPageState extends State<NavigationPage>
         ),
       ),
       body: TabBarView(
+        // swiping interferes with map panning
+        // remove this if we move the map somewhere else
+        physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: widget.items.map((item) => item.page).toList(),
       ),
