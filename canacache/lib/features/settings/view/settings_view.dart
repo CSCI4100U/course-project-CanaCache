@@ -1,7 +1,9 @@
 import "package:canacache/common/utils/cana_palette_model.dart";
+import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
+import "package:canacache/features/auth/model/auth.dart" as auth;
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
 import "package:firebase_auth/firebase_auth.dart";
@@ -10,9 +12,7 @@ import "package:provider/provider.dart";
 import "package:settings_ui/settings_ui.dart";
 
 class SettingsPageView extends StatefulWidget {
-  const SettingsPageView({Key? key, this.title}) : super(key: key);
-
-  final String? title;
+  const SettingsPageView({super.key});
 
   @override
   State<SettingsPageView> createState() => _SettingsPage();
@@ -196,13 +196,36 @@ BuildContext context,
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return CanaScaffold(
-      body: SettingsList(
-        lightTheme: SettingsThemeData(
-          settingsListBackground: selectedTheme.secBgColor,
-        ),
-        sections: generateSettingSections(context),
+      title: "Settings",
+      body: Column(
+        children: [
+          Expanded(
+            child: SettingsList(
+              lightTheme: SettingsThemeData(
+                settingsListBackground: selectedTheme.secBgColor,
+              ),
+              sections: generateSettingSections(context),
+            ),
+          ),
+          if (FirebaseAuth.instance.currentUser != null)
+            OutlinedButton.icon(
+              icon: Icon(Icons.logout, color: selectedTheme.primaryIconColor),
+              label: Text(
+                "Logout",
+                style: TextStyle(color: selectedTheme.primaryTextColor),
+              ),
+              onPressed: () {
+                auth.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  CanaRoute.signIn.name,
+                  (_) => false,
+                );
+              },
+            ),
+          const SizedBox(height: 45),
+        ],
       ),
-      title: widget.title,
     );
   }
 }

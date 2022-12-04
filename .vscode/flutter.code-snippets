@@ -23,7 +23,7 @@
 			"import \"package:flutter/material.dart\";",
 			"",
 			"class $1 extends StatefulWidget {",
-			"  const $1({ Key? key }) : super(key: key);",
+			"  const $1({super.key});",
 			"",
 			"  @override",
 			"  State<$1> createState() => $1State();",

@@ -35,6 +35,7 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
     return CanaScaffold(
+      hideLogo: true,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
