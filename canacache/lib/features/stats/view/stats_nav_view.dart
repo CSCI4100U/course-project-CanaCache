@@ -98,12 +98,28 @@ class StatHomeView extends StatelessWidget {
           iconData: Icons.recycling,
           callback: () => generatePlaceHolderData(context),
         ),
+        divider,
+        NavItem(
+          label: "Delete Stats",
+          iconData: Icons.dangerous,
+          callback: () => clearData(context),
+        ),
       ],
     );
     return buttons;
   }
 
+  clearData(BuildContext context) async {
+    SnackBar snack = errorCanaSnackBar(context, "Cleared Data");
+    var db = await initDB();
+    print(dbTables[LocalDBTables.steps]!.tableTitle);
+    await db.delete(dbTables[LocalDBTables.steps]!.tableTitle);
+
+    ScaffoldMessenger.of(context).showSnackBar(snack);
+  }
+
   generatePlaceHolderData(BuildContext context) async {
+    SnackBar snack = successCanaSnackBar(context, "Added 1000 samples");
     var db = await initDB();
 
     DateTime trueNow = DateTime.now();
@@ -137,7 +153,7 @@ class StatHomeView extends StatelessWidget {
 
       await db.execute(dbString, args);
     }
-    SnackBar snack = successCanaSnackBar(context, "Added 1000 samples");
+
     ScaffoldMessenger.of(context).showSnackBar(snack);
 
     // generate random for today
