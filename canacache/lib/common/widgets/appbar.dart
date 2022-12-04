@@ -1,39 +1,57 @@
 import "package:canacache/common/utils/cana_palette_model.dart";
+import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
 import "package:provider/provider.dart";
 
 class CanaAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final GlobalKey<ScaffoldState> scaffState;
+  static const height = kToolbarHeight;
   final String? title;
 
-  const CanaAppBar({super.key, this.title, required this.scaffState});
+  const CanaAppBar({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
+    // this is how AppBar decides if it should show a back button
+    final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
+    final backButtonIsVisible = parentRoute?.impliesAppBarDismissal ?? false;
+
     return AppBar(
       iconTheme: IconThemeData(
         color: selectedTheme.primaryIconColor, //change your color here
       ),
-      title: Text(
-        title ?? "",
-        style: TextStyle(
-          color: selectedTheme.primaryTextColor,
-        ),
+      titleSpacing: backButtonIsVisible ? null : 4,
+      title: Row(
+        children: [
+          if (!backButtonIsVisible)
+            SvgPicture.asset("assets/vectors/logo.svg", height: height),
+          Text(
+            title ?? "",
+            style: TextStyle(color: selectedTheme.primaryTextColor),
+          ),
+        ],
       ),
       backgroundColor: selectedTheme.primaryBgColor,
       elevation: 1.0,
-      automaticallyImplyLeading: true,
-      leading: IconButton(
-        icon: const Icon(Icons.menu, size: 35),
-        onPressed: () => scaffState.currentState!.openDrawer(),
-      ),
+      toolbarHeight: height,
+      actions: backButtonIsVisible
+          ? null
+          : [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () => Navigator.of(context).pushNamed(
+                  CanaRoute.settings.name,
+                ),
+                padding: const EdgeInsets.only(right: 12),
+              ),
+            ],
     );
   }
 
 // taken from here https://stackoverflow.com/questions/64324749/flutter-reuse-of-appbar-widget
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(height);
 }
