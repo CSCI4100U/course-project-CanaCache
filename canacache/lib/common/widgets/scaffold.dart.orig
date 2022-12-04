@@ -1,6 +1,13 @@
 import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/widgets/appbar.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+<<<<<<< HEAD
+import "package:http/http.dart" as http;
+import "dart:convert";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:geolocator/geolocator.dart";
+=======
+>>>>>>> origin/main
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -20,8 +27,6 @@ class CanaScaffold extends StatelessWidget {
     required this.body,
     this.bottomNavigationBar,
   });
-
-  /*
 
   // this is ripped directly from https://pub.dev/packages/geolocator
   Future<Position> _determinePosition() async {
@@ -124,7 +129,6 @@ class CanaScaffold extends StatelessWidget {
 
             */
   }
-*/
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +137,28 @@ class CanaScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBar ?? CanaAppBar(title: title, hideLogo: hideLogo),
       backgroundColor: theme.secBgColor,
+<<<<<<< HEAD
+      key: widget._scaffState,
+      drawer: Drawer(
+        backgroundColor: theme.primaryBgColor,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: generateDrawer(context),
+              ),
+            ),
+            generateWeather(context),
+          ],
+        ),
+      ),
+      body: widget.body,
+=======
       key: _scaffState,
       bottomNavigationBar: bottomNavigationBar,
       body: body,
+>>>>>>> origin/main
     );
   }
 }

@@ -4,6 +4,7 @@ import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/navigation/model/tab_bar_item.dart";
 import "package:canacache/features/navigation/view/tab_bar_appbar.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:canacache/features/stats/view/stats_nav_view.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -22,7 +23,7 @@ class NavigationPage extends StatefulWidget {
     TabBarItem(
       iconData: Icons.multiline_chart,
       title: "Stats",
-      page: Placeholder(),
+      page: StatHomeView(),
     ),
     TabBarItem(
       iconData: Icons.person,
