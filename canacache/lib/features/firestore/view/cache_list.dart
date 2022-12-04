@@ -1,3 +1,4 @@
+import "package:canacache/common/utils/async_builders.dart";
 import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/controller/cache_list_controller.dart";
@@ -42,22 +43,10 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
         return Column(
           children: [
             tile,
-            StreamBuilder(
+            CanaStreamBuilder(
               stream: CacheItems(cache.ref).streamObjects(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  Error.throwWithStackTrace(
-                    snapshot.error!,
-                    snapshot.stackTrace!,
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: LinearProgressIndicator());
-                }
-
-                return ItemList(items: snapshot.data!);
-              },
+              progressIndicator: const Center(child: LinearProgressIndicator()),
+              builder: (context, items) => ItemList(items: items),
             ),
           ],
         );

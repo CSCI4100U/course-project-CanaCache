@@ -1,3 +1,4 @@
+import "package:canacache/features/firestore/model/collection_model.dart";
 import "package:canacache/features/firestore/model/collections/caches.dart";
 import "package:canacache/features/firestore/model/collections/user_items.dart";
 import "package:canacache/features/firestore/model/document_model.dart";
@@ -16,7 +17,8 @@ class CanaUser extends DocumentModel<CanaUser> {
 
   CanaUser.fromMap(Map<String, dynamic> map, super.ref)
       : visitedCaches = Caches().convertDocumentReferences(
-          map["visitedCaches"],
+          // need this in case the list is empty
+          List<RawDocumentReference>.from(map["visitedCaches"]),
         );
 
   @override
