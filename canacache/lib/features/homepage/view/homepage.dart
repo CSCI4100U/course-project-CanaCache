@@ -1,5 +1,4 @@
 import "package:canacache/common/utils/mvc.dart";
-import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
 import "package:canacache/features/homepage/controller/map_model.dart" as map;
 import "package:flutter/material.dart";
@@ -19,19 +18,12 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return CanaScaffold(
-      title: "Home",
-      body: Stack(
-        children: [
-          FlutterMap(
-            options: map.options,
-            layers: [
-              map.auth,
-              map.caches,
-            ],
-          )
-        ],
-      ),
+    return FlutterMap(
+      options: map.options,
+      layers: [
+        map.auth,
+        map.caches,
+      ],
     );
   }
 }
