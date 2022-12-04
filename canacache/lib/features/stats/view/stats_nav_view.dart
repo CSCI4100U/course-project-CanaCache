@@ -96,7 +96,7 @@ class StatHomeView extends StatelessWidget {
     }
 
     // generate random for today
-
+    /*
     for (int j = 0; j < 24; j++) {
       DateTime now = DateTime.now();
 
@@ -119,6 +119,7 @@ class StatHomeView extends StatelessWidget {
 
       await db.execute(dbString, args);
     }
+    */
   }
 
   const StatHomeView({super.key});

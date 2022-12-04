@@ -9,12 +9,30 @@ class StepStatController extends Controller<StepStatView, StepStatViewState> {
   @override
   void initState() {
     super.initState();
-    _modelState.readDBData();
+    _modelState.readDBData().then(
+          (var res) => setState(
+            (() {
+              _modelState.plotInfo = FLChartReqInfo(
+                rawData: res,
+                state: dateState,
+              );
+            }),
+          ),
+        );
   }
 
   dateButtonController(int index) async {
     await _modelState.setDateState(index);
-    setState(() {});
+    var res = await _modelState.readDBData();
+
+    setState(
+      () {
+        _modelState.plotInfo = FLChartReqInfo(
+          rawData: res,
+          state: dateState,
+        );
+      },
+    );
   }
 
   get selections => _modelState.dateStateSelections;

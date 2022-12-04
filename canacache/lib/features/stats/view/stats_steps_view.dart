@@ -78,11 +78,12 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
 
       Widget text;
       if (con.dateState == DateState.day) {
-        if (value.toInt() % 2 == 0) {
-          text = Text(value.toInt().toString(), style: style);
-        } else {
-          text = Text('', style: style);
+        String rawText = value.toInt().toString();
+        if (con.plotInfo.bottomAxisLabels.containsKey(value.toInt())) {
+          rawText = con.plotInfo.bottomAxisLabels[value.toInt()];
         }
+
+        text = Text(rawText, style: style);
       } else {
         switch (value.toInt()) {
           case 2:
@@ -183,7 +184,7 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
         show: true,
         border: Border.all(color: const Color(0xff37434d)),
       ),
-      minX: 0,
+      minX: con.plotInfo.minX,
       maxX: con.plotInfo.maxX,
       minY: 0,
       maxY: con.plotInfo.maxY,

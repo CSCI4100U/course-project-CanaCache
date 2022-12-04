@@ -34,7 +34,7 @@ enum DateState {
 
     switch (state) {
       case day:
-        return DateTime(now.year, now.month, now.day - 1, now.hour);
+        return DateTime(now.year, now.month, now.day - 2, now.hour);
       case week:
         return DateTime(now.year, now.month, now.day - 7, now.hour);
       case month:
@@ -43,61 +43,74 @@ enum DateState {
         return DateTime(now.year - 1, now.month, now.day, now.hour);
     }
   }
-
-  static double maxXLookup(DateState state) {
-    switch (state) {
-      case day:
-        return 24;
-      case week:
-        return 7;
-      case month:
-        return 30;
-      case year:
-        return 12;
-    }
-  }
 }
 
 class FLChartReqInfo {
   double maxX = 0;
+  double minX = 0;
   double maxY = 0;
-  List<double> chartX = [];
-  List<double> chartY = [];
   List<Map<String, dynamic>> rawData;
   Map<DateTime, dynamic> parsedData = {};
+  Map<int, String> bottomAxisLabels = {};
 
-  List<DateTime> dates = [];
   List<FlSpot> spots = [];
 
   DateState state;
 
-  FLChartReqInfo({required this.rawData, required this.state}) {
-    maxX = DateState.maxXLookup(state);
+  generateDayLogic() {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime(now.year, now.month, now.day, now.hour)
+        .subtract(const Duration(days: 1));
 
+    int hoursIntoDay = date.hour;
+
+    minX = -(24 - hoursIntoDay.toDouble());
+    maxX = hoursIntoDay.toDouble() - 1;
+
+    // loop through last 24 hours
+    for (int i = 0; i < 24; i++) {
+      double stepCount = 0;
+
+      double correction = minX - now.hour;
+
+      if (DateTime(now.year, now.month, now.day) ==
+          DateTime(date.year, date.month, date.day)) {
+        correction = 0;
+      }
+
+      if (parsedData.containsKey(date)) {
+        stepCount = parsedData[date].toDouble();
+      }
+
+      bottomAxisLabels[date.hour + correction.toInt()] = date.hour.toString();
+
+      spots.add(
+        FlSpot(
+          date.hour.toDouble() + correction,
+          stepCount,
+        ),
+      );
+
+      date = date.add(const Duration(hours: 1));
+    }
+  }
+
+  FLChartReqInfo({required this.rawData, required this.state}) {
     for (int i = 0; i < rawData.length; i++) {
       // find maxX
       int steps = rawData[i]["steps"]!;
       if (steps > maxY) {
         maxY = steps.toDouble();
       }
-      // parse to DateTime so eaiser to work with
+
       DateTime parsedTime = DateTime.parse(rawData[i]["timeSlice"]!);
-      //print("${steps / 100}, ${parsedTime}");
 
       parsedData[parsedTime] = rawData[i]["steps"];
-      dates.add(parsedTime);
     }
 
-    dates.sort((a, b) => a.compareTo(b));
-    if (state == DateState.day) {
-      for (DateTime date in dates) {
-        spots.add(
-          FlSpot(
-            date.hour.toDouble(),
-            parsedData[date].toDouble(),
-          ),
-        );
-      }
+    switch (state) {
+      case DateState.day:
+        generateDayLogic();
     }
   }
 }
@@ -118,7 +131,7 @@ class StatStateModel {
     dateStateSelections[DateState.enumToIndex(dateState)] = true;
   }
 
-  readDBData() async {
+  Future<List<Map<String, dynamic>>> readDBData() async {
     //DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
     DateTime date = DateState.dateTimeMap(dateState);
     var db = await initDB();
@@ -126,11 +139,10 @@ class StatStateModel {
         """SELECT * FROM ${dbTables[table]!.tableTitle} WHERE DATE(timeSlice) >= ?""";
     List<Object> args = [date.toString()];
 
-    print(await db.rawQuery(query, args));
-    plotInfo = FLChartReqInfo(
-      rawData: await db.rawQuery(query, args),
-      state: dateState,
-    );
+    return await db.rawQuery(query, args);
+    /*
+    
+    */
   }
 
   setDateState(int index) async {
@@ -138,7 +150,6 @@ class StatStateModel {
       resetDateSelections();
       dateStateSelections[index] = true;
       dateState = DateState.indexToEnum(index)!;
-      await readDBData();
     }
   }
 
