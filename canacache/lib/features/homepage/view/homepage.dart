@@ -1,5 +1,4 @@
 import "package:canacache/common/utils/mvc.dart";
-import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
 import "package:flutter/material.dart";
 
@@ -17,6 +16,6 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    return CanaScaffold(body: const Center(child: Text("Te")));
+    return const Center(child: Text("Te"));
   }
 }
