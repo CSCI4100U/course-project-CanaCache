@@ -8,6 +8,7 @@ import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 import "package:settings_ui/settings_ui.dart";
 
@@ -73,8 +74,15 @@ class _SettingsPage extends State<SettingsPageView> {
       content.add(
         generatePickerItem(
           context,
-          "Changing Distance Unit to ${currentUnit.distanceUnit}",
-          currentUnit.distanceUnit.toString(),
+          translate(
+            "settings.units.distance.change",
+            args:{
+              "distance": translate(
+                "settings.units.distance.options.${currentUnit.distanceUnit}",
+              ),
+            },
+          ),
+          translate("settings.units.distance.options.$k"),
           currentUnit.distanceUnit == providedUnit.distanceUnit,
           () {
             Provider.of<SettingsProvider>(context, listen: false).unit =
@@ -103,8 +111,13 @@ BuildContext context,
       content.add(
         generatePickerItem(
           context,
-          "Changing Theme to ${theme.themeName}",
-          theme.themeName,
+          translate(
+            "settings.theme.colour.change",
+            args: {
+              "theme": translate("settings.theme.colour.options.${theme.name}")
+            },
+          ),
+          translate("settings.theme.colour.options.${theme.name}"),
           theme == selectedTheme,
           () {
             Provider.of<SettingsProvider>(context, listen: false).theme = theme;
@@ -148,18 +161,18 @@ BuildContext context,
     sections.addAll([
       SettingsSection(
         title: Text(
-          "Theme",
+          translate("settings.theme.title"),
           style: TextStyle(color: selectedTheme.primaryTextColor),
         ),
         tiles: [
           generateSettingsTile(
             context,
-            selectedTheme.toString(),
-            "Theme Selection",
+            translate("settings.theme.colour.options.${selectedTheme.name}"),
+            translate("settings.theme.colour.title"),
             () => canaShowDialog(
               context,
               generateThemePickerContent(context),
-              "Pick a Theme",
+              translate("settings.theme.colour.subtitle"),
             ),
             Icons.format_paint,
           ),
@@ -167,18 +180,18 @@ BuildContext context,
       ),
       SettingsSection(
         title: Text(
-          "Units",
+          translate("settings.units.title"),
           style: TextStyle(color: selectedTheme.primaryTextColor),
         ),
         tiles: [
           generateSettingsTile(
             context,
-            selectedUnit.distanceUnit.toString(),
-            "Distance",
+            translate("settings.units.distance.options.${selectedUnit.distanceUnit}"),
+            translate("settings.units.distance.title"),
             () => canaShowDialog(
               context,
               generateUnitPickerContent(context),
-              "Pick Unit",
+              translate("settings.units.distance.subtitle"),
             ),
             Icons.speed,
           )
@@ -196,7 +209,7 @@ BuildContext context,
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return CanaScaffold(
-      title: "Settings",
+      title: translate("settings.title"),
       body: Column(
         children: [
           Expanded(
@@ -211,7 +224,7 @@ BuildContext context,
             OutlinedButton.icon(
               icon: Icon(Icons.logout, color: selectedTheme.primaryIconColor),
               label: Text(
-                "Logout",
+                translate("settings.logout"),
                 style: TextStyle(color: selectedTheme.primaryTextColor),
               ),
               onPressed: () {

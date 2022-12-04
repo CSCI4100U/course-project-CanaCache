@@ -1,0 +1,71 @@
+{
+    "app": "CanaCache",
+    "navbar": {
+        "home": {
+            "title": "Home"
+        },
+        "caches": {
+            "title": "Caches"
+        },
+        "stats": {
+            "title": "Stats"
+        },
+        "account": {
+            "title": "Account"
+        }
+    },
+    "signin": {
+        "google": "Sign in with Google",
+        "github": "Sign in with Github",
+        "successful": "Successfully signed in as {email}"
+    },
+    "settings": {
+        "title": "Settings",
+        "locale": {
+            "title": "Locale",
+            "language": {
+                "title": "Language",
+                "subtitle": "Select display language",
+                "options": {
+                    "en": "English",
+                    "pt_BR": "Portuguese (Brazil)"
+                },
+                "change": "Changed language to {locale}"
+            }
+        },
+        "theme": {
+            "title": "Theme",
+            "colour": {
+                "title": "Theme Selection",
+                "subtitle": "Select theme",
+                "options": {
+                    "light": "Light Theme",
+                    "dark": "Dark Theme"
+                },
+                "change": "Changed theme to {theme}"
+            }
+        },
+        "units": {
+            "title": "Units",
+            "distance": {
+                "title": "Distance",
+                "subtitle": "Select unit",
+                "options": {
+                    "kilometer": "Kilometer",
+                    "meter": "Meter",
+                    "mile": "Mile",
+                    "yard": "Yard"
+                },
+                "change": "Changed distance unit to {distance}"
+            }
+        },
+        "logout": "Logout"
+    },
+    "error": {
+        "init": "Error initializing app!"
+    },
+    "debug": {
+        "lorem": "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.",
+        "te": "T"
+    }
+}

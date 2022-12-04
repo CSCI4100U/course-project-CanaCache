@@ -5,9 +5,7 @@ enum DistanceUnit {
   yard;
 
   @override
-  String toString() {
-    return "${name[0].toUpperCase()}${name.substring(1)}";
-  }
+  String toString() => name;
 
   static DistanceUnit defaultUnit = DistanceUnit.kilometer;
 }

@@ -1,0 +1,71 @@
+{
+    "app": "CanaCache",
+    "navbar": {
+        "home": {
+            "title": "Início"
+        },
+        "caches": {
+            "title": "Caches"
+        },
+        "stats": {
+            "title": "Estatísticas"
+        },
+        "account": {
+            "title": "Conta"
+        }
+    },
+    "signin": {
+        "google": "Entrar com Google",
+        "github": "Entrar com Github",
+        "successful": "Conectado com sucesso como {email}"
+    },
+    "settings": {
+        "title": "Configurações",
+        "locale": {
+            "title": "Localidade",
+            "language": {
+                "title": "Idioma",
+                "subtitle": "Selecionar idioma",
+                "options": {
+                    "en": "Inglês",
+                    "pt_BR": "Português (Brasil)"
+                },
+                "change": "Idioma alterado para {locale}"
+            }
+        },
+        "theme": {
+            "title": "Aparência",
+            "colour": {
+                "title": "Seleção de tema",
+                "subtitle": "Selecionar tema",
+                "options": {
+                    "light": "Tema claro",
+                    "dark": "Tema escuro"
+                },
+                "change": "Tema alterado para {theme}"
+            }
+        },
+        "units": {
+            "title": "Unidades",
+            "distance": {
+                "title": "Distância",
+                "subtitle": "Selecionar unidade",
+                "options": {
+                    "kilometer": "Quilômetro",
+                    "meter": "Metro",
+                    "mile": "Milha",
+                    "yard": "Jardas"
+                },
+                "change": "Unidade de distância alterada para {distance}"
+            }
+        },
+        "logout": "Sair"
+    },
+    "error": {
+        "init": "Erro na inicialização do app!"
+    },
+    "debug": {
+        "lorem": "Quem é Rakin?🤔 Para o cego, é a luz🌞 Para o faminto, é o pão🍞 Para o sedento, é a fonte de água viva💦 Para o morto, é a vida⚰️ Para o enfermo, é a cura🏥 Para o prisioneiro, é a liberdade🏃‍♂️ Para o solitário, é o companheiro👫 Para o viajante, é o caminho🗺️ Para mim, tudo.",
+        "te": "Ç"
+    }
+}
