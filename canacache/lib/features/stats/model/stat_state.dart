@@ -1,6 +1,8 @@
+import "dart:math";
 import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/db_setup.dart";
 import "package:fl_chart/fl_chart.dart";
+import "package:intl/intl.dart";
 
 enum DateState {
   day,
@@ -34,7 +36,8 @@ enum DateState {
 
     switch (state) {
       case day:
-        return DateTime(now.year, now.month, now.day - 2, now.hour);
+        return DateTime(now.year, now.month, now.day, now.hour)
+            .subtract(const Duration(days: 1));
       case week:
         return DateTime(now.year, now.month, now.day - 7, now.hour);
       case month:
@@ -49,6 +52,10 @@ class FLChartReqInfo {
   double maxX = 0;
   double minX = 0;
   double maxY = 0;
+  double interval = 1;
+  int scale = 1000;
+  String prefix = "";
+
   List<Map<String, dynamic>> rawData;
   Map<DateTime, dynamic> parsedData = {};
   Map<int, String> bottomAxisLabels = {};
@@ -57,11 +64,28 @@ class FLChartReqInfo {
 
   DateState state;
 
-  generateDayLogic() {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.year, now.month, now.day, now.hour)
-        .subtract(const Duration(days: 1));
+  String getLeftWidgetText(double value) {
+    return "${(value / scale).toStringAsFixed(1)}$prefix";
+  }
 
+  determineScale() {
+    if (maxY < 1000) {
+      prefix = "";
+      scale = 100;
+    } else if (maxY < 999999) {
+      prefix = "K";
+    } else {
+      scale = 1000000;
+      prefix = "M";
+    }
+  }
+
+  generateDayLogic() {
+    // this function is harder to read than the other time period ones
+    // should be re written
+    interval = 2.0;
+    DateTime now = DateTime.now();
+    DateTime date = DateState.dateTimeMap(state);
     int hoursIntoDay = date.hour;
 
     minX = -(24 - hoursIntoDay.toDouble());
@@ -95,6 +119,95 @@ class FLChartReqInfo {
     }
   }
 
+  generateWeekLogic() {
+    DateTime now = DateTime.now();
+
+    DateTime currentDate = DateState.dateTimeMap(state);
+    DateTime lastDate = currentDate;
+
+    double currentDaySteps = 0;
+
+    while (currentDate.isBefore(now)) {
+      bool inNewDay =
+          DateTime(currentDate.year, currentDate.month, currentDate.day) !=
+              DateTime(lastDate.year, lastDate.month, lastDate.day);
+
+      if (inNewDay) {
+        String formatedMonth = DateFormat("MMM").format(currentDate);
+        bottomAxisLabels[maxX.toInt()] = "$formatedMonth ${currentDate.day}";
+
+        if (currentDaySteps > maxY) {
+          maxY = currentDaySteps;
+        }
+        spots.add(
+          FlSpot(
+            maxX,
+            currentDaySteps,
+          ),
+        );
+
+        maxX++;
+        currentDaySteps = 0;
+        lastDate = currentDate;
+      }
+
+      if (parsedData.containsKey(currentDate)) {
+        currentDaySteps += parsedData[currentDate].toDouble()!;
+      }
+
+      currentDate = currentDate.add(const Duration(hours: 1));
+    }
+    // off by one error, cant figure out where so just subtracted one
+    maxX -= 1;
+  }
+
+  generateMonthLogic() {
+    // the functions are the exact same except needs higher interval or will looked squished
+    generateWeekLogic();
+    interval = 4;
+  }
+
+  generateYearLogic() {
+    DateTime now = DateTime.now();
+
+    DateTime currentDate = DateState.dateTimeMap(state);
+    DateTime lastDate = currentDate;
+
+    double currentMonthSteps = 0;
+
+    while (currentDate.isBefore(now)) {
+      bool inNewMonth = DateTime(currentDate.year, currentDate.month) !=
+          DateTime(lastDate.year, lastDate.month);
+
+      if (inNewMonth) {
+        String formatedMonth = DateFormat("MMM").format(currentDate);
+        bottomAxisLabels[maxX.toInt()] = formatedMonth;
+
+        if (currentMonthSteps > maxY) {
+          maxY = currentMonthSteps;
+        }
+        spots.add(
+          FlSpot(
+            maxX,
+            currentMonthSteps,
+          ),
+        );
+
+        maxX++;
+        currentMonthSteps = 0;
+        lastDate = currentDate;
+      }
+
+      if (parsedData.containsKey(currentDate)) {
+        currentMonthSteps += parsedData[currentDate].toDouble()!;
+      }
+
+      currentDate = currentDate.add(const Duration(hours: 1));
+    }
+    // off by one error, cant figure out where so just subtracted one
+    maxX -= 1;
+  }
+
   FLChartReqInfo({required this.rawData, required this.state}) {
     for (int i = 0; i < rawData.length; i++) {
       // find maxX
@@ -111,7 +224,18 @@ class FLChartReqInfo {
     switch (state) {
       case DateState.day:
         generateDayLogic();
+        break;
+      case DateState.week:
+        generateWeekLogic();
+        break;
+      case DateState.month:
+        generateMonthLogic();
+        break;
+      case DateState.year:
+        generateYearLogic();
+        break;
     }
+    determineScale();
   }
 }
 

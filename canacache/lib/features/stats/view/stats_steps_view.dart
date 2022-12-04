@@ -49,13 +49,17 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
 
     LineChart chart = LineChart(generateData(context));
 
+    // as a starting point example code from https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/line_chart/samples/line_chart_sample2.dart was used
+    // it is basically unrecognizable now though
+
     return CanaScaffold(
       title: "Step Stats",
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding:
+            const EdgeInsets.only(left: 20, right: 20, bottom: 30, top: 30),
         child: Column(
           children: [
-            Flexible(flex: 9, child: chart),
+            Flexible(flex: 10, child: chart),
             Flexible(
               flex: 1,
               child: buttons,
@@ -66,7 +70,8 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
     );
   }
 
-  Widget Function(double value, TitleMeta meta) closure(BuildContext context) {
+  Widget Function(double value, TitleMeta meta) bottomTitleWidgetsClosure(
+      BuildContext context) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
     Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -76,32 +81,16 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
         fontSize: 16,
       );
 
-      Widget text;
-      if (con.dateState == DateState.day) {
-        String rawText = value.toInt().toString();
-        if (con.plotInfo.bottomAxisLabels.containsKey(value.toInt())) {
-          rawText = con.plotInfo.bottomAxisLabels[value.toInt()];
-        }
-
-        text = Text(rawText, style: style);
-      } else {
-        switch (value.toInt()) {
-          case 2:
-            text = Text('MAR', style: style);
-            break;
-          case 5:
-            text = Text('JUN', style: style);
-            break;
-          case 8:
-            text = Text('SEP', style: style);
-            break;
-          default:
-            text = Text('', style: style);
-            break;
-        }
+      String rawText = value.toInt().toString();
+      if (con.plotInfo.bottomAxisLabels.containsKey(value.toInt())) {
+        rawText = con.plotInfo.bottomAxisLabels[value.toInt()];
       }
+
+      Widget text = Text(rawText, style: style);
+
       return SideTitleWidget(
         axisSide: meta.axisSide,
+        angle: 45,
         child: text,
       );
     }
@@ -115,23 +104,8 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
       fontWeight: FontWeight.bold,
       fontSize: 15,
     );
-    String text;
-    /*
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30k';
-        break;
-      case 5:
-        text = '50k';
-        break;
-      default:
-        return Container();
-    }
-    */
-    text = "${(value ~/ 1000).toString()}k";
+
+    String text = con.plotInfo.getLeftWidgetText(value);
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
@@ -140,8 +114,8 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
-        horizontalInterval: 1000,
-        verticalInterval: 1000,
+        horizontalInterval: con.plotInfo.scale.toDouble(),
+        verticalInterval: 20,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
@@ -167,8 +141,8 @@ class StepStatViewState extends ViewState<StepStatView, StepStatController> {
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 42,
-            interval: 2,
-            getTitlesWidget: closure(context),
+            interval: con.plotInfo.interval,
+            getTitlesWidget: bottomTitleWidgetsClosure(context),
           ),
         ),
         leftTitles: AxisTitles(

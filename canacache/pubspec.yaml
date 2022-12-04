@@ -57,6 +57,7 @@ dependencies:
   path_provider: ^2.0.11
   fl_chart: ^0.55.2
   random_date: ^0.0.7
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
