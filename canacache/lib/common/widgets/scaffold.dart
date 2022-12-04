@@ -10,11 +10,13 @@ class CanaScaffold extends StatelessWidget {
   final Widget body;
   final Widget? bottomNavigationBar;
   final PreferredSizeWidget? appBar;
+  final bool? hideLogo;
 
   CanaScaffold({
     super.key,
     this.title,
     this.appBar,
+    this.hideLogo,
     required this.body,
     this.bottomNavigationBar,
   });
@@ -24,7 +26,7 @@ class CanaScaffold extends StatelessWidget {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
     return Scaffold(
-      appBar: appBar ?? CanaAppBar(title: title),
+      appBar: appBar ?? CanaAppBar(title: title, hideLogo: hideLogo),
       backgroundColor: theme.secBgColor,
       key: _scaffState,
       bottomNavigationBar: bottomNavigationBar,

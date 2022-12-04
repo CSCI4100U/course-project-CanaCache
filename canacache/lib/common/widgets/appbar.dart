@@ -8,8 +8,9 @@ import "package:provider/provider.dart";
 class CanaAppBar extends StatelessWidget implements PreferredSizeWidget {
   static const height = kToolbarHeight;
   final String? title;
+  final bool? hideLogo;
 
-  const CanaAppBar({super.key, this.title});
+  const CanaAppBar({super.key, this.title, this.hideLogo});
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +19,16 @@ class CanaAppBar extends StatelessWidget implements PreferredSizeWidget {
     // this is how AppBar decides if it should show a back button
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final backButtonIsVisible = parentRoute?.impliesAppBarDismissal ?? false;
+    final hideLogo = (this.hideLogo ?? false) || backButtonIsVisible;
 
     return AppBar(
       iconTheme: IconThemeData(
         color: selectedTheme.primaryIconColor, //change your color here
       ),
-      titleSpacing: backButtonIsVisible ? null : 4,
+      titleSpacing: hideLogo ? null : 4,
       title: Row(
         children: [
-          if (!backButtonIsVisible)
+          if (!hideLogo)
             SvgPicture.asset("assets/vectors/logo.svg", height: height),
           Text(
             title ?? "",
