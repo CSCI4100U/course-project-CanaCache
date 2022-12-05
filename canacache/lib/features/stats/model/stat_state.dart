@@ -1,4 +1,3 @@
-import "dart:math";
 import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/db_setup.dart";
 import "package:fl_chart/fl_chart.dart";
@@ -36,14 +35,26 @@ enum DateState {
 
     switch (state) {
       case day:
-        return DateTime(now.year, now.month, now.day, now.hour)
-            .subtract(const Duration(days: 1));
+        return DateTime(now.year, now.month, now.day - 2, now.hour);
       case week:
         return DateTime(now.year, now.month, now.day - 6, now.hour);
       case month:
         return DateTime(now.year, now.month - 1, now.day, now.hour);
       case year:
         return DateTime(now.year - 1, now.month + 1, now.day, now.hour);
+    }
+  }
+
+  static String timePeriodAxisMap(DateState state) {
+    switch (state) {
+      case day:
+        return "Hour";
+      case week:
+        return "Day";
+      case month:
+        return "Day";
+      case year:
+        return "Month";
     }
   }
 }
@@ -55,13 +66,15 @@ class FLChartReqInfo {
   double interval = 1;
   int scale = 1000;
   String prefix = "";
+  String bottomAxisLabel = "";
+  String leftAxisLabel = "";
 
   List<Map<String, dynamic>> rawData;
   Map<DateTime, dynamic> parsedData = {};
   Map<int, String> bottomAxisLabels = {};
 
+  LocalDBTables table;
   List<FlSpot> spots = [];
-
   DateState state;
 
   String getLeftWidgetText(double value) {
@@ -81,42 +94,39 @@ class FLChartReqInfo {
   }
 
   generateDayLogic() {
-    // this function is harder to read than the other time period ones
-    // should be re written
-    interval = 2.0;
+    interval = 2;
     DateTime now = DateTime.now();
-    DateTime date = DateState.dateTimeMap(state);
-    int hoursIntoDay = date.hour;
 
-    minX = -(24 - hoursIntoDay.toDouble());
-    maxX = hoursIntoDay.toDouble();
+    DateTime currentDate =
+        DateState.dateTimeMap(state).add(const Duration(days: 1, hours: 1));
 
-    // loop through last 24 hours
-    for (int i = 0; i < 25; i++) {
-      double stepCount = 0;
+    double currentDaySteps = 0;
 
-      double correction = minX - now.hour;
-
-      if (DateTime(now.year, now.month, now.day) ==
-          DateTime(date.year, date.month, date.day)) {
-        correction = 0;
+    while (currentDate
+        .isBefore(DateTime(now.year, now.month, now.day, now.hour + 1))) {
+      if (parsedData.containsKey(currentDate)) {
+        currentDaySteps = parsedData[currentDate].toDouble()!;
       }
 
-      if (parsedData.containsKey(date)) {
-        stepCount = parsedData[date].toDouble();
+      bottomAxisLabels[maxX.toInt()] = "${currentDate.hour}";
+
+      if (currentDaySteps > maxY) {
+        maxY = currentDaySteps;
       }
-
-      bottomAxisLabels[date.hour + correction.toInt()] = date.hour.toString();
-
       spots.add(
         FlSpot(
-          date.hour.toDouble() + correction,
-          stepCount,
+          maxX,
+          currentDaySteps,
         ),
       );
 
-      date = date.add(const Duration(hours: 1));
+      currentDaySteps = 0;
+
+      currentDate = currentDate.add(const Duration(hours: 1));
+
+      maxX++;
     }
+    maxX--;
   }
 
   generateWeekLogic() {
@@ -228,23 +238,22 @@ class FLChartReqInfo {
         currentMonthSteps,
       ),
     );
-
-    //maxX--;
-
-    // off by one error, cant figure out where so just subtracted one
   }
 
-  FLChartReqInfo({required this.rawData, required this.state}) {
+  FLChartReqInfo({
+    required this.rawData,
+    required this.state,
+    required this.table,
+  }) {
     for (int i = 0; i < rawData.length; i++) {
       // find maxX
-      int steps = rawData[i]["steps"]!;
+      int steps = rawData[i][dbTables[table]!.statColumn]!;
       if (steps > maxY) {
         maxY = steps.toDouble();
       }
 
       DateTime parsedTime = DateTime.parse(rawData[i]["timeSlice"]!);
-
-      parsedData[parsedTime] = rawData[i]["steps"];
+      parsedData[parsedTime] = rawData[i][dbTables[table]!.statColumn];
     }
 
     switch (state) {
@@ -262,6 +271,8 @@ class FLChartReqInfo {
         break;
     }
     determineScale();
+    bottomAxisLabel = DateState.timePeriodAxisMap(state);
+    leftAxisLabel = dbTables[table]!.statName!;
   }
 }
 
@@ -273,7 +284,8 @@ class StatStateModel {
   DateState dateState = DateState.day;
   GraphState graphState = GraphState.chart;
   LocalDBTables table;
-  FLChartReqInfo plotInfo = FLChartReqInfo(rawData: [], state: DateState.day);
+  FLChartReqInfo plotInfo = FLChartReqInfo(
+      rawData: [], state: DateState.day, table: LocalDBTables.steps);
   //List<Object> tableData = [];
 
   StatStateModel({required this.table}) {
@@ -288,11 +300,7 @@ class StatStateModel {
     String query =
         """SELECT * FROM ${dbTables[table]!.tableTitle} WHERE DATE(timeSlice) >= ?""";
     List<Object> args = [date.toString()];
-
     return await db.rawQuery(query, args);
-    /*
-    
-    */
   }
 
   setDateState(int index) async {

@@ -9,9 +9,8 @@ class StepRecorder {
   int stepsSinceSystemBoot = 0;
   int stepsSinceAppStart = 0;
   int lastEpochStepCount = 0;
-
+  static const interval = 5;
   late Stream<StepCount> _stepCountStream;
-  late Stream<PedestrianStatus> _pedestrianStatusStream;
 
   StepRecorder() {
     initPlatformState();
@@ -23,7 +22,6 @@ class StepRecorder {
       await Permission.activityRecognition.request();
     }
 
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
     _stepCountStream = Pedometer.stepCountStream;
 
     _stepCountStream.listen(onStepCount);
@@ -33,7 +31,6 @@ class StepRecorder {
 
   newEpoch() async {
     int dSteps = stepsSinceAppStart - lastEpochStepCount;
-    print("d steps $dSteps");
     if (dSteps > 0) {
       DateTime now = DateTime.now();
       DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
@@ -54,7 +51,6 @@ class StepRecorder {
   }
 
   void onStepCount(StepCount event) {
-    print("on step");
     if (firstRecording) {
       firstRecording = false;
       stepsSinceSystemBoot = event.steps;

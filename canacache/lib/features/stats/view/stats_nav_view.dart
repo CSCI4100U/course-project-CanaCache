@@ -95,7 +95,7 @@ class StatHomeView extends StatelessWidget {
         const NavItem(
           label: "Distance Traveled",
           iconData: Icons.speed,
-          route: CanaRoute.statsSteps,
+          route: CanaRoute.statsDistance,
         ),
         divider,
         NavItem(
@@ -119,6 +119,7 @@ class StatHomeView extends StatelessWidget {
     var db = await initDB();
     await db.delete(dbTables[LocalDBTables.steps]!.tableTitle);
     await db.delete(dbTables[LocalDBTables.mins]!.tableTitle);
+    await db.delete(dbTables[LocalDBTables.distance]!.tableTitle);
 
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
@@ -137,6 +138,8 @@ class StatHomeView extends StatelessWidget {
   generatePlaceHolderData(BuildContext context) async {
     SnackBar snack =
         successCanaSnackBar(context, "Added 1000 samples to every stat table");
+    // this function is just for debug/testing
+    // not very well written
 
     DateTime trueNow = DateTime.now();
 
@@ -148,6 +151,7 @@ class StatHomeView extends StatelessWidget {
 
       int dSteps = Random().nextInt(10000);
       int numMins = Random().nextInt(60);
+      int distance = Random().nextInt(10000);
 
       DateTime currentHour = DateTime(
         now.year,
@@ -164,9 +168,11 @@ class StatHomeView extends StatelessWidget {
 
       List<Object> args1 = [currentHour.toString(), numMins, numMins];
       List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
+      List<Object> args3 = [currentHour.toString(), distance, distance];
 
       await writeJunkToDB(LocalDBTables.mins, args1);
       await writeJunkToDB(LocalDBTables.steps, args2);
+      await writeJunkToDB(LocalDBTables.distance, args3);
     }
 
     // do some for today
@@ -179,8 +185,6 @@ class StatHomeView extends StatelessWidget {
       );
 
       if (currentHour.isAfter(trueNow)) {
-        print("over");
-        print(currentHour);
         // have gotten hour too far into day
         i -= 1;
         continue;
@@ -188,38 +192,15 @@ class StatHomeView extends StatelessWidget {
 
       int dSteps = Random().nextInt(10000);
       int numMins = Random().nextInt(60);
+      int distance = Random().nextInt(10000);
 
       List<Object> args1 = [currentHour.toString(), numMins, numMins];
       List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
-      print(args1);
+      List<Object> args3 = [currentHour.toString(), distance, distance];
 
       await writeJunkToDB(LocalDBTables.mins, args1);
       await writeJunkToDB(LocalDBTables.steps, args2);
-    }
-
-    // do some for today
-    for (int i = 0; i < 15; i++) {
-      DateTime currentHour = DateTime(
-        trueNow.year,
-        trueNow.month,
-        trueNow.day - 1,
-        Random().nextInt(24),
-      );
-
-      if (currentHour.isAfter(trueNow)) {
-        // have gotten hour too far into day
-        i -= 1;
-        continue;
-      }
-
-      int dSteps = Random().nextInt(10000);
-      int numMins = Random().nextInt(60);
-
-      List<Object> args1 = [currentHour.toString(), numMins, numMins];
-      List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
-
-      await writeJunkToDB(LocalDBTables.mins, args1);
-      await writeJunkToDB(LocalDBTables.steps, args2);
+      await writeJunkToDB(LocalDBTables.distance, args3);
     }
 
     ScaffoldMessenger.of(context).showSnackBar(snack);

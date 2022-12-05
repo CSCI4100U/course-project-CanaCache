@@ -57,7 +57,7 @@ class LineChartTimeViewState
     // it is basically unrecognizable now though
 
     return CanaScaffold(
-      title: "Step Stats",
+      title: title,
       body: Padding(
         padding: const EdgeInsets.only(left: 5, right: 20, bottom: 30, top: 50),
         child: Column(

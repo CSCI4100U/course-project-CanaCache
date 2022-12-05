@@ -59,6 +59,7 @@ dependencies:
   fl_chart: ^0.55.2
   random_date: ^0.0.7
   intl: ^0.17.0
+  vector_math: ^2.1.2
 
 dev_dependencies:
   flutter_test:

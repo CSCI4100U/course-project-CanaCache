@@ -2,9 +2,16 @@ import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/stats/model/stat_state.dart";
 import "package:canacache/features/stats/view/stats_steps_view.dart";
+import "package:canacache/features/stats/view/common_charts.dart";
 
-class StepStatController extends Controller<StepStatView, StepStatViewState> {
-  final StatStateModel _modelState = StatStateModel(table: LocalDBTables.steps);
+class CommonStatController
+    extends Controller<LineChartTimeView, LineChartTimeViewState> {
+  late StatStateModel _modelState;
+  final LocalDBTables table;
+
+  CommonStatController({required this.table}) {
+    _modelState = StatStateModel(table: table);
+  }
 
   @override
   void initState() {
@@ -15,6 +22,7 @@ class StepStatController extends Controller<StepStatView, StepStatViewState> {
               _modelState.plotInfo = FLChartReqInfo(
                 rawData: res,
                 state: dateState,
+                table: table,
               );
             }),
           ),
@@ -24,14 +32,11 @@ class StepStatController extends Controller<StepStatView, StepStatViewState> {
   dateButtonController(int index) async {
     await _modelState.setDateState(index);
     var res = await _modelState.readDBData();
-    print(res);
 
     setState(
       () {
-        _modelState.plotInfo = FLChartReqInfo(
-          rawData: res,
-          state: dateState,
-        );
+        _modelState.plotInfo =
+            FLChartReqInfo(rawData: res, state: dateState, table: table);
       },
     );
   }
