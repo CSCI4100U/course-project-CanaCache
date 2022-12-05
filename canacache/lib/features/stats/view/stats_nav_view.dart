@@ -29,19 +29,30 @@ class NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
-    return TextButton.icon(
-      icon: Icon(
-        iconData,
-        color: selectedTheme.secIconColor,
-      ),
-      label: Text(
-        label,
-        style: TextStyle(
-          color: selectedTheme.primaryTextColor,
-          fontFamily: selectedTheme.primaryFontFamily,
+    return InkWell(
+      child: SizedBox(
+        height: 50,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Icon(
+                iconData,
+                color: selectedTheme.secIconColor,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: TextStyle(
+                  color: selectedTheme.primaryTextColor,
+                  fontFamily: selectedTheme.primaryFontFamily,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      onPressed: () {
+      onTap: () {
         if (callback != null) {
           callback!();
         }
@@ -78,18 +89,12 @@ class StatHomeView extends StatelessWidget {
         const NavItem(
           label: "Time Spent",
           iconData: Icons.hourglass_top,
-          route: CanaRoute.statsSteps,
+          route: CanaRoute.statsTime,
         ),
         divider,
         const NavItem(
           label: "Distance Traveled",
           iconData: Icons.speed,
-          route: CanaRoute.statsSteps,
-        ),
-        divider,
-        const NavItem(
-          label: "Movement History",
-          iconData: Icons.run_circle,
           route: CanaRoute.statsSteps,
         ),
         divider,
@@ -112,75 +117,112 @@ class StatHomeView extends StatelessWidget {
   clearData(BuildContext context) async {
     SnackBar snack = errorCanaSnackBar(context, "Cleared Data");
     var db = await initDB();
-    print(dbTables[LocalDBTables.steps]!.tableTitle);
     await db.delete(dbTables[LocalDBTables.steps]!.tableTitle);
+    await db.delete(dbTables[LocalDBTables.mins]!.tableTitle);
 
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 
-  generatePlaceHolderData(BuildContext context) async {
-    SnackBar snack = successCanaSnackBar(context, "Added 1000 samples");
+  writeJunkToDB(LocalDBTables table, List<Object> args) async {
     var db = await initDB();
+    String dbString =
+        """INSERT INTO ${dbTables[table]!.tableTitle} (timeSlice, ${dbTables[table]!.statColumn})
+            VALUES(?,?)
+            ON CONFLICT(timeSlice)
+            DO UPDATE SET ${dbTables[table]!.statColumn} = ?;""";
+
+    await db.execute(dbString, args);
+  }
+
+  generatePlaceHolderData(BuildContext context) async {
+    SnackBar snack =
+        successCanaSnackBar(context, "Added 1000 samples to every stat table");
 
     DateTime trueNow = DateTime.now();
 
     // generate random for year
     var randomDate = RandomDate.withRange(trueNow.year - 1, trueNow.year + 1);
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 970; i++) {
       DateTime now = randomDate.random();
 
       int dSteps = Random().nextInt(10000);
+      int numMins = Random().nextInt(60);
 
       DateTime currentHour = DateTime(
         now.year,
         now.month,
         now.day,
-        now.hour + Random().nextInt(13),
+        Random().nextInt(24),
       );
 
-      if (trueNow.isBefore(currentHour)) {
+      if (currentHour.isAfter(trueNow)) {
+        // have gotten hour too far into day
+        i -= 1;
         continue;
       }
 
-      List<Object> args = [currentHour.toString(), dSteps, dSteps];
-      //print("$currentHour $dSteps");
-      String dbString =
-          """INSERT INTO ${dbTables[LocalDBTables.steps]!.tableTitle} (timeSlice, steps)
-              VALUES(?,?)
-              ON CONFLICT(timeSlice)
-              DO UPDATE SET steps = steps+?;""";
+      List<Object> args1 = [currentHour.toString(), numMins, numMins];
+      List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
 
-      await db.execute(dbString, args);
+      await writeJunkToDB(LocalDBTables.mins, args1);
+      await writeJunkToDB(LocalDBTables.steps, args2);
+    }
+
+    // do some for today
+    for (int i = 0; i < 30; i++) {
+      DateTime currentHour = DateTime(
+        trueNow.year,
+        trueNow.month,
+        trueNow.day - 1,
+        Random().nextInt(24),
+      );
+
+      if (currentHour.isAfter(trueNow)) {
+        print("over");
+        print(currentHour);
+        // have gotten hour too far into day
+        i -= 1;
+        continue;
+      }
+
+      int dSteps = Random().nextInt(10000);
+      int numMins = Random().nextInt(60);
+
+      List<Object> args1 = [currentHour.toString(), numMins, numMins];
+      List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
+      print(args1);
+
+      await writeJunkToDB(LocalDBTables.mins, args1);
+      await writeJunkToDB(LocalDBTables.steps, args2);
+    }
+
+    // do some for today
+    for (int i = 0; i < 15; i++) {
+      DateTime currentHour = DateTime(
+        trueNow.year,
+        trueNow.month,
+        trueNow.day - 1,
+        Random().nextInt(24),
+      );
+
+      if (currentHour.isAfter(trueNow)) {
+        // have gotten hour too far into day
+        i -= 1;
+        continue;
+      }
+
+      int dSteps = Random().nextInt(10000);
+      int numMins = Random().nextInt(60);
+
+      List<Object> args1 = [currentHour.toString(), numMins, numMins];
+      List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
+
+      await writeJunkToDB(LocalDBTables.mins, args1);
+      await writeJunkToDB(LocalDBTables.steps, args2);
     }
 
     ScaffoldMessenger.of(context).showSnackBar(snack);
-
-    // generate random for today
-    /*
-    for (int j = 0; j < 24; j++) {
-      DateTime now = DateTime.now();
-
-      int dSteps = Random().nextInt(10000);
-
-      DateTime currentHour = DateTime(
-        now.year,
-        now.month,
-        now.day,
-        j,
-      );
-
-      List<Object> args = [currentHour.toString(), dSteps, dSteps];
-      //print("$currentHour $dSteps");
-      String dbString =
-          """INSERT INTO ${dbTables[LocalDBTables.steps]!.tableTitle} (timeSlice, steps)
-              VALUES(?,?)
-              ON CONFLICT(timeSlice)
-              DO UPDATE SET steps = steps+?;""";
-
-      await db.execute(dbString, args);
-    }
-    */
   }
 
   const StatHomeView({super.key});

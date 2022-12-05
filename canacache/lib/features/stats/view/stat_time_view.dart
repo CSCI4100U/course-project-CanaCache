@@ -2,7 +2,7 @@ import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/features/stats/view/common_charts.dart";
 import "package:flutter/material.dart";
 
-class StepStatView extends LineChartTimeView {
-  const StepStatView({Key? key})
-      : super(key: key, title: "Step Stats", table: LocalDBTables.steps);
+class TimeStatView extends LineChartTimeView {
+  const TimeStatView({Key? key})
+      : super(key: key, title: "Time Stats", table: LocalDBTables.mins);
 }
