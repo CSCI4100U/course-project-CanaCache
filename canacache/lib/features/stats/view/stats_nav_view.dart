@@ -5,6 +5,7 @@ import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:random_date/random_date.dart";
@@ -98,6 +99,10 @@ class StatHomeView extends StatelessWidget {
           route: CanaRoute.statsDistance,
         ),
         divider,
+      ],
+    );
+    if (kDebugMode) {
+      buttons.addAll([
         NavItem(
           label: "Dummy Data (Will populate db with dummy data)",
           iconData: Icons.recycling,
@@ -109,8 +114,8 @@ class StatHomeView extends StatelessWidget {
           iconData: Icons.dangerous,
           callback: () => clearData(context),
         ),
-      ],
-    );
+      ]);
+    }
     return buttons;
   }
 
