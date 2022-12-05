@@ -12,7 +12,8 @@ enum DistanceUnit {
 
 class Unit {
   // Class only exists for future use, may want to add other units (time format, temp, etc)
-  DistanceUnit distanceUnit = DistanceUnit.defaultUnit;
+  DistanceUnit distanceUnit;
 
-  Unit({required this.distanceUnit});
+  Unit({DistanceUnit? distanceUnit})
+      : distanceUnit = distanceUnit ?? DistanceUnit.defaultUnit;
 }
