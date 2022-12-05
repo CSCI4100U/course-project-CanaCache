@@ -36,10 +36,11 @@ class SettingsProvider with ChangeNotifier {
 
   // have to pass in context here to be able to
   // change the language of the entire app
-  void setLanguage(BuildContext context, AppLocale language) {
+  void setLanguage(BuildContext context, AppLocale language) async {
+    // needs to be first to appease the linter gods
+    await changeLocale(context, language.languageCode);
     _currentSettings.selectedLanguage = language;
-    _currentSettings.writeSettings();
-    changeLocale(context, language.languageCode);
+    await _currentSettings.writeSettings();
     notifyListeners();
   }
 

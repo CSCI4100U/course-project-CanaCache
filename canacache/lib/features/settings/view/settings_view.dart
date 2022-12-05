@@ -23,10 +23,10 @@ class SettingsPageView extends StatefulWidget {
 class _SettingsPage extends State<SettingsPageView> {
   Widget generatePickerItem(
     BuildContext context,
-    String snackBarText,
+    String Function() buildSnackBarText,
     String itemText,
     bool highlight,
-    VoidCallback callback,
+    Future<void> Function() callback,
   ) {
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
@@ -34,15 +34,13 @@ class _SettingsPage extends State<SettingsPageView> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       child: InkWell(
-        onTap: () {
-          callback();
+        onTap: () async {
+          await callback();
+          if (!mounted) return;
 
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            successCanaSnackBar(
-              context,
-              snackBarText,
-            ),
+            successCanaSnackBar(context, buildSnackBarText()),
           );
         },
         child: Container(
@@ -75,7 +73,7 @@ class _SettingsPage extends State<SettingsPageView> {
       content.add(
         generatePickerItem(
           context,
-          translate(
+          () => translate(
             "settings.units.distance.change",
             args: {
               "distance": translate(
@@ -85,10 +83,8 @@ class _SettingsPage extends State<SettingsPageView> {
           ),
           translate("settings.units.distance.options.$k"),
           currentUnit.distanceUnit == providedUnit.distanceUnit,
-          () {
-            Provider.of<SettingsProvider>(context, listen: false).unit =
-                currentUnit;
-          },
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .unit = currentUnit,
         ),
       );
     }
@@ -112,7 +108,7 @@ BuildContext context,
       content.add(
         generatePickerItem(
           context,
-          translate(
+          () => translate(
             "settings.theme.colour.change",
             args: {
               "theme": translate("settings.theme.colour.options.${theme.name}")
@@ -120,9 +116,8 @@ BuildContext context,
           ),
           translate("settings.theme.colour.options.${theme.name}"),
           theme == selectedTheme,
-          () {
-            Provider.of<SettingsProvider>(context, listen: false).theme = theme;
-          },
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .theme = theme,
         ),
       );
     }
@@ -140,7 +135,7 @@ BuildContext context,
       content.add(
         generatePickerItem(
           context,
-          translate(
+          () => translate(
             "settings.locale.language.change",
             args: {
               "locale": translate(
@@ -150,10 +145,8 @@ BuildContext context,
           ),
           translate("settings.locale.language.options.${locale.languageCode}"),
           selectedLanguage.name == locale.name,
-          () {
-            Provider.of<SettingsProvider>(context, listen: false)
-                .setLanguage(context, locale);
-          },
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .setLanguage(context, locale),
         ),
       );
     }
