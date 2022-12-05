@@ -1,11 +1,13 @@
 library map;
 
-import 'package:flutter_map/flutter_map.dart';
+import "package:flutter_map/flutter_map.dart";
 import "package:latlong2/latlong.dart";
 
 // Do not touch these
-const String _token = "pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
-const String _mapID = "https://api.mapbox.com/styles/v1/map7331/clag6jg8a000215rvo3v6xq14/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
+const String _token =
+    "pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
+const String _mapID =
+    "https://api.mapbox.com/styles/v1/map7331/clag6jg8a000215rvo3v6xq14/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
 
 // This is the schools location 43.9458513468863, -78.89679733079522
 final _startLocal = LatLng(43.9458513468863, -78.89679733079522);
@@ -18,7 +20,7 @@ final MapController _mapController = MapController();
 List<Marker> _markers = [];
 
 MapOptions options = MapOptions(
-  minZoom:  _minZoom,
+  minZoom: _minZoom,
   maxZoom: _maxZoom,
   zoom: _zoom,
   center: _startLocal,

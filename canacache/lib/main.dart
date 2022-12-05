@@ -13,8 +13,8 @@ void main() async {
 
   // add flutter_translate delegate
   var delegate = await LocalizationDelegate.create(
-      fallbackLocale: "en",
-      supportedLocales: ["en", "pt_BR"],
+    fallbackLocale: "en",
+    supportedLocales: ["en", "pt_BR"],
   );
 
   runApp(LocalizedApp(delegate, const CanaApp()));

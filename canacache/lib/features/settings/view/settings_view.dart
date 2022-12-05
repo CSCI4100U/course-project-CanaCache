@@ -4,6 +4,7 @@ import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/auth/model/auth.dart" as auth;
+import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
 import "package:firebase_auth/firebase_auth.dart";
@@ -76,7 +77,7 @@ class _SettingsPage extends State<SettingsPageView> {
           context,
           translate(
             "settings.units.distance.change",
-            args:{
+            args: {
               "distance": translate(
                 "settings.units.distance.options.${currentUnit.distanceUnit}",
               ),
@@ -129,6 +130,36 @@ BuildContext context,
     return Column(children: content);
   }
 
+  Column generateLocalePickerContent(BuildContext context) {
+    List<Widget> content = [];
+
+    AppLocale selectedLanguage =
+        Provider.of<SettingsProvider>(context, listen: false).language;
+
+    for (AppLocale locale in AppLocale.values) {
+      content.add(
+        generatePickerItem(
+          context,
+          translate(
+            "settings.locale.language.change",
+            args: {
+              "locale": translate(
+                "settings.locale.language.options.${locale.languageCode}",
+              ),
+            },
+          ),
+          translate("settings.locale.language.options.${locale.languageCode}"),
+          selectedLanguage.name == locale.name,
+          () {
+            Provider.of<SettingsProvider>(context, listen: false)
+                .setLanguage(context, locale);
+          },
+        ),
+      );
+    }
+    return Column(children: content);
+  }
+
   SettingsTile generateSettingsTile(
     BuildContext context,
     String tileText,
@@ -155,6 +186,7 @@ BuildContext context,
   List<AbstractSettingsSection> generateSettingSections(BuildContext context) {
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
     Unit selectedUnit = Provider.of<SettingsProvider>(context).unit;
+    AppLocale selectedLocale = Provider.of<SettingsProvider>(context).language;
 
     List<AbstractSettingsSection> sections = [];
 
@@ -186,7 +218,9 @@ BuildContext context,
         tiles: [
           generateSettingsTile(
             context,
-            translate("settings.units.distance.options.${selectedUnit.distanceUnit}"),
+            translate(
+              "settings.units.distance.options.${selectedUnit.distanceUnit}",
+            ),
             translate("settings.units.distance.title"),
             () => canaShowDialog(
               context,
@@ -194,6 +228,27 @@ BuildContext context,
               translate("settings.units.distance.subtitle"),
             ),
             Icons.speed,
+          )
+        ],
+      ),
+      SettingsSection(
+        title: Text(
+          translate("settings.locale.title"),
+          style: TextStyle(color: selectedTheme.primaryTextColor),
+        ),
+        tiles: [
+          generateSettingsTile(
+            context,
+            translate(
+              "settings.locale.language.options.${selectedLocale.languageCode}",
+            ),
+            translate("settings.locale.language.title"),
+            () => canaShowDialog(
+              context,
+              generateLocalePickerContent(context),
+              translate("settings.locale.language.subtitle"),
+            ),
+            Icons.translate,
           )
         ],
       ),

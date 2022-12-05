@@ -5,7 +5,6 @@ import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/app/controller/app_controller.dart";
 import "package:canacache/features/auth/view/sign_in.dart";
 import "package:flutter/material.dart";
-import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 
@@ -21,21 +20,13 @@ class CanaAppState extends ViewState<CanaApp, CanaAppController> {
 
   @override
   Widget build(BuildContext context) {
-    var localizationDelegate = LocalizedApp.of(context).delegate;
-
     return MultiProvider(
       providers: con.providers,
       child: MaterialApp(
-        title: "CanaCache",
-        // TODO: less bloat when initializing i18n delegates
-        localizationsDelegates: [
-          ...GlobalMaterialLocalizations.delegates,
-          GlobalWidgetsLocalizations.delegate,
-          localizationDelegate
-        ],
-        supportedLocales: localizationDelegate.supportedLocales,
-        locale: localizationDelegate.currentLocale,
-        // TODO end
+        title: translate("app"),
+        localizationsDelegates: con.delegates,
+        supportedLocales: con.localizationDelegate.supportedLocales,
+        locale: con.localizationDelegate.currentLocale,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,

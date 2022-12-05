@@ -1,6 +1,12 @@
 enum AppLocale {
-  en,
-  pt_BR; // no dart, fuck you. i do what i want
+  en(languageCode: "en"),
+  ptBR(languageCode: "pt_BR");
+
+  // because enum consts must be in camelcase and my brazilian friend
+  // is insistent about the portuguese being brazilian i have to do this
+  final String languageCode;
+
+  const AppLocale({required this.languageCode});
 
   static AppLocale defaultLocale = AppLocale.en;
 

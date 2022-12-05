@@ -1,17 +1,11 @@
 {
     "app": "CanaCache",
     "navbar": {
-        "home": {
-            "title": "Home"
-        },
-        "caches": {
-            "title": "Caches"
-        },
-        "stats": {
-            "title": "Stats"
-        },
-        "account": {
-            "title": "Account"
+        "titles": {
+            "home": "Home",
+            "caches": "Caches",
+            "stats": "Stats",
+            "account": "Account"
         }
     },
     "signin": {
@@ -21,6 +15,7 @@
     },
     "settings": {
         "title": "Settings",
+        "logout": "Logout",
         "locale": {
             "title": "Locale",
             "language": {
@@ -39,8 +34,8 @@
                 "title": "Theme Selection",
                 "subtitle": "Select theme",
                 "options": {
-                    "light": "Light Theme",
-                    "dark": "Dark Theme"
+                    "light": "Light",
+                    "dark": "Dark"
                 },
                 "change": "Changed theme to {theme}"
             }
@@ -58,8 +53,7 @@
                 },
                 "change": "Changed distance unit to {distance}"
             }
-        },
-        "logout": "Logout"
+        }
     },
     "error": {
         "init": "Error initializing app!"

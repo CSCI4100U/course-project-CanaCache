@@ -5,33 +5,34 @@ import "package:canacache/features/navigation/model/tab_bar_item.dart";
 import "package:canacache/features/navigation/view/tab_bar_appbar.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 
 class NavigationPage extends StatefulWidget {
-  final items = const [
+  final items = [
     TabBarItem(
       iconData: Icons.home,
-      title: "Home",
-      page: HomePage(),
+      title: translate("navbar.titles.home"),
+      page: const HomePage(),
     ),
     TabBarItem(
       iconData: Icons.location_on,
-      title: "Caches",
-      page: CacheListPage(),
+      title: translate("navbar.titles.caches"),
+      page: const CacheListPage(),
     ),
     TabBarItem(
       iconData: Icons.multiline_chart,
-      title: "Stats",
-      page: Placeholder(),
+      title: translate("navbar.titles.stats"),
+      page: const Placeholder(),
     ),
     TabBarItem(
       iconData: Icons.person,
-      title: "Account",
-      page: Placeholder(),
+      title: translate("navbar.titles.account"),
+      page: const Placeholder(),
     ),
   ];
 
-  const NavigationPage({super.key});
+  NavigationPage({super.key});
 
   @override
   State<NavigationPage> createState() => _NavigationPageState();
