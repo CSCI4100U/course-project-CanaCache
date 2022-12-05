@@ -10,25 +10,25 @@ import "package:provider/provider.dart";
 
 class NavigationPage extends StatefulWidget {
   final items = [
-    TabBarItem(
+    const TabBarItem(
       iconData: Icons.home,
-      title: translate("navbar.titles.home"),
-      page: const HomePage(),
+      titleKey: "navbar.titles.home",
+      page: HomePage(),
     ),
-    TabBarItem(
+    const TabBarItem(
       iconData: Icons.location_on,
-      title: translate("navbar.titles.caches"),
-      page: const CacheListPage(),
+      titleKey: "navbar.titles.caches",
+      page: CacheListPage(),
     ),
-    TabBarItem(
+    const TabBarItem(
       iconData: Icons.multiline_chart,
-      title: translate("navbar.titles.stats"),
-      page: const Placeholder(),
+      titleKey: "navbar.titles.stats",
+      page: Placeholder(),
     ),
-    TabBarItem(
+    const TabBarItem(
       iconData: Icons.person,
-      title: translate("navbar.titles.account"),
-      page: const Placeholder(),
+      titleKey: "navbar.titles.account",
+      page: Placeholder(),
     ),
   ];
 
