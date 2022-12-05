@@ -4,7 +4,7 @@ import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/controller/cache_list_controller.dart";
 import "package:canacache/features/firestore/model/collections/cache_items.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/view/item_list.dart";
+import "package:canacache/features/firestore/view/cache_list/item_list.dart";
 import "package:flutter/material.dart";
 
 // this is in its own widget so that opening a cache doesn't refresh the stream

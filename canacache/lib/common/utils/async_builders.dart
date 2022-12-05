@@ -2,13 +2,13 @@ import "package:flutter/material.dart";
 
 class CanaFutureBuilder<T> extends StatelessWidget {
   final T? initialData;
-  final Future<T> future;
+  final Future<T>? future;
   final Widget Function(BuildContext context, T data) builder;
   final Widget? progressIndicator;
 
   const CanaFutureBuilder({
     super.key,
-    required this.future,
+    this.future,
     required this.builder,
     this.initialData,
     this.progressIndicator,
@@ -37,13 +37,13 @@ class CanaFutureBuilder<T> extends StatelessWidget {
 
 class CanaStreamBuilder<T> extends StatelessWidget {
   final T? initialData;
-  final Stream<T> stream;
+  final Stream<T>? stream;
   final Widget Function(BuildContext context, T data) builder;
   final Widget? progressIndicator;
 
   const CanaStreamBuilder({
     super.key,
-    required this.stream,
+    this.stream,
     required this.builder,
     this.initialData,
     this.progressIndicator,
