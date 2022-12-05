@@ -5,7 +5,9 @@ import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/foundation.dart" show kDebugMode;
 import "package:flutter/material.dart";
+import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_timezone/flutter_native_timezone.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 import "package:timezone/data/latest.dart" as tz;
 import "package:timezone/timezone.dart" as tz;
@@ -16,10 +18,23 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
   final providers = [
     ChangeNotifierProvider(create: (_) => SettingsProvider()),
   ];
+  late List<LocalizationsDelegate> delegates;
+  late LocalizationDelegate localizationDelegate;
 
   @override
   void initState() {
     super.initState();
+
+    // can't access context with default initializer, so the
+    // next best thing is initializing it late here!
+    localizationDelegate = LocalizedApp.of(state.context).delegate;
+
+    delegates = [
+      ...GlobalMaterialLocalizations.delegates,
+      GlobalWidgetsLocalizations.delegate,
+      localizationDelegate,
+    ];
+
     WidgetsBinding.instance.addObserver(this);
     _cancelReminder();
   }
