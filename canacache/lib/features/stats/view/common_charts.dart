@@ -24,11 +24,6 @@ class LineChartTimeViewState
   final String title;
   final LocalDBTables table;
 
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
-
   LineChartTimeViewState({required this.title, required this.table})
       : super(CommonStatController(table: table));
 
@@ -125,6 +120,19 @@ class LineChartTimeViewState
 
   LineChartData generateData(BuildContext context) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
+
+    int diff = theme.secIconColor.value - 70;
+    List<Color> gradientColors = [
+      Color(diff),
+      theme.secIconColor,
+    ];
+
+    var style = TextStyle(
+      color: theme.primaryTextColor,
+      fontWeight: FontWeight.bold,
+      fontSize: 15,
+    );
+
     return LineChartData(
       gridData: FlGridData(
         show: false,
@@ -141,6 +149,7 @@ class LineChartTimeViewState
           sideTitles: SideTitles(showTitles: false),
         ),
         bottomTitles: AxisTitles(
+          axisNameWidget: Text(con.plotInfo.bottomAxisLabel, style: style),
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 42,
@@ -149,7 +158,7 @@ class LineChartTimeViewState
           ),
         ),
         leftTitles: AxisTitles(
-          axisNameWidget: Text("eou"),
+          axisNameWidget: Text(con.plotInfo.leftAxisLabel, style: style),
           sideTitles: SideTitles(
             showTitles: true,
             interval: (con.plotInfo.maxY / 10) + 1,
