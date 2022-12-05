@@ -76,12 +76,10 @@ class _SettingsPage extends State<SettingsPageView> {
           () => translate(
             "settings.units.distance.change",
             args: {
-              "distance": translate(
-                "settings.units.distance.options.${currentUnit.distanceUnit}",
-              ),
+              "distance": translate(currentUnit.distanceUnit.nameKey),
             },
           ),
-          translate("settings.units.distance.options.$k"),
+          translate(k.nameKey),
           currentUnit.distanceUnit == providedUnit.distanceUnit,
           () async => Provider.of<SettingsProvider>(context, listen: false)
               .unit = currentUnit,
@@ -110,11 +108,9 @@ BuildContext context,
           context,
           () => translate(
             "settings.theme.colour.change",
-            args: {
-              "theme": translate("settings.theme.colour.options.${theme.name}")
-            },
+            args: {"theme": translate(theme.nameKey)},
           ),
-          translate("settings.theme.colour.options.${theme.name}"),
+          translate(theme.nameKey),
           theme == selectedTheme,
           () async => Provider.of<SettingsProvider>(context, listen: false)
               .theme = theme,
@@ -138,12 +134,10 @@ BuildContext context,
           () => translate(
             "settings.locale.language.change",
             args: {
-              "locale": translate(
-                "settings.locale.language.options.${locale.languageCode}",
-              ),
+              "locale": translate(locale.nameKey),
             },
           ),
-          translate("settings.locale.language.options.${locale.languageCode}"),
+          translate(locale.nameKey),
           selectedLanguage.name == locale.name,
           () async => Provider.of<SettingsProvider>(context, listen: false)
               .setLanguage(context, locale),
@@ -192,7 +186,7 @@ BuildContext context,
         tiles: [
           generateSettingsTile(
             context,
-            translate("settings.theme.colour.options.${selectedTheme.name}"),
+            translate(selectedTheme.nameKey),
             translate("settings.theme.colour.title"),
             () => canaShowDialog(
               context,
@@ -211,9 +205,7 @@ BuildContext context,
         tiles: [
           generateSettingsTile(
             context,
-            translate(
-              "settings.units.distance.options.${selectedUnit.distanceUnit}",
-            ),
+            translate(selectedUnit.distanceUnit.nameKey),
             translate("settings.units.distance.title"),
             () => canaShowDialog(
               context,
@@ -232,9 +224,7 @@ BuildContext context,
         tiles: [
           generateSettingsTile(
             context,
-            translate(
-              "settings.locale.language.options.${selectedLocale.languageCode}",
-            ),
+            translate(selectedLocale.nameKey),
             translate("settings.locale.language.title"),
             () => canaShowDialog(
               context,

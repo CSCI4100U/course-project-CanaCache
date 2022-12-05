@@ -64,4 +64,7 @@ enum CanaTheme {
 
   @override
   String toString() => name;
+
+  /// i18n translation key
+  String get nameKey => "settings.theme.colour.options.$name";
 }

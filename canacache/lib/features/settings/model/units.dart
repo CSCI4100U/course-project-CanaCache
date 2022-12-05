@@ -7,6 +7,9 @@ enum DistanceUnit {
   @override
   String toString() => name;
 
+  /// i18n translation key
+  String get nameKey => "settings.units.distance.options.$name";
+
   static DistanceUnit defaultUnit = DistanceUnit.kilometer;
 }
 
