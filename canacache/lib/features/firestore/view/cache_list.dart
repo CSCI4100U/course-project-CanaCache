@@ -6,6 +6,7 @@ import "package:canacache/features/firestore/model/documents/cache.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
 import "package:flutter_translate/flutter_translate.dart";
+import "package:geolocator/geolocator.dart";
 import "package:provider/provider.dart";
 
 
@@ -30,6 +31,14 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
   Widget build(BuildContext context) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
+    Geolocator.isLocationServiceEnabled().then((value) => null);
+    Geolocator.requestPermission().then((value) => null);
+    Geolocator.checkPermission().then(
+            (LocationPermission permission)
+        {
+          print("Check Location Permission: $permission");
+        }
+    );
 
     return DataTable(columns: <DataColumn> [
       DataColumn(
@@ -65,17 +74,18 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
           ),
         ),
         numeric: true,
-        onSort: (int index, _) {
+        onSort: (int index, _) async {
+          Position _currloc = await Geolocator.getCurrentPosition();
           setState(() {
             sortIndex = index;
             if (sortAscending == true) {
               sortAscending = false;
                 widget.caches.sort((A, B) {
-                  double aLongDiff = 43.9457895491046 - A.position.longitude;
-                  double bLongDiff = 43.9457895491046 - B.position.longitude;
+                  double aLongDiff = _currloc.longitude - A.position.longitude;
+                  double bLongDiff = _currloc.longitude - B.position.longitude;
 
-                  double aLatDiff = -78.89677587312467 - A.position.latitude;
-                  double bLatDiff = -78.89677587312467 - B.position.latitude;
+                  double aLatDiff = _currloc.longitude - A.position.latitude;
+                  double bLatDiff = _currloc.longitude - B.position.latitude;
 
                   double aDiff = aLongDiff.abs() + aLatDiff.abs();
                   double bDiff = bLongDiff.abs() + bLatDiff.abs();
@@ -85,11 +95,12 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
               } else {
               sortAscending = true;
               widget.caches.sort((A, B) {
-                double aLongDiff = 43.9457895491046 - A.position.longitude;
-                double bLongDiff = 43.9457895491046 - B.position.longitude;
 
-                double aLatDiff = -78.89677587312467 - A.position.latitude;
-                double bLatDiff = -78.89677587312467 - B.position.latitude;
+                double aLongDiff = _currloc.longitude - A.position.longitude;
+                double bLongDiff = _currloc.longitude - B.position.longitude;
+
+                double aLatDiff = _currloc.longitude - A.position.latitude;
+                double bLatDiff = _currloc.longitude - B.position.latitude;
 
                 double aDiff = aLongDiff.abs() + aLatDiff.abs();
                 double bDiff = bLongDiff.abs() + bLatDiff.abs();
