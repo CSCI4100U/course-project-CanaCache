@@ -27,12 +27,12 @@ void main() async {
     (Timer t) => distRecorder.newEpoch(),
   );
 
-  runApp(const CanaApp());
-
   StepRecorder stepRecorder = StepRecorder();
 
   Timer.periodic(
     const Duration(seconds: StepRecorder.interval),
     (Timer t) => stepRecorder.newEpoch(),
   );
+
+  runApp(const CanaApp());
 }
