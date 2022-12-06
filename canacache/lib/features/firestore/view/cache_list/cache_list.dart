@@ -27,6 +27,8 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
   bool sortAscending = false;
   int sortIndex = 0;
 
+
+
   @override
   Widget build(BuildContext context) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
@@ -36,13 +38,16 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
     Geolocator.checkPermission().then((value) => null);
 
 
-    return DataTable(columns: <DataColumn> [
-      DataColumn(
+    return DataTable(
+      sortColumnIndex: sortIndex,
+      sortAscending: sortAscending,
+      columns: <DataColumn> [
+        DataColumn(
           label: Text(
             translate("list.title"),
             style: TextStyle(
                 color: theme.primaryTextColor,
-                fontFamily: theme.primaryFontFamily,
+              fontFamily: theme.primaryFontFamily,
             ),
           ),
           numeric: false,
@@ -60,22 +65,22 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
               }
             });
           },
-      ),
-      DataColumn(
-        label: Text(
-          translate("list.location"),
-          style: TextStyle(
-            color: theme.primaryTextColor,
-            fontFamily: theme.primaryFontFamily,
-          ),
         ),
-        numeric: true,
-        onSort: (int index, _) async {
-          Position currloc = await Geolocator.getCurrentPosition();
-          setState(() {
-            sortIndex = index;
-            if (sortAscending == true) {
-              sortAscending = false;
+        DataColumn(
+          label: Text(
+          translate("list.location"),
+            style: TextStyle(
+              color: theme.primaryTextColor,
+              fontFamily: theme.primaryFontFamily,
+            ),
+          ),
+          numeric: true,
+          onSort: (int index, _) async {
+            Position currloc = await Geolocator.getCurrentPosition();
+            setState(() {
+              sortIndex = index;
+              if (sortAscending == true) {
+                sortAscending = false;
                 widget.caches.sort((A, B) {
                   double aLongDiff = currloc.longitude - A.position.longitude;
                   double bLongDiff = currloc.longitude - B.position.longitude;
@@ -89,34 +94,34 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
                   return aDiff > bDiff ? 0 : 1;
                 });
               } else {
-              sortAscending = true;
-              widget.caches.sort((A, B) {
+                sortAscending = true;
+                widget.caches.sort((A, B) {
 
-                double aLongDiff = currloc.longitude - A.position.longitude;
-                double bLongDiff = currloc.longitude - B.position.longitude;
+                  double aLongDiff = currloc.longitude - A.position.longitude;
+                  double bLongDiff = currloc.longitude - B.position.longitude;
 
-                double aLatDiff = currloc.longitude - A.position.latitude;
-                double bLatDiff = currloc.longitude - B.position.latitude;
+                  double aLatDiff = currloc.longitude - A.position.latitude;
+                  double bLatDiff = currloc.longitude - B.position.latitude;
 
-                double aDiff = aLongDiff.abs() + aLatDiff.abs();
-                double bDiff = bLongDiff.abs() + bLatDiff.abs();
+                  double aDiff = aLongDiff.abs() + aLatDiff.abs();
+                  double bDiff = bLongDiff.abs() + bLatDiff.abs();
 
-                return aDiff > bDiff ? 1 : 0;
+                  return aDiff > bDiff ? 1 : 0;
+                }
+                );
               }
-              );
-              }
-          });
-        },
-      ),
-    ],
+            });
+          },
+        ),
+      ],
       rows: List<DataRow>.generate(
         widget.caches.length,
             (index) => DataRow(cells: [
               DataCell(Text(
                 widget.caches[index].name,
                 style: TextStyle(
-                    color: theme.primaryTextColor,
-                    fontFamily: theme.primaryFontFamily,
+                  color: theme.primaryTextColor,
+                  fontFamily: theme.primaryFontFamily,
                 ),
               ),
               ),
