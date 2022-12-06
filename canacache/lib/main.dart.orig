@@ -1,9 +1,12 @@
 import "dart:async";
 import "package:canacache/features/app/view/app.dart";
-import "package:canacache/features/settings/model/i18n_preferences.dart";
+<<<<<<< HEAD
 import "package:canacache/features/stats_recording/distance_recorder.dart";
 import "package:canacache/features/stats_recording/step_recorder.dart";
 import "package:canacache/features/stats_recording/time_recorder.dart";
+=======
+import "package:canacache/features/settings/model/i18n_preferences.dart";
+>>>>>>> main
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_translate/flutter_translate.dart";
@@ -16,6 +19,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+<<<<<<< HEAD
   TimeRecorder timeRecorder = TimeRecorder();
   DistanceRecorder distRecorder = DistanceRecorder();
 
@@ -36,6 +40,8 @@ void main() async {
     (Timer t) => stepRecorder.newEpoch(),
   );
 
+  runApp(const CanaApp());
+=======
   // add flutter_translate delegate
   var delegate = await LocalizationDelegate.create(
     fallbackLocale: "en",
@@ -44,4 +50,5 @@ void main() async {
   );
 
   runApp(LocalizedApp(delegate, const CanaApp()));
+>>>>>>> main
 }

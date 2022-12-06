@@ -55,11 +55,46 @@
             }
         }
     },
+    "stats": {
+            "navTitles" : {
+                "stepStats" : "BR Steps Taken",
+                "timeStats" : "BR Time Spent",
+                "distStats" : "Br Distance Traveled"
+            },
+            "steps":{
+                "title" :"BR Step Stats",
+                "statName": "BR Steps"
+            },
+            "distance":{
+                "title" :"Estatística de distância",
+                "statName": "Distância (M)"
+            },
+            "mins": {
+                "title" :"Br Time Stats",
+                "statName": "BR Mins"
+            },
+            "times": {
+                "day": "Brazil Hour",
+                "week": "Brazil Day",
+                "month": "Brazil Day",
+                "year": "Brazil Month"
+            },
+            "intervals" : {
+                "day": "BR Day",
+                "week": "BR Week",
+                "month": "BR Month",
+                "year": "BR Year"
+            }
+    },
     "error": {
         "init": "Erro na inicialização do app!"
     },
     "debug": {
         "lorem": "Quem é Rakin?🤔 Para o cego, é a luz🌞 Para o faminto, é o pão🍞 Para o sedento, é a fonte de água viva💦 Para o morto, é a vida⚰️ Para o enfermo, é a cura🏥 Para o prisioneiro, é a liberdade🏃‍♂️ Para o solitário, é o companheiro👫 Para o viajante, é o caminho🗺️ Para mim, tudo.",
-        "te": "Ç"
+        "te": "Ç",
+        "dummyStatsPopulate" : "BR Dummy Data (Will Popluate DB)",
+        "dummyStatsDelete" : "BR Delete Stats",
+        "dummyStatsPopulateSnackBar" : "BR Added 1000 samples to every stat table",
+        "dummyStatsClearSnackBar" : "BR Cleared Database"
     }
 }
