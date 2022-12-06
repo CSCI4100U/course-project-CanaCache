@@ -12,12 +12,19 @@ class Users extends CollectionModel<CanaUser> {
     return CanaUser.fromMap(map, ref);
   }
 
+  /// Get a reference to the current user.
+  ///
+  /// Throws if not logged in.
+  DocumentReference<CanaUser> getCurrentUserReference() {
+    final id = FirebaseAuth.instance.currentUser!.uid;
+    return getDocumentReference(id);
+  }
+
   /// Get or create a User object for the current user.
   ///
   /// Throws if not logged in.
   Future<CanaUser> getCurrentUser() async {
-    final id = FirebaseAuth.instance.currentUser!.uid;
-    final ref = getDocumentReference(id);
+    final ref = getCurrentUserReference();
 
     final existingUser = await getObjectFromRef(ref);
     if (existingUser != null) return existingUser;

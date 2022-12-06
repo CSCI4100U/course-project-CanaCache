@@ -2,17 +2,13 @@ import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
-class EditableTextButton extends StatelessWidget {
-  final String titleExisting;
-  final String titleNew;
-  final String? text;
+class ArrowButton extends StatelessWidget {
+  final Widget child;
   final VoidCallback onPressed;
 
-  const EditableTextButton({
+  const ArrowButton({
     super.key,
-    required this.titleExisting,
-    required this.titleNew,
-    required this.text,
+    required this.child,
     required this.onPressed,
   });
 
@@ -36,28 +32,7 @@ class EditableTextButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(width: 24), // same as icon size at other end
-          Expanded(
-            child: Column(
-              children: [
-                Text(
-                  text != null ? titleExisting : titleNew,
-                  style: TextStyle(
-                    color: theme.primaryTextColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (text != null)
-                  Container(
-                    padding: const EdgeInsets.only(top: 4, left: 2, right: 2),
-                    child: Text(
-                      text!,
-                      textAlign: TextAlign.justify, // justify looks prettier
-                      style: TextStyle(color: theme.primaryTextColor),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          child,
           Icon(Icons.chevron_right, color: theme.primaryIconColor, size: 24),
         ],
       ),

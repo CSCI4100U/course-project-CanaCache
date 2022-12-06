@@ -1,9 +1,11 @@
 import "package:canacache/common/utils/async_builders.dart";
 import "package:canacache/common/utils/mvc.dart";
+import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/firestore/controller/user_profile_page_controller.dart";
 import "package:canacache/features/firestore/model/documents/user.dart";
+import "package:canacache/features/firestore/view/user_profile/editable_arrow_button.dart";
 import "package:canacache/features/firestore/view/user_profile/editable_avatar.dart";
-import "package:canacache/features/firestore/view/user_profile/editable_text_button.dart";
+import "package:canacache/features/firestore/view/user_profile/text_arrow_button.dart";
 import "package:canacache/features/firestore/view/user_profile/text_field_dialog.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
@@ -54,6 +56,10 @@ class UserProfilePageState
     );
   }
 
+  void showItemsPage() {
+    Navigator.of(context).pushNamed(CanaRoute.profileItems.name);
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -90,7 +96,7 @@ class UserProfilePageState
               avatar: data.avatar,
               onTap: con.onTapAvatar,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 32),
 
             // profile buttons
             Container(
@@ -99,7 +105,7 @@ class UserProfilePageState
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // display name
-                  EditableTextButton(
+                  EditableArrowButton(
                     titleExisting: translate("profile.display_name.title"),
                     titleNew: translate("profile.display_name.new"),
                     text: data.user.displayName,
@@ -108,19 +114,29 @@ class UserProfilePageState
                   const SizedBox(height: 10),
 
                   // bio
-                  EditableTextButton(
+                  EditableArrowButton(
                     titleExisting: translate("profile.bio.title"),
                     titleNew: translate("profile.bio.new"),
                     text: data.user.bio,
                     onPressed: () => showBioDialog(data.user),
                   ),
+                  const SizedBox(height: 32),
+
+                  // items
+                  TextArrowButton(
+                    label: translate("profile.items_button"),
+                    onPressed: showItemsPage,
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 32),
 
             // logout button
             OutlinedButton.icon(
+              style: const ButtonStyle(
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
               icon: Icon(Icons.logout, color: theme.primaryIconColor),
               label: Text(
                 translate("settings.logout"),

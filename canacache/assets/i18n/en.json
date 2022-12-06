@@ -24,6 +24,12 @@
             "new": "Add bio",
             "editing": "Editing: Bio"
         },
+        "items_button": "My items",
+        "items": {
+            "title": "My items",
+            "name": "Name",
+            "date": "Date picked up"
+        },
         "error": {
             "file_size": "Selected file is too large after cropping (max size: {sizeMB} MB)"
         }

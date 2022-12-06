@@ -57,7 +57,7 @@ class UserProfilePageController
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: result.files.first.path!,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      cropStyle: CropStyle.circle,
+      cropStyle: CropStyle.rectangle,
       compressFormat: ImageCompressFormat.png,
     );
     final data = await croppedFile?.readAsBytes();
