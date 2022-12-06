@@ -1,10 +1,12 @@
+import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/controller/cache_list_controller.dart";
-import "package:canacache/features/firestore/model/collections/cache_items.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/view/item_list.dart";
+import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
+import "package:provider/provider.dart";
 
 
 // this is in its own widget so that opening a cache doesn't refresh the stream
@@ -26,21 +28,28 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
 
   @override
   Widget build(BuildContext context) {
+    CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
+
+
     return DataTable(columns: <DataColumn> [
       DataColumn(
-          label: const Text("Title"),
+          label: Text(
+            translate("Title"),
+            style: TextStyle(
+                color: theme.primaryTextColor,
+                fontFamily: theme.primaryFontFamily,
+            ),
+          ),
           numeric: false,
           onSort: (int index, _) {
             setState(() {
               sortIndex = index;
               if (sortAscending == true) {
                 sortAscending = false;
-                // sort the product list in Ascending, order by Price
                 widget.caches.sort((A, B) =>
                     B.name.compareTo(A.name),);
               } else {
                 sortAscending = true;
-                // sort the product list in Descending, order by Price
                 widget.caches.sort((A, B) =>
                     A.name.compareTo(B.name),);
               }
@@ -48,15 +57,19 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
           },
       ),
       DataColumn(
-        label: const Text("Location"),
+        label: Text(
+          translate("Location"),
+          style: TextStyle(
+            color: theme.primaryTextColor,
+            fontFamily: theme.primaryFontFamily,
+          ),
+        ),
         numeric: true,
         onSort: (int index, _) {
           setState(() {
             sortIndex = index;
             if (sortAscending == true) {
-              // 43.9457895491046, -78.89677587312467
               sortAscending = false;
-              // sort the product list in Ascending, order by Price
                 widget.caches.sort((A, B) {
                   double aLongDiff = 43.9457895491046 - A.position.longitude;
                   double bLongDiff = 43.9457895491046 - B.position.longitude;
@@ -71,7 +84,6 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
                 });
               } else {
               sortAscending = true;
-              // sort the product list in Descending, order by Price
               widget.caches.sort((A, B) {
                 double aLongDiff = 43.9457895491046 - A.position.longitude;
                 double bLongDiff = 43.9457895491046 - B.position.longitude;
@@ -93,8 +105,22 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
       rows: List<DataRow>.generate(
         widget.caches.length,
             (index) => DataRow(cells: [
-              DataCell(Text(widget.caches[index].name)),
-              DataCell(Text(widget.caches[index].position.toLatLng())),
+              DataCell(Text(
+                widget.caches[index].name,
+                style: TextStyle(
+                    color: theme.primaryTextColor,
+                    fontFamily: theme.primaryFontFamily,
+                ),
+              ),
+              ),
+              DataCell(Text(
+                widget.caches[index].position.toLatLng(),
+                style: TextStyle(
+                  color: theme.primaryTextColor,
+                  fontFamily: theme.primaryFontFamily,
+                ),
+              ),
+              ),
             ],
             ),
       ),
