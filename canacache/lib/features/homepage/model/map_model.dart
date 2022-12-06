@@ -13,22 +13,27 @@ class HomePageMapModel {
     accuracy: LocationAccuracy.high,
     distanceFilter: 1,
   );
+
 // Do not touch these
   final String _token =
       "pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
   final String _mapID =
       "https://api.mapbox.com/styles/v1/map7331/clag6jg8a000215rvo3v6xq14/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
 
-  final double _minZoom = 5;
-  final double _maxZoom = 200;
-  final double _zoom = 13;
+  double currentZoomLevel = 20;
   final manhattanDistance = 20; // units are km
   bool firstLocation = true;
 
   final MapController mapController = MapController();
   List<Cache> caches = [];
 
-  MapOptions? options;
+  MapOptions options = MapOptions(
+    minZoom: 3,
+    maxZoom: 30,
+    zoom: 20,
+    interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+  );
+
   TileLayerOptions? auth;
   LatLng currentPos = LatLng(0, 0);
 
@@ -74,13 +79,6 @@ class HomePageMapModel {
   }
 
   HomePageMapModel() {
-    options = MapOptions(
-      minZoom: _minZoom,
-      maxZoom: _maxZoom,
-      zoom: _zoom,
-      interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-    );
-
     auth = TileLayerOptions(
       urlTemplate: _mapID,
       additionalOptions: {

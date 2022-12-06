@@ -12,6 +12,21 @@ class HomePageController extends Controller<HomePage, HomePageState> {
   // part of location code uses https://pub.dev/packages/geolocator
   // as starting point
   StreamSubscription<Position>? positionStream;
+  StreamSubscription<MapEvent>? mapEventStream;
+
+  void mapEventListener(MapEvent event) {
+    if (event.zoom != _mapModel.currentZoomLevel && state.mounted) {
+      setState(
+        () {
+          _mapModel.currentZoomLevel = event.zoom;
+        },
+      );
+    }
+
+    if (event.source == MapEventSource.longPress) {
+      // put popup or redirect to new page to add a cache
+    }
+  }
 
   void onPositionUpdate(Position? position) {
     if (position == null) {
@@ -20,15 +35,19 @@ class HomePageController extends Controller<HomePage, HomePageState> {
     _mapModel.currentPos = LatLng(position.latitude, position.longitude);
 
     if (_mapModel.firstLocation) {
-      _mapModel.mapController.move(_mapModel.currentPos!, 10);
+      _mapModel.mapController.move(_mapModel.currentPos, 10);
       _mapModel.firstLocation = false;
     }
 
     _mapModel.getNearbyCaches().then(
       ((List<Cache> caches) {
-        setState(() {
-          _mapModel.caches = caches;
-        });
+        if (positionStream != null &&
+            !positionStream!.isPaused &&
+            state.mounted) {
+          setState(() {
+            _mapModel.caches = caches;
+          });
+        }
       }),
     );
   }
@@ -40,6 +59,7 @@ class HomePageController extends Controller<HomePage, HomePageState> {
     positionStream = Geolocator.getPositionStream(
       locationSettings: _mapModel.locationSettings,
     ).listen(onPositionUpdate);
+    mapEventStream = mapController.mapEventStream.listen(mapEventListener);
   }
 
   @override
@@ -48,11 +68,17 @@ class HomePageController extends Controller<HomePage, HomePageState> {
       positionStream!.cancel();
     }
 
+    if (mapEventStream != null) {
+      mapEventStream!.cancel();
+    }
+
     super.dispose();
   }
 
-  MapOptions get mapOptions => _mapModel.options!;
+  MapOptions get mapOptions => _mapModel.options;
   TileLayerOptions get mapAuth => _mapModel.auth!;
-  MapController get mapController => _mapModel.mapController!;
-  List<Cache> get caches => _mapModel.caches!;
+  MapController get mapController => _mapModel.mapController;
+  List<Cache> get caches => _mapModel.caches;
+  double get currentZoomLevel => _mapModel.currentZoomLevel;
+  LatLng get currentPos => _mapModel.currentPos;
 }
