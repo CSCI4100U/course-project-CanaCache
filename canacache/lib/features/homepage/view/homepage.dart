@@ -33,7 +33,8 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
 
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
-    TextStyle style = TextStyle(color: selectedTheme.primaryTextColor);
+    TextStyle style =
+        TextStyle(color: selectedTheme.primaryTextColor, fontSize: 14);
 
     DateTime dateObj =
         DateTime.fromMillisecondsSinceEpoch(1000 * cache.createdAt.seconds);
@@ -75,10 +76,11 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
     );
     if (placeMarks.isNotEmpty) {
       Placemark place = placeMarks[0];
-      String address = "Address: ";
+      String address = translate("cache.info.address");
       cacheInfo.add(
         Text(
-          "$address${place.subThoroughfare} ${place.thoroughfare}",
+          "$address: ${place.subThoroughfare} ${place.thoroughfare}",
+          style: style,
         ),
       );
     }
