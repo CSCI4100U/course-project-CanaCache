@@ -60,6 +60,10 @@
         "github": "Sign in with Github",
         "successful": "Successfully signed in as {email}"
     },
+    "list": {
+        "title": "Title",
+        "location": "Location"
+    },
     "settings": {
         "title": "Settings",
         "logout": "Logout",

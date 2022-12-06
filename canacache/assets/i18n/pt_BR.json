@@ -60,6 +60,10 @@
         "github": "Entrar com Github",
         "successful": "Conectado com sucesso como {email}"
     },
+    "list": {
+        "title": "título",
+        "location": "localização"
+    },
     "settings": {
         "title": "Configurações",
         "logout": "Sair",

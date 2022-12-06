@@ -39,7 +39,7 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
     return DataTable(columns: <DataColumn> [
       DataColumn(
           label: Text(
-            translate("Title"),
+            translate("list.title"),
             style: TextStyle(
                 color: theme.primaryTextColor,
                 fontFamily: theme.primaryFontFamily,
@@ -63,7 +63,7 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
       ),
       DataColumn(
         label: Text(
-          translate("Location"),
+          translate("list.location"),
           style: TextStyle(
             color: theme.primaryTextColor,
             fontFamily: theme.primaryFontFamily,
