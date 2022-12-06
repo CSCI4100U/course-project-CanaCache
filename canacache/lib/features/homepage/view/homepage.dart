@@ -50,9 +50,12 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
       LatLng(cache.position.latitude, cache.position.longitude),
     );
 
+    String translatedName =
+        translate("cache.info.name", args: {"cache_name": cache.name});
+
     List<Widget> cacheInfo = [
       Text(
-        "${translate("cache.info.name")}: ${cache.name}",
+        translatedName,
         style: style,
       ),
       Text(

@@ -3,7 +3,7 @@
     "cache": {
         "info": {
             "title": "Cache Info",
-            "name": "Cache Name",
+            "name": "Cache Name: {cache_name}",
             "created": "Date Created",
             "modified": "Date Modified",
             "address": "Address",
