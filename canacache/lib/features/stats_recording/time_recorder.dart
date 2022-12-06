@@ -2,7 +2,7 @@ import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
 
 class TimeRecorder {
-  static const interval = 60;
+  static const interval = 1;
 
   Future<void> newEpoch() async {
     DateTime now = DateTime.now();
