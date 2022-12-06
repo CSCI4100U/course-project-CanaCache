@@ -21,11 +21,12 @@ class TabBarAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TabBarAppBarState extends State<TabBarAppBar> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
   @override
   void initState() {
     super.initState();
+    _selectedIndex = widget.tabController.index;
     widget.tabController.addListener(selectedIndexListener);
   }
 

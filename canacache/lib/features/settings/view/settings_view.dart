@@ -1,9 +1,7 @@
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
-import "package:canacache/features/auth/model/auth.dart" as auth;
 import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
@@ -248,34 +246,11 @@ BuildContext context,
 
     return CanaScaffold(
       title: translate("settings.title"),
-      body: Column(
-        children: [
-          Expanded(
-            child: SettingsList(
-              lightTheme: SettingsThemeData(
-                settingsListBackground: selectedTheme.secBgColor,
-              ),
-              sections: generateSettingSections(context),
-            ),
-          ),
-          if (FirebaseAuth.instance.currentUser != null)
-            OutlinedButton.icon(
-              icon: Icon(Icons.logout, color: selectedTheme.primaryIconColor),
-              label: Text(
-                translate("settings.logout"),
-                style: TextStyle(color: selectedTheme.primaryTextColor),
-              ),
-              onPressed: () {
-                auth.signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  CanaRoute.signIn.name,
-                  (_) => false,
-                );
-              },
-            ),
-          const SizedBox(height: 45),
-        ],
+      body: SettingsList(
+        lightTheme: SettingsThemeData(
+          settingsListBackground: selectedTheme.secBgColor,
+        ),
+        sections: generateSettingSections(context),
       ),
     );
   }

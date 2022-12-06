@@ -1,11 +1,58 @@
 {
     "app": "CanaCache",
+    "cache": {
+        "info": {
+            "title": "Cache Info",
+            "name": "Cache Name: {cache_name}",
+            "created": "Date Created",
+            "modified": "Date Modified",
+            "address": "Address",
+            "latlng": "Coordinates",
+            "distance": "Distance"
+        }
+    },
     "navbar": {
         "titles": {
             "home": "Home",
             "caches": "Caches",
             "stats": "Stats",
             "account": "Account"
+        }
+    },
+    "edit_dialog": {
+        "cancel": "CANCEL",
+        "save": "SAVE"
+    },
+    "profile": {
+        "hello": "Hello, {name}",
+        "display_name": {
+            "title": "Display name",
+            "new": "Add display name",
+            "editing": "Editing: Display name"
+        },
+        "pronouns": {
+            "title": "Pronouns",
+            "new": "Add pronouns",
+            "editing": "Editing: Pronouns"
+        },
+        "bio": {
+            "title": "Bio",
+            "new": "Add bio",
+            "editing": "Editing: Bio"
+        },
+        "website": {
+            "title": "Website",
+            "new": "Add website",
+            "editing": "Editing: Website"
+        },
+        "items_button": "My items",
+        "items": {
+            "title": "My items",
+            "name": "Name",
+            "date": "Date picked up"
+        },
+        "error": {
+            "file_size": "Selected file is too large after cropping (max size: {sizeMB} MB)"
         }
     },
     "signin": {

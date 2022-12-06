@@ -1,5 +1,6 @@
 import "package:canacache/common/widgets/scaffold.dart";
-import "package:canacache/features/firestore/view/cache_list_page.dart";
+import "package:canacache/features/firestore/view/cache_list/cache_list_page.dart";
+import "package:canacache/features/firestore/view/user_profile/user_profile_page.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/navigation/model/tab_bar_item.dart";
 import "package:canacache/features/navigation/view/tab_bar_appbar.dart";
@@ -28,7 +29,7 @@ class NavigationPage extends StatefulWidget {
     const TabBarItem(
       iconData: Icons.person,
       titleKey: "navbar.titles.account",
-      page: Placeholder(),
+      page: UserProfilePage(),
     ),
   ];
 

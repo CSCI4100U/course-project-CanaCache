@@ -35,6 +35,7 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
     Geolocator.requestPermission().then((value) => null);
     Geolocator.checkPermission().then((value) => null);
 
+
     return DataTable(columns: <DataColumn> [
       DataColumn(
           label: Text(

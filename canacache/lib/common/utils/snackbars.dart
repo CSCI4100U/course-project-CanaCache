@@ -30,7 +30,7 @@ SnackBar successCanaSnackBar(BuildContext context, String message) {
 // if an exception is thrown on action show a cana error snackbar otherwise show a cana success
 // snackbar with successText
 // action must be an async function
-void challengeSnackBarAsync(
+Future<void> challengeSnackBarAsync(
   BuildContext context,
   Future<void> Function() action,
 ) async {
