@@ -8,7 +8,22 @@
             "account": "Account"
         }
     },
+    "edit_dialog": {
+        "cancel": "CANCEL",
+        "save": "SAVE"
+    },
     "profile": {
+        "hello": "Hello, {name}",
+        "display_name": {
+            "title": "Display name",
+            "new": "Add display name",
+            "editing": "Editing: Display name"
+        },
+        "bio": {
+            "title": "Bio",
+            "new": "Add bio",
+            "editing": "Editing: Bio"
+        },
         "error": {
             "file_size": "Selected file is too large after cropping (max size: {sizeMB} MB)"
         }

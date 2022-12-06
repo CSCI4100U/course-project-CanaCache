@@ -2,6 +2,8 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/services.dart";
 
+// DO NOT DECREASE THIS!
+
 /// The maximum permissible avatar file size in bytes.
 const maxAvatarSize = 8 * 1024 * 1024;
 

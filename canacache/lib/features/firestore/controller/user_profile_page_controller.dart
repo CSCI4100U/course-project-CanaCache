@@ -36,8 +36,14 @@ class UserProfilePageController
     );
   }
 
+  Future<void> refresh() async {
+    future = fetchData();
+    await future;
+    if (state.mounted) setState(() {});
+  }
+
   // select and upload a new avatar image
-  void onTapAvatar() async {
+  Future<void> onTapAvatar() async {
     // pick file
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
@@ -85,12 +91,23 @@ class UserProfilePageController
     }
 
     // refresh profile data
-    future = fetchData();
-    await future;
+    await refresh();
 
     setState(() {
       isUploadingAvatar = false;
     });
+  }
+
+  Future<void> setDisplayName(CanaUser user, String? displayName) async {
+    user.displayName = displayName;
+    await user.update();
+    await refresh();
+  }
+
+  Future<void> setBio(CanaUser user, String? bio) async {
+    user.bio = bio;
+    await user.update();
+    await refresh();
   }
 
   void onPressedLogout() {

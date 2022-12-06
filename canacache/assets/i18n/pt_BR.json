@@ -8,7 +8,22 @@
             "account": "Conta"
         }
     },
+    "edit_dialog": {
+        "cancel": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
+        "save": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+    },
     "profile": {
+        "hello": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷 {name}",
+        "display_name": {
+            "title": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
+            "new": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
+            "editing": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+        },
+        "bio": {
+            "title": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
+            "new": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
+            "editing": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+        },
         "error": {
             "file_size": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷 {sizeMB}"
         }

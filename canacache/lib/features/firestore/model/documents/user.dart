@@ -46,4 +46,7 @@ class CanaUser extends DocumentModel<CanaUser> {
     }
     return super.delete();
   }
+
+  String get fallbackDisplayName =>
+      displayName ?? "user-${ref.id.substring(0, 8)}";
 }
