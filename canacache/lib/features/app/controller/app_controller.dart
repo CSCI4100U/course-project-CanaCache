@@ -1,7 +1,11 @@
+import "dart:async";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/utils/notifications.dart";
 import "package:canacache/features/app/view/app.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:canacache/features/stats_recording/distance_recorder.dart";
+import "package:canacache/features/stats_recording/step_recorder.dart";
+import "package:canacache/features/stats_recording/time_recorder.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/foundation.dart" show kDebugMode;
 import "package:flutter/material.dart";
@@ -22,6 +26,37 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
   late List<LocalizationsDelegate> delegates;
   late LocalizationDelegate localizationDelegate;
 
+  late TimeRecorder timeRecorder;
+  late DistanceRecorder distRecorder;
+  late StepRecorder stepRecorder;
+  List<Timer> timers = [];
+
+  void _addTimers() {
+    if (timers.isEmpty) {
+      timers = [
+        Timer.periodic(
+          const Duration(seconds: TimeRecorder.interval),
+          (Timer t) => timeRecorder.newEpoch(),
+        ),
+        Timer.periodic(
+          const Duration(seconds: DistanceRecorder.interval),
+          (Timer t) => distRecorder.newEpoch(),
+        ),
+        Timer.periodic(
+          const Duration(seconds: StepRecorder.interval),
+          (Timer t) => stepRecorder.newEpoch(),
+        ),
+      ];
+    }
+  }
+
+  void _clearTimers() {
+    for (Timer timer in timers) {
+      timer.cancel();
+    }
+    timers = [];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,12 +73,18 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
 
     WidgetsBinding.instance.addObserver(this);
     _cancelReminder();
+
+    timeRecorder = TimeRecorder();
+    distRecorder = DistanceRecorder();
+    stepRecorder = StepRecorder();
+    _addTimers();
   }
 
   @override
   void dispose() {
     _scheduleReminder();
     WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
   }
 
@@ -51,9 +92,11 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        _addTimers();
         _cancelReminder();
         break;
       case AppLifecycleState.paused:
+        _clearTimers();
         _scheduleReminder();
         break;
       default:
