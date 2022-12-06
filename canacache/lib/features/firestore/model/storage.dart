@@ -3,9 +3,8 @@ import "package:firebase_storage/firebase_storage.dart";
 import "package:flutter/services.dart";
 
 // DO NOT DECREASE THIS!
-
-/// The maximum permissible avatar file size in bytes.
-const maxAvatarSize = 8 * 1024 * 1024;
+const maxAvatarSizeMB = 8;
+const maxAvatarSizeBytes = maxAvatarSizeMB * 1024 * 1024;
 
 // all images
 
@@ -52,7 +51,7 @@ Future<UserAvatar> downloadCurrentUserAvatar() {
 }
 
 Future<void> setCurrentUserAvatar(Uint8List data) async {
-  if (data.lengthInBytes > maxAvatarSize) {
+  if (data.lengthInBytes > maxAvatarSizeBytes) {
     throw ArgumentError.value(
       "${data.lengthInBytes} B",
       "data",

@@ -44,6 +44,7 @@ class UserItemsListPage extends StatelessWidget {
                     DataCell(
                       Text(
                         item.name,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: theme.primaryTextColor),
                       ),
                     ),

@@ -64,13 +64,13 @@ class UserProfilePageController
     if (data == null || !state.mounted) return;
 
     // check file size
-    if (data.lengthInBytes > maxAvatarSize) {
+    if (data.lengthInBytes > maxAvatarSizeBytes) {
       ScaffoldMessenger.of(state.context).showSnackBar(
         errorCanaSnackBar(
           state.context,
           translate(
             "profile.error.file_size",
-            args: {"sizeMB": maxAvatarSize / (1024 * 1024)},
+            args: {"sizeMB": maxAvatarSizeMB},
           ),
         ),
       );

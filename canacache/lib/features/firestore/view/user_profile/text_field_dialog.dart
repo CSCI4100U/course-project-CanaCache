@@ -59,6 +59,7 @@ class TextFieldDialogState
           maxLength: widget.maxLength,
           validator: widget.validator,
           autofocus: true,
+          enabled: !con.isSaving,
         ),
       ),
 

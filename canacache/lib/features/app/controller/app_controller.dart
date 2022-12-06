@@ -1,7 +1,6 @@
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/utils/notifications.dart";
 import "package:canacache/features/app/view/app.dart";
-import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/foundation.dart" show kDebugMode;
@@ -64,11 +63,12 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
   Future<void> initialize() async {
     await Firebase.initializeApp();
     await _notifications.initialize();
-    await initializeDateFormatting();
     tz.initializeTimeZones();
 
     final localTimezone = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(localTimezone));
+
+    await initializeDateFormatting();
   }
 
   /// Should be called whenever the user closes the app.

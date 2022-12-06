@@ -9,29 +9,29 @@
         }
     },
     "edit_dialog": {
-        "cancel": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-        "save": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+        "cancel": "CANCELAR",
+        "save": "SALVAR"
     },
     "profile": {
-        "hello": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷 {name}",
+        "hello": "Olá, {name}",
         "display_name": {
-            "title": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-            "new": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-            "editing": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+            "title": "Apelido",
+            "new": "Adicionar apelido",
+            "editing": "Editando: Apelido"
         },
         "bio": {
-            "title": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-            "new": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-            "editing": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+            "title": "Bio",
+            "new": "Adicionar bio",
+            "editing": "Editando: Bio"
         },
-        "items_button": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
+        "items_button": "Meus itens",
         "items": {
-            "title": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-            "name": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷",
-            "date": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷"
+            "title": "Meus itens",
+            "name": "Nome",
+            "date": "Data de retirada"
         },
         "error": {
-            "file_size": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷 {sizeMB}"
+            "file_size": "Arquivo selecionado é muito grande após recorte (tamanho máximo: {sizeMB} MB)"
         }
     },
     "signin": {
