@@ -88,8 +88,9 @@ class UserProfilePageState
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        final languageCode =
-            Provider.of<SettingsProvider>(context).language.languageCode;
+        final localeName = Provider.of<SettingsProvider>(context)
+            .language
+            .formValidatorLocaleName;
         return TextFieldDialog(
           title: translate("profile.website.editing"),
           text: user.website,
@@ -99,9 +100,10 @@ class UserProfilePageState
           },
           multiline: false,
           maxLength: 256, // this basically what github uses
-          validator: ValidationBuilder(localeName: languageCode, optional: true)
-              .url()
-              .build(),
+          validator: ValidationBuilder(
+            localeName: localeName,
+            optional: true,
+          ).url().build(),
         );
       },
     );
