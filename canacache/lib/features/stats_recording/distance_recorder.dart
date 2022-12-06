@@ -5,6 +5,11 @@ import "package:canacache/common/utils/db_schema.dart";
 import "package:geolocator/geolocator.dart";
 import "package:vector_math/vector_math.dart";
 
+class LocationPermException implements Exception {
+  String cause;
+  LocationPermException(this.cause);
+}
+
 class DistanceRecorder {
   Position? lastPos;
   static const interval = 5;
@@ -16,19 +21,19 @@ class DistanceRecorder {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return Future.error("Location services are disabled.");
+      throw LocationPermException("Location services are disabled.");
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error("Location permissions are denied");
+        throw LocationPermException("Location permissions are denied");
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return Future.error(
+      throw LocationPermException(
         "Location permissions are permanently denied, we cannot request permissions.",
       );
     }
@@ -59,33 +64,34 @@ class DistanceRecorder {
   }
 
   Future<void> newEpoch() async {
+    Position currentPos;
     try {
-      Position currentPos = await _determinePosition();
+      currentPos = await _determinePosition();
+    } on LocationPermException catch (_) {
+      return;
+    }
 
-      if (lastPos != null) {
-        DateTime now = DateTime.now();
-        DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
-        int distance = haversine(currentPos, lastPos!).floor();
+    if (lastPos != null) {
+      DateTime now = DateTime.now();
+      DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
+      int distance = haversine(currentPos, lastPos!).floor();
 
-        // more than a few meters of noise in most gps
-        // 4 meters should be more than enought to ignore most noise
-        if (distance > 4) {
-          var db = await init();
+      // more than a few meters of noise in most gps
+      // 4 meters should be more than enought to ignore most noise
+      if (distance > 4) {
+        var db = await init();
 
-          List<Object> args = [currentHour.toString(), distance, distance];
+        List<Object> args = [currentHour.toString(), distance, distance];
 
-          String dbString =
-              """INSERT INTO ${DBTable.distance.tableTitle} (timeSlice, distance)
+        String dbString =
+            """INSERT INTO ${DBTable.distance.tableTitle} (timeSlice, distance)
               VALUES(?,?)
               ON CONFLICT(timeSlice)
               DO UPDATE SET distance = distance+?;""";
 
-          await db.execute(dbString, args);
-        }
+        await db.execute(dbString, args);
       }
-      lastPos = currentPos;
-    } on Exception catch (_) {
-      return;
     }
+    lastPos = currentPos;
   }
 }
