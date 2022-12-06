@@ -1,5 +1,16 @@
 {
     "app": "CanaCache",
+    "cache": {
+        "info": {
+            "title": "Cache Info",
+            "name": "Cache Name",
+            "created": "Date Created",
+            "modified": "Date Modified",
+            "address": "Address",
+            "latlng": "Coordinates",
+            "distance": "Distance"
+        }
+    },
     "navbar": {
         "titles": {
             "home": "Home",

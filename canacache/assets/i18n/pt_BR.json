@@ -1,5 +1,16 @@
 {
     "app": "CanaCache",
+    "cache": {
+        "info": {
+            "title": "Informação do Cache",
+            "name": "Nome do Cache",
+            "created": "Data Criado",
+            "modified": "Data Modificado",
+            "address": "Endereço",
+            "latlng": "Coordenadas",
+            "distance": "Distância"
+        }
+    },
     "navbar": {
         "titles": {
             "home": "Início",
