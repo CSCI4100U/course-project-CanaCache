@@ -19,6 +19,42 @@
             "account": "Conta"
         }
     },
+    "edit_dialog": {
+        "cancel": "CANCELAR",
+        "save": "SALVAR"
+    },
+    "profile": {
+        "hello": "Olá, {name}",
+        "display_name": {
+            "title": "Apelido",
+            "new": "Adicionar apelido",
+            "editing": "Editando: Apelido"
+        },
+        "pronouns": {
+            "title": "Pronomes",
+            "new": "Adicionar pronomes",
+            "editing": "Editando: Pronomes"
+        },
+        "bio": {
+            "title": "Bio",
+            "new": "Adicionar bio",
+            "editing": "Editando: Bio"
+        },
+        "website": {
+            "title": "Website",
+            "new": "Adicionar website",
+            "editing": "Editando: Website"
+        },
+        "items_button": "Meus itens",
+        "items": {
+            "title": "Meus itens",
+            "name": "Nome",
+            "date": "Data de retirada"
+        },
+        "error": {
+            "file_size": "Arquivo selecionado é muito grande após recorte (tamanho máximo: {sizeMB} MB)"
+        }
+    },
     "signin": {
         "google": "Entrar com Google",
         "github": "Entrar com Github",

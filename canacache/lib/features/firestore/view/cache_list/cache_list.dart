@@ -1,9 +1,10 @@
+import "package:canacache/common/utils/async_builders.dart";
 import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/controller/cache_list_controller.dart";
 import "package:canacache/features/firestore/model/collections/cache_items.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/view/item_list.dart";
+import "package:canacache/features/firestore/view/cache_list/item_list.dart";
 import "package:flutter/material.dart";
 
 // this is in its own widget so that opening a cache doesn't refresh the stream
@@ -42,22 +43,10 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
         return Column(
           children: [
             tile,
-            StreamBuilder(
+            CanaStreamBuilder(
               stream: CacheItems(cache.ref).streamObjects(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  Error.throwWithStackTrace(
-                    snapshot.error!,
-                    snapshot.stackTrace!,
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: LinearProgressIndicator());
-                }
-
-                return ItemList(items: snapshot.data!);
-              },
+              progressIndicator: const Center(child: LinearProgressIndicator()),
+              builder: (context, items) => ItemList(items: items),
             ),
           ],
         );

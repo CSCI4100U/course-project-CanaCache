@@ -1,4 +1,5 @@
 import "package:canacache/features/auth/view/sign_in.dart";
+import "package:canacache/features/firestore/view/user_profile/user_items_list_page.dart";
 import "package:canacache/features/navigation/view/navigation.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
 import "package:canacache/features/stats/view/stat_distance_view.dart";
@@ -11,6 +12,7 @@ import "package:flutter/material.dart";
 /// Usage: `Navigator.pushNamed(context, CanaRoute.home.name);`
 enum CanaRoute {
   home,
+  profileItems,
   statsSteps,
   statsTime,
   statsDistance,
@@ -23,6 +25,8 @@ enum CanaRoute {
     switch (this) {
       case home:
         return (context) => NavigationPage();
+      case profileItems:
+        return (context) => const UserItemsListPage();
       case settings:
         return (context) => const SettingsPageView();
       case signIn:

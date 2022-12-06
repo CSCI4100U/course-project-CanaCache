@@ -33,8 +33,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
-  # Added dependencies
   firebase_core: ^2.1.1
   cloud_firestore: ^4.0.5
   firebase_auth: ^4.1.1
@@ -55,11 +53,18 @@ dependencies:
   pedometer: ^3.0.0
   permission_handler: ^10.2.0
   path_provider: ^2.0.11
+  firebase_storage: ^11.0.6
+  file_picker: ^5.2.3
+  latlong2: ^0.8.1
+  image_cropper: ^3.0.1
+  intl: ^0.17.0
+  form_validator: ^1.0.4
   fl_chart: ^0.55.2
   random_date: ^0.0.7
-  intl: ^0.17.0
   vector_math: ^2.1.2
-  latlong2: ^0.8.1
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   geocoding: ^2.0.5
 

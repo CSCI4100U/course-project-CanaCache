@@ -3,6 +3,7 @@ import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/features/auth/model/auth.dart" as auth;
 import "package:canacache/features/auth/model/sign_in_listener.dart";
 import "package:canacache/features/auth/view/sign_in.dart";
+import "package:canacache/features/firestore/model/collections/users.dart";
 
 class SignInFormController extends Controller<SignInForm, SignInFormState> {
   final _listener = SignInListener();
@@ -20,10 +21,12 @@ class SignInFormController extends Controller<SignInForm, SignInFormState> {
   }
 
   Future signInWithGoogle() async {
-    challengeSnackBarAsync(state.context, auth.signInWithGoogle);
+    await challengeSnackBarAsync(state.context, auth.signInWithGoogle);
+    await Users().getCurrentUser(); // ensure the user object is created
   }
 
   Future signInWithGitHub() async {
-    challengeSnackBarAsync(state.context, auth.signInWithGitHub);
+    await challengeSnackBarAsync(state.context, auth.signInWithGitHub);
+    await Users().getCurrentUser(); // ensure the user object is created
   }
 }

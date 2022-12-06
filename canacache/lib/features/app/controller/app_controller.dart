@@ -68,6 +68,8 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
 
     final localTimezone = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(localTimezone));
+
+    await initializeDateFormatting();
   }
 
   /// Should be called whenever the user closes the app.

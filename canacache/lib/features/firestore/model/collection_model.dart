@@ -1,6 +1,9 @@
 import "package:canacache/features/firestore/model/document_model.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 
+typedef RawDocumentReference = DocumentReference<Map<String, dynamic>>;
+typedef RawCollectionReference = CollectionReference<Map<String, dynamic>>;
+
 abstract class CollectionModel<Doc extends DocumentModel<Doc>> {
   // abstract properties
   String get collectionName;
@@ -24,9 +27,7 @@ abstract class CollectionModel<Doc extends DocumentModel<Doc>> {
     return doc.toMap();
   }
 
-  DocumentReference<Doc> convertDocumentReference(
-    DocumentReference<Map<String, dynamic>> ref,
-  ) {
+  DocumentReference<Doc> convertDocumentReference(RawDocumentReference ref) {
     return ref.withConverter(
       fromFirestore: fromFirestore,
       toFirestore: toFirestore,
@@ -34,7 +35,7 @@ abstract class CollectionModel<Doc extends DocumentModel<Doc>> {
   }
 
   CollectionReference<Doc> convertCollectionReference(
-    CollectionReference<Map<String, dynamic>> ref,
+    RawCollectionReference ref,
   ) {
     return ref.withConverter(
       fromFirestore: fromFirestore,
@@ -43,13 +44,13 @@ abstract class CollectionModel<Doc extends DocumentModel<Doc>> {
   }
 
   List<DocumentReference<Doc>> convertDocumentReferences(
-    List<DocumentReference<Map<String, dynamic>>> refs,
+    List<RawDocumentReference> refs,
   ) {
     return refs.map((ref) => convertDocumentReference(ref)).toList();
   }
 
   List<CollectionReference<Doc>> convertCollectionReferences(
-    List<CollectionReference<Map<String, dynamic>>> refs,
+    List<RawCollectionReference> refs,
   ) {
     return refs.map((ref) => convertCollectionReference(ref)).toList();
   }
