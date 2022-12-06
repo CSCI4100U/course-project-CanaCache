@@ -83,19 +83,19 @@ class StatHomeView extends StatelessWidget {
     buttons.addAll(
       [
         const NavItem(
-          label: "stats.navTitles.stepStats",
+          label: "stats.nav.steps",
           iconData: Icons.directions_walk,
           route: CanaRoute.statsSteps,
         ),
         divider,
         const NavItem(
-          label: "stats.navTitles.timeStats",
+          label: "stats.nav.time",
           iconData: Icons.hourglass_top,
           route: CanaRoute.statsTime,
         ),
         divider,
         const NavItem(
-          label: "stats.navTitles.distStats",
+          label: "stats.nav.distance",
           iconData: Icons.speed,
           route: CanaRoute.statsDistance,
         ),
@@ -105,13 +105,13 @@ class StatHomeView extends StatelessWidget {
     if (kDebugMode) {
       buttons.addAll([
         NavItem(
-          label: "debug.dummyStatsPopulate",
+          label: "debug.dummy_stats.populate",
           iconData: Icons.recycling,
           callback: () => generateData(context),
         ),
         divider,
         NavItem(
-          label: "debug.dummyStatsDelete",
+          label: "debug.dummy_stats.delete",
           iconData: Icons.dangerous,
           callback: () => clearData(context),
         ),
@@ -122,7 +122,7 @@ class StatHomeView extends StatelessWidget {
 
   Future<void> clearData(BuildContext context, [bool mounted = true]) async {
     SnackBar snack =
-        errorCanaSnackBar(context, translate("debug.dummyStatsClearSnackBar"));
+        errorCanaSnackBar(context, translate("debug.dummy_stats.on_clear"));
     var db = await init();
     for (DBTable table in DBTable.values) {
       await db.delete(table.tableTitle);
@@ -146,7 +146,7 @@ class StatHomeView extends StatelessWidget {
   Future<void> generateData(BuildContext context, [bool mounted = true]) async {
     SnackBar snack = successCanaSnackBar(
       context,
-      translate("debug.dummyStatsPopulateSnackBar"),
+      translate("debug.dummy_stats.on_populate"),
     );
     // this function is just for debug/testing
     // not very well written

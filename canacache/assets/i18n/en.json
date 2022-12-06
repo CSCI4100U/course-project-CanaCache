@@ -56,30 +56,25 @@
         }
     },
     "stats": {
-            "navTitles" : {
-                "stepStats" : "Steps Taken",
-                "timeStats" : "Time Spent",
-                "distStats" : "Distance Traveled"
+            "nav": {
+                "steps": "Steps Taken",
+                "time": "Time Spent",
+                "distance": "Distance Traveled"
             },
             "steps":{
-                "title" :"Step Stats",
-                "statName": "Steps"
+                "title": "Step Stats",
+                "label": "Steps"
             },
             "distance":{
                 "title" :"Distance Stats",
-                "statName": "Distance (M)"
+                "label": "Distance (M)"
             },
             "mins": {
                 "title" :"Time Stats",
-                "statName": "Mins"
-            },
-            "times": {
-                "day": "Hour",
-                "week": "Day",
-                "month": "Day",
-                "year": "Month"
+                "label": "Minutes"
             },
             "intervals" : {
+                "hour": "Hour",
                 "day": "Day",
                 "week": "Week",
                 "month": "Month",
@@ -92,9 +87,11 @@
     "debug": {
         "lorem": "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.",
         "te": "T",
-        "dummyStatsPopulate" : "Dummy Data (Will Popluate DB)",
-        "dummyStatsDelete" : "Delete Stats",
-        "dummyStatsPopulateSnackBar" : "Added 1000 samples to every stat table",
-        "dummyStatsClearSnackBar" : "Cleared Database"
+        "dummy_stats": {
+            "populate": "Create dummy data (will populate DB)",
+            "delete": "Delete stats",
+            "on_populate": "Added 1000 samples to every stat table",
+            "on_clear": "Cleared database"
+        }
     }
 }
