@@ -8,6 +8,7 @@ import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
 import "package:flutter_signin_button/flutter_signin_button.dart";
 import "package:flutter_svg/flutter_svg.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 
 class SignInForm extends StatefulWidget {
@@ -24,7 +25,7 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
 
   void onSuccessfulSignIn(String email) {
     ScaffoldMessenger.of(context).showSnackBar(
-      successCanaSnackBar(context, "Successfully signed in as $email"),
+      successCanaSnackBar(context, translate("signin.successful", args: {"email": email})),
     );
 
     Navigator.pushReplacementNamed(context, CanaRoute.home.name);
@@ -46,7 +47,7 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
                 child: SizedBox(
                   width: 200,
                   child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    translate("debug.lorem"),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: theme.primaryTextColor,
@@ -56,12 +57,12 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
               ),
               SignInButton(
                 Buttons.Google,
-                text: "Sign in with Google",
+                text: translate("signin.google"),
                 onPressed: con.signInWithGoogle,
               ),
               SignInButton(
                 Buttons.GitHub,
-                text: "Sign in with GitHub",
+                text: translate("signin.github"),
                 onPressed: con.signInWithGitHub,
               ),
             ],

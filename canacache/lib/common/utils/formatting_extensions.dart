@@ -6,3 +6,14 @@ extension GeoPointToString on GeoPoint {
         " / ${longitude.abs().toStringAsFixed(4)} ${longitude >= 0 ? "E" : "W"}";
   }
 }
+
+extension EnumTryByName<T extends Enum> on Iterable<T> {
+  /// Like [EnumByName.byName], but accepts null, and returns null if not found.
+  T? tryByName(String? name) {
+    if (name == null) return null;
+    for (var value in this) {
+      if (value.name == name) return value;
+    }
+    return null;
+  }
+}

@@ -2,10 +2,12 @@ import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
+import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 import "package:settings_ui/settings_ui.dart";
 
@@ -19,10 +21,10 @@ class SettingsPageView extends StatefulWidget {
 class _SettingsPage extends State<SettingsPageView> {
   Widget generatePickerItem(
     BuildContext context,
-    String snackBarText,
+    String Function() buildSnackBarText,
     String itemText,
     bool highlight,
-    VoidCallback callback,
+    Future<void> Function() callback,
   ) {
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
@@ -30,15 +32,13 @@ class _SettingsPage extends State<SettingsPageView> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       child: InkWell(
-        onTap: () {
-          callback();
+        onTap: () async {
+          await callback();
+          if (!mounted) return;
 
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            successCanaSnackBar(
-              context,
-              snackBarText,
-            ),
+            successCanaSnackBar(context, buildSnackBarText()),
           );
         },
         child: Container(
@@ -71,13 +71,16 @@ class _SettingsPage extends State<SettingsPageView> {
       content.add(
         generatePickerItem(
           context,
-          "Changing Distance Unit to ${currentUnit.distanceUnit}",
-          currentUnit.distanceUnit.toString(),
+          () => translate(
+            "settings.units.distance.change",
+            args: {
+              "distance": translate(currentUnit.distanceUnit.nameKey),
+            },
+          ),
+          translate(k.nameKey),
           currentUnit.distanceUnit == providedUnit.distanceUnit,
-          () {
-            Provider.of<SettingsProvider>(context, listen: false).unit =
-                currentUnit;
-          },
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .unit = currentUnit,
         ),
       );
     }
@@ -101,16 +104,44 @@ BuildContext context,
       content.add(
         generatePickerItem(
           context,
-          "Changing Theme to ${theme.themeName}",
-          theme.themeName,
+          () => translate(
+            "settings.theme.colour.change",
+            args: {"theme": translate(theme.nameKey)},
+          ),
+          translate(theme.nameKey),
           theme == selectedTheme,
-          () {
-            Provider.of<SettingsProvider>(context, listen: false).theme = theme;
-          },
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .theme = theme,
         ),
       );
     }
 
+    return Column(children: content);
+  }
+
+  Column generateLocalePickerContent(BuildContext context) {
+    List<Widget> content = [];
+
+    AppLocale selectedLanguage =
+        Provider.of<SettingsProvider>(context, listen: false).language;
+
+    for (AppLocale locale in AppLocale.values) {
+      content.add(
+        generatePickerItem(
+          context,
+          () => translate(
+            "settings.locale.language.change",
+            args: {
+              "locale": translate(locale.nameKey),
+            },
+          ),
+          translate(locale.nameKey),
+          selectedLanguage.name == locale.name,
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .setLanguage(context, locale),
+        ),
+      );
+    }
     return Column(children: content);
   }
 
@@ -140,24 +171,25 @@ BuildContext context,
   List<AbstractSettingsSection> generateSettingSections(BuildContext context) {
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
     Unit selectedUnit = Provider.of<SettingsProvider>(context).unit;
+    AppLocale selectedLocale = Provider.of<SettingsProvider>(context).language;
 
     List<AbstractSettingsSection> sections = [];
 
     sections.addAll([
       SettingsSection(
         title: Text(
-          "Theme",
+          translate("settings.theme.title"),
           style: TextStyle(color: selectedTheme.primaryTextColor),
         ),
         tiles: [
           generateSettingsTile(
             context,
-            selectedTheme.toString(),
-            "Theme Selection",
+            translate(selectedTheme.nameKey),
+            translate("settings.theme.colour.title"),
             () => canaShowDialog(
               context,
               generateThemePickerContent(context),
-              "Pick a Theme",
+              translate("settings.theme.colour.subtitle"),
             ),
             Icons.format_paint,
           ),
@@ -165,20 +197,39 @@ BuildContext context,
       ),
       SettingsSection(
         title: Text(
-          "Units",
+          translate("settings.units.title"),
           style: TextStyle(color: selectedTheme.primaryTextColor),
         ),
         tiles: [
           generateSettingsTile(
             context,
-            selectedUnit.distanceUnit.toString(),
-            "Distance",
+            translate(selectedUnit.distanceUnit.nameKey),
+            translate("settings.units.distance.title"),
             () => canaShowDialog(
               context,
               generateUnitPickerContent(context),
-              "Pick Unit",
+              translate("settings.units.distance.subtitle"),
             ),
             Icons.speed,
+          )
+        ],
+      ),
+      SettingsSection(
+        title: Text(
+          translate("settings.locale.title"),
+          style: TextStyle(color: selectedTheme.primaryTextColor),
+        ),
+        tiles: [
+          generateSettingsTile(
+            context,
+            translate(selectedLocale.nameKey),
+            translate("settings.locale.language.title"),
+            () => canaShowDialog(
+              context,
+              generateLocalePickerContent(context),
+              translate("settings.locale.language.subtitle"),
+            ),
+            Icons.translate,
           )
         ],
       ),
@@ -194,7 +245,7 @@ BuildContext context,
     CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
 
     return CanaScaffold(
-      title: "Settings",
+      title: translate("settings.title"),
       body: SettingsList(
         lightTheme: SettingsThemeData(
           settingsListBackground: selectedTheme.secBgColor,

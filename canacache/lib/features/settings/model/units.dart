@@ -5,16 +5,18 @@ enum DistanceUnit {
   yard;
 
   @override
-  String toString() {
-    return "${name[0].toUpperCase()}${name.substring(1)}";
-  }
+  String toString() => name;
+
+  /// i18n translation key
+  String get nameKey => "settings.units.distance.options.$name";
 
   static DistanceUnit defaultUnit = DistanceUnit.kilometer;
 }
 
 class Unit {
   // Class only exists for future use, may want to add other units (time format, temp, etc)
-  DistanceUnit distanceUnit = DistanceUnit.defaultUnit;
+  DistanceUnit distanceUnit;
 
-  Unit({required this.distanceUnit});
+  Unit({DistanceUnit? distanceUnit})
+      : distanceUnit = distanceUnit ?? DistanceUnit.defaultUnit;
 }
