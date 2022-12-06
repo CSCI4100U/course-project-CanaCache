@@ -15,6 +15,16 @@ class HomePageController extends Controller<HomePage, HomePageState> {
   StreamSubscription<Position>? positionStream;
   StreamSubscription<MapEvent>? mapEventStream;
 
+  HomePageController() {
+    try {
+      DistanceRecorder().determinePosition().then((Position pos) {
+        onPositionUpdate(pos);
+      });
+    } on LocationPermException catch (_) {
+      return;
+    }
+  }
+
   void mapEventListener(MapEvent event) {
     if (event.zoom != _mapModel.currentZoomLevel && state.mounted) {
       setState(
@@ -61,13 +71,6 @@ class HomePageController extends Controller<HomePage, HomePageState> {
       locationSettings: _mapModel.locationSettings,
     ).listen(onPositionUpdate);
     mapEventStream = mapController.mapEventStream.listen(mapEventListener);
-    try {
-      DistanceRecorder().determinePosition().then((Position pos) {
-        onPositionUpdate(pos);
-      });
-    } on LocationPermException catch (_) {
-      return;
-    }
   }
 
   @override

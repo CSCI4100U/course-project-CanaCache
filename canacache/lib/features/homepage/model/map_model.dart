@@ -1,7 +1,6 @@
 library map;
 
 import "dart:math";
-import "package:canacache/features/stats_recording/distance_recorder.dart";
 import "package:canacache/features/firestore/model/collections/caches.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -21,7 +20,7 @@ class HomePageMapModel {
   final String _mapID =
       "https://api.mapbox.com/styles/v1/map7331/clag6jg8a000215rvo3v6xq14/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
 
-  double currentZoomLevel = 20;
+  double currentZoomLevel = 25;
   final manhattanDistance = 20; // units are km
   bool firstLocation = true;
 
@@ -31,7 +30,7 @@ class HomePageMapModel {
   MapOptions options = MapOptions(
     minZoom: 3,
     maxZoom: 30,
-    zoom: 20,
+    zoom: 25,
     interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
   );
 
