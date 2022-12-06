@@ -33,12 +33,7 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
 
     Geolocator.isLocationServiceEnabled().then((value) => null);
     Geolocator.requestPermission().then((value) => null);
-    Geolocator.checkPermission().then(
-            (LocationPermission permission)
-        {
-          print("Check Location Permission: $permission");
-        }
-    );
+    Geolocator.checkPermission().then((value) => null);
 
     return DataTable(columns: <DataColumn> [
       DataColumn(
@@ -75,17 +70,17 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
         ),
         numeric: true,
         onSort: (int index, _) async {
-          Position _currloc = await Geolocator.getCurrentPosition();
+          Position currloc = await Geolocator.getCurrentPosition();
           setState(() {
             sortIndex = index;
             if (sortAscending == true) {
               sortAscending = false;
                 widget.caches.sort((A, B) {
-                  double aLongDiff = _currloc.longitude - A.position.longitude;
-                  double bLongDiff = _currloc.longitude - B.position.longitude;
+                  double aLongDiff = currloc.longitude - A.position.longitude;
+                  double bLongDiff = currloc.longitude - B.position.longitude;
 
-                  double aLatDiff = _currloc.longitude - A.position.latitude;
-                  double bLatDiff = _currloc.longitude - B.position.latitude;
+                  double aLatDiff = currloc.longitude - A.position.latitude;
+                  double bLatDiff = currloc.longitude - B.position.latitude;
 
                   double aDiff = aLongDiff.abs() + aLatDiff.abs();
                   double bDiff = bLongDiff.abs() + bLatDiff.abs();
@@ -96,11 +91,11 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
               sortAscending = true;
               widget.caches.sort((A, B) {
 
-                double aLongDiff = _currloc.longitude - A.position.longitude;
-                double bLongDiff = _currloc.longitude - B.position.longitude;
+                double aLongDiff = currloc.longitude - A.position.longitude;
+                double bLongDiff = currloc.longitude - B.position.longitude;
 
-                double aLatDiff = _currloc.longitude - A.position.latitude;
-                double bLatDiff = _currloc.longitude - B.position.latitude;
+                double aLatDiff = currloc.longitude - A.position.latitude;
+                double bLatDiff = currloc.longitude - B.position.latitude;
 
                 double aDiff = aLongDiff.abs() + aLatDiff.abs();
                 double bDiff = bLongDiff.abs() + bLatDiff.abs();
