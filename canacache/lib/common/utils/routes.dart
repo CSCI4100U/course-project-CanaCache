@@ -2,6 +2,9 @@ import "package:canacache/features/auth/view/sign_in.dart";
 import "package:canacache/features/firestore/view/user_profile/user_items_list_page.dart";
 import "package:canacache/features/navigation/view/navigation.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
+import "package:canacache/features/stats/view/stat_distance_view.dart";
+import "package:canacache/features/stats/view/stat_time_view.dart";
+import "package:canacache/features/stats/view/stats_steps_view.dart";
 import "package:flutter/material.dart";
 
 /// Main named routes for the app.
@@ -10,6 +13,9 @@ import "package:flutter/material.dart";
 enum CanaRoute {
   home,
   profileItems,
+  statsSteps,
+  statsTime,
+  statsDistance,
   settings,
   signIn;
 
@@ -25,6 +31,12 @@ enum CanaRoute {
         return (context) => const SettingsPageView();
       case signIn:
         return (context) => const SignInForm();
+      case statsSteps:
+        return (context) => const StepStatView();
+      case statsTime:
+        return (context) => const TimeStatView();
+      case statsDistance:
+        return (context) => const DistanceStatView();
     }
   }
 

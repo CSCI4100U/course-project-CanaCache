@@ -4,7 +4,7 @@ enum CanaTheme {
   light(
     primaryBgColor: Color(0xFFFFFFFF),
     primaryIconColor: Color(0xFF8E918F),
-    primaryTextColor: Color(0xFF8E918F),
+    primaryTextColor: Color(0xFF0F0F0F),
     primaryFontFamily: "RaleWay",
     secBgColor: Color(0xFFE6E4E4),
     secIconColor: Color(0xFFD0BCFF),

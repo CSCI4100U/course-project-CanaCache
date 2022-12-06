@@ -1,5 +1,3 @@
-import "package:form_validator/form_validator.dart";
-
 enum AppLocale {
   en(languageCode: "en", formValidatorLocaleName: "en"),
   ptBR(languageCode: "pt_BR", formValidatorLocaleName: "pt-br");

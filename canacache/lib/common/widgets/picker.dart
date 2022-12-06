@@ -3,7 +3,7 @@ import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
-canaShowDialog(
+void canaShowDialog(
   BuildContext context,
   Widget content,
   String title,
