@@ -60,6 +60,7 @@ dependencies:
   random_date: ^0.0.7
   intl: ^0.17.0
   vector_math: ^2.1.2
+  latlong2: ^0.8.1
 
 dev_dependencies:
   flutter_test:

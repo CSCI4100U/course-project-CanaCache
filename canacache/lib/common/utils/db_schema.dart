@@ -1,27 +1,23 @@
-enum LocalDBTables { steps, mins, distance }
-
-Map<LocalDBTables, DBTable> dbTables = {
-  LocalDBTables.steps: const DBTable(
+enum DBTable {
+  steps(
     tableTitle: "steps",
     columnTypeMap: {"timeSlice": "TEXT UNIQUE", "steps": "INT"},
     statColumn: "steps",
     statName: "Steps",
   ),
-  LocalDBTables.mins: const DBTable(
+  mins(
     tableTitle: "mins",
     columnTypeMap: {"timeSlice": "TEXT UNIQUE", "mins": "INT"},
     statColumn: "mins",
     statName: "Mins",
   ),
-  LocalDBTables.distance: const DBTable(
+  distance(
     tableTitle: "distance",
     columnTypeMap: {"timeSlice": "TEXT UNIQUE", "distance": "INT"},
     statColumn: "distance",
     statName: "Distance (M)",
-  ),
-};
+  );
 
-class DBTable {
   final String tableTitle;
   final String? statColumn;
   final String? statName;

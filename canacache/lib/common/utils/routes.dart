@@ -1,9 +1,9 @@
 import "package:canacache/features/auth/view/sign_in.dart";
 import "package:canacache/features/navigation/view/navigation.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
+import "package:canacache/features/stats/view/stat_distance_view.dart";
 import "package:canacache/features/stats/view/stat_time_view.dart";
 import "package:canacache/features/stats/view/stats_steps_view.dart";
-import "package:canacache/features/stats/view/stat_distance_view.dart";
 import "package:flutter/material.dart";
 
 /// Main named routes for the app.

@@ -1,6 +1,6 @@
 import "dart:async";
+import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/db_setup.dart";
 import "package:pedometer/pedometer.dart";
 import "package:permission_handler/permission_handler.dart";
 
@@ -29,17 +29,17 @@ class StepRecorder {
 
   // this class will record steps for current hour in a database
 
-  newEpoch() async {
+  void newEpoch() async {
     int dSteps = stepsSinceAppStart - lastEpochStepCount;
     if (dSteps > 0) {
       DateTime now = DateTime.now();
       DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
-      var db = await initDB();
+      var db = await init();
 
       List<Object> args = [currentHour.toString(), dSteps, dSteps];
 
       String dbString =
-          """INSERT INTO ${dbTables[LocalDBTables.steps]!.tableTitle} (timeSlice, steps)
+          """INSERT INTO ${DBTable.steps.tableTitle} (timeSlice, steps)
               VALUES(?,?)
               ON CONFLICT(timeSlice)
               DO UPDATE SET steps = steps+?;""";

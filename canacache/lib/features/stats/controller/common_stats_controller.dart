@@ -1,49 +1,45 @@
-import "package:canacache/common/utils/db_schema.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/stats/model/stat_state.dart";
-import "package:canacache/features/stats/view/stats_steps_view.dart";
 import "package:canacache/features/stats/view/common_charts.dart";
 
 class CommonStatController
     extends Controller<LineChartTimeView, LineChartTimeViewState> {
   late StatStateModel _modelState;
-  final LocalDBTables table;
-
-  CommonStatController({required this.table}) {
-    _modelState = StatStateModel(table: table);
-  }
 
   @override
   void initState() {
     super.initState();
+
+    _modelState = StatStateModel(table: state.widget.table);
     _modelState.readDBData().then(
           (var res) => setState(
             (() {
               _modelState.plotInfo = FLChartReqInfo(
                 rawData: res,
                 state: dateState,
-                table: table,
+                table: state.widget.table,
               );
             }),
           ),
         );
   }
 
-  dateButtonController(int index) async {
+  void dateButtonController(int index) async {
     await _modelState.setDateState(index);
     var res = await _modelState.readDBData();
 
     setState(
       () {
-        _modelState.plotInfo =
-            FLChartReqInfo(rawData: res, state: dateState, table: table);
+        _modelState.plotInfo = FLChartReqInfo(
+          rawData: res,
+          state: dateState,
+          table: state.widget.table,
+        );
       },
     );
   }
 
-  get selections => _modelState.dateStateSelections;
-  get dateState => _modelState.dateState;
-  get plotInfo => _modelState.plotInfo;
-
-  graphButtonController() {}
+  List<bool> get selections => _modelState.dateStateSelections;
+  DateState get dateState => _modelState.dateState;
+  FLChartReqInfo get plotInfo => _modelState.plotInfo;
 }

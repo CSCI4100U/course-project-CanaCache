@@ -1,7 +1,7 @@
 import "dart:async";
 import "dart:math";
+import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/db_setup.dart";
 import "package:geolocator/geolocator.dart";
 import "package:vector_math/vector_math.dart";
 
@@ -29,7 +29,8 @@ class DistanceRecorder {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-          "Location permissions are permanently denied, we cannot request permissions.");
+        "Location permissions are permanently denied, we cannot request permissions.",
+      );
     }
 
     return await Geolocator.getCurrentPosition();
@@ -57,7 +58,7 @@ class DistanceRecorder {
     return m;
   }
 
-  newEpoch() async {
+  Future<void> newEpoch() async {
     try {
       Position currentPos = await _determinePosition();
 
@@ -69,12 +70,12 @@ class DistanceRecorder {
         // more than a few meters of noise in most gps
         // 4 meters should be more than enought to ignore most noise
         if (distance > 4) {
-          var db = await initDB();
+          var db = await init();
 
           List<Object> args = [currentHour.toString(), distance, distance];
 
           String dbString =
-              """INSERT INTO ${dbTables[LocalDBTables.distance]!.tableTitle} (timeSlice, distance)
+              """INSERT INTO ${DBTable.distance.tableTitle} (timeSlice, distance)
               VALUES(?,?)
               ON CONFLICT(timeSlice)
               DO UPDATE SET distance = distance+?;""";

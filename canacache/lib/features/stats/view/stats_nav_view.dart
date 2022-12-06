@@ -1,11 +1,11 @@
 import "dart:math";
 import "package:canacache/common/utils/cana_palette_model.dart";
+import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/db_setup.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
-import 'package:flutter/foundation.dart';
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:random_date/random_date.dart";
@@ -106,7 +106,7 @@ class StatHomeView extends StatelessWidget {
         NavItem(
           label: "Dummy Data (Will populate db with dummy data)",
           iconData: Icons.recycling,
-          callback: () => generatePlaceHolderData(context),
+          callback: () => generateData(context),
         ),
         divider,
         NavItem(
@@ -119,28 +119,29 @@ class StatHomeView extends StatelessWidget {
     return buttons;
   }
 
-  clearData(BuildContext context) async {
+  Future<void> clearData(BuildContext context, [bool mounted = true]) async {
     SnackBar snack = errorCanaSnackBar(context, "Cleared Data");
-    var db = await initDB();
-    await db.delete(dbTables[LocalDBTables.steps]!.tableTitle);
-    await db.delete(dbTables[LocalDBTables.mins]!.tableTitle);
-    await db.delete(dbTables[LocalDBTables.distance]!.tableTitle);
+    var db = await init();
+    for (DBTable table in DBTable.values) {
+      await db.delete(table.tableTitle);
+    }
 
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 
-  writeJunkToDB(LocalDBTables table, List<Object> args) async {
-    var db = await initDB();
+  Future<void> writeJunkToDB(DBTable table, List<Object> args) async {
+    var db = await init();
     String dbString =
-        """INSERT INTO ${dbTables[table]!.tableTitle} (timeSlice, ${dbTables[table]!.statColumn})
+        """INSERT INTO ${table.tableTitle} (timeSlice, ${table.statColumn})
             VALUES(?,?)
             ON CONFLICT(timeSlice)
-            DO UPDATE SET ${dbTables[table]!.statColumn} = ?;""";
+            DO UPDATE SET ${table.statColumn} = ?;""";
 
     await db.execute(dbString, args);
   }
 
-  generatePlaceHolderData(BuildContext context) async {
+  Future<void> generateData(BuildContext context, [bool mounted = true]) async {
     SnackBar snack =
         successCanaSnackBar(context, "Added 1000 samples to every stat table");
     // this function is just for debug/testing
@@ -175,9 +176,9 @@ class StatHomeView extends StatelessWidget {
       List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
       List<Object> args3 = [currentHour.toString(), distance, distance];
 
-      await writeJunkToDB(LocalDBTables.mins, args1);
-      await writeJunkToDB(LocalDBTables.steps, args2);
-      await writeJunkToDB(LocalDBTables.distance, args3);
+      await writeJunkToDB(DBTable.mins, args1);
+      await writeJunkToDB(DBTable.steps, args2);
+      await writeJunkToDB(DBTable.distance, args3);
     }
 
     // do some for today
@@ -203,11 +204,12 @@ class StatHomeView extends StatelessWidget {
       List<Object> args2 = [currentHour.toString(), dSteps, dSteps];
       List<Object> args3 = [currentHour.toString(), distance, distance];
 
-      await writeJunkToDB(LocalDBTables.mins, args1);
-      await writeJunkToDB(LocalDBTables.steps, args2);
-      await writeJunkToDB(LocalDBTables.distance, args3);
+      await writeJunkToDB(DBTable.mins, args1);
+      await writeJunkToDB(DBTable.steps, args2);
+      await writeJunkToDB(DBTable.distance, args3);
     }
 
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 

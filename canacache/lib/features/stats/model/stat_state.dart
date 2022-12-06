@@ -1,5 +1,5 @@
+import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/db_setup.dart";
 import "package:fl_chart/fl_chart.dart";
 import "package:intl/intl.dart";
 
@@ -73,7 +73,7 @@ class FLChartReqInfo {
   Map<DateTime, dynamic> parsedData = {};
   Map<int, String> bottomAxisLabels = {};
 
-  LocalDBTables table;
+  DBTable table;
   List<FlSpot> spots = [];
   DateState state;
 
@@ -81,7 +81,7 @@ class FLChartReqInfo {
     return "${(value / scale).toStringAsFixed(1)}$prefix";
   }
 
-  determineScale() {
+  void determineScale() {
     if (maxY < 1000) {
       prefix = "";
       scale = 1;
@@ -93,7 +93,7 @@ class FLChartReqInfo {
     }
   }
 
-  generateDayLogic() {
+  void generateDayLogic() {
     interval = 2;
     DateTime now = DateTime.now();
 
@@ -129,7 +129,7 @@ class FLChartReqInfo {
     maxX--;
   }
 
-  generateWeekLogic() {
+  void generateWeekLogic() {
     DateTime now = DateTime.now();
 
     DateTime currentDate = DateState.dateTimeMap(state);
@@ -182,13 +182,13 @@ class FLChartReqInfo {
     }
   }
 
-  generateMonthLogic() {
+  void generateMonthLogic() {
     // the functions are the exact same except needs higher interval or will looked squished
     generateWeekLogic();
     interval = 4;
   }
 
-  generateYearLogic() {
+  void generateYearLogic() {
     DateTime now = DateTime.now();
 
     DateTime currentDate = DateState.dateTimeMap(state);
@@ -247,13 +247,13 @@ class FLChartReqInfo {
   }) {
     for (int i = 0; i < rawData.length; i++) {
       // find maxX
-      int steps = rawData[i][dbTables[table]!.statColumn]!;
+      int steps = rawData[i][table.statColumn]!;
       if (steps > maxY) {
         maxY = steps.toDouble();
       }
 
       DateTime parsedTime = DateTime.parse(rawData[i]["timeSlice"]!);
-      parsedData[parsedTime] = rawData[i][dbTables[table]!.statColumn];
+      parsedData[parsedTime] = rawData[i][table.statColumn];
     }
 
     switch (state) {
@@ -272,7 +272,7 @@ class FLChartReqInfo {
     }
     determineScale();
     bottomAxisLabel = DateState.timePeriodAxisMap(state);
-    leftAxisLabel = dbTables[table]!.statName!;
+    leftAxisLabel = table.statName!;
   }
 }
 
@@ -283,9 +283,12 @@ class StatStateModel {
 
   DateState dateState = DateState.day;
   GraphState graphState = GraphState.chart;
-  LocalDBTables table;
+  DBTable table;
   FLChartReqInfo plotInfo = FLChartReqInfo(
-      rawData: [], state: DateState.day, table: LocalDBTables.steps);
+    rawData: [],
+    state: DateState.day,
+    table: DBTable.steps,
+  );
   //List<Object> tableData = [];
 
   StatStateModel({required this.table}) {
@@ -296,14 +299,14 @@ class StatStateModel {
   Future<List<Map<String, dynamic>>> readDBData() async {
     //DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
     DateTime date = DateState.dateTimeMap(dateState);
-    var db = await initDB();
+    var db = await init();
     String query =
-        """SELECT * FROM ${dbTables[table]!.tableTitle} WHERE DATE(timeSlice) >= ?""";
+        """SELECT * FROM ${table.tableTitle} WHERE DATE(timeSlice) >= ?""";
     List<Object> args = [date.toString()];
     return await db.rawQuery(query, args);
   }
 
-  setDateState(int index) async {
+  Future<void> setDateState(int index) async {
     if (DateState.isValidIndex(index)) {
       resetDateSelections();
       dateStateSelections[index] = true;
@@ -311,7 +314,7 @@ class StatStateModel {
     }
   }
 
-  invertGraphState() {
+  void invertGraphState() {
     if (graphState == GraphState.chart) {
       graphState = GraphState.table;
     } else {
@@ -319,7 +322,7 @@ class StatStateModel {
     }
   }
 
-  resetDateSelections() {
+  void resetDateSelections() {
     dateStateSelections = List.generate(DateState.values.length, (_) => false);
   }
 }

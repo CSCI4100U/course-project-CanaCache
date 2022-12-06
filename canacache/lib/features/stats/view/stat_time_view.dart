@@ -4,5 +4,5 @@ import "package:flutter/material.dart";
 
 class TimeStatView extends LineChartTimeView {
   const TimeStatView({Key? key})
-      : super(key: key, title: "Time Stats", table: LocalDBTables.mins);
+      : super(key: key, title: "Time Stats", table: DBTable.mins);
 }

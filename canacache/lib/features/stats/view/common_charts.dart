@@ -10,22 +10,18 @@ import "package:provider/provider.dart";
 
 class LineChartTimeView extends StatefulWidget {
   final String title;
-  final LocalDBTables table;
+  final DBTable table;
 
   const LineChartTimeView({Key? key, required this.title, required this.table})
       : super(key: key);
 
   @override
-  State createState() => LineChartTimeViewState(title: title, table: table);
+  State createState() => LineChartTimeViewState();
 }
 
 class LineChartTimeViewState
     extends ViewState<LineChartTimeView, CommonStatController> {
-  final String title;
-  final LocalDBTables table;
-
-  LineChartTimeViewState({required this.title, required this.table})
-      : super(CommonStatController(table: table));
+  LineChartTimeViewState() : super(CommonStatController());
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +53,7 @@ class LineChartTimeViewState
     // it is basically unrecognizable now though
 
     return CanaScaffold(
-      title: title,
+      title: widget.title,
       body: Padding(
         padding: const EdgeInsets.only(left: 5, right: 20, bottom: 30, top: 50),
         child: Column(
@@ -74,7 +70,8 @@ class LineChartTimeViewState
   }
 
   Widget Function(double value, TitleMeta meta) bottomTitleWidgetsClosure(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
     Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -86,7 +83,7 @@ class LineChartTimeViewState
 
       String rawText = value.toInt().toString();
       if (con.plotInfo.bottomAxisLabels.containsKey(value.toInt())) {
-        rawText = con.plotInfo.bottomAxisLabels[value.toInt()];
+        rawText = con.plotInfo.bottomAxisLabels[value.toInt()]!;
       }
 
       Widget text = Text(rawText, style: style);
@@ -102,7 +99,8 @@ class LineChartTimeViewState
   }
 
   Widget Function(double value, TitleMeta meta) leftTitleWidgetsClosure(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
     Widget leftTitleWidgets(double value, TitleMeta meta) {
       var style = TextStyle(
