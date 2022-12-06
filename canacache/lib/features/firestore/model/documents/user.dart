@@ -8,23 +8,23 @@ import "package:cloud_firestore/cloud_firestore.dart";
 /// A user participating in CanaCache
 class CanaUser extends DocumentModel<CanaUser> {
   // fields
-  String bio;
-  String displayName;
+  String? bio;
+  String? displayName;
   Timestamp joinedAt;
   List<DocumentReference<Cache>> visitedCaches;
 
   CanaUser.withRef({
     required DocumentReference<CanaUser> ref,
-    this.bio = "",
-    this.displayName = "",
+    this.bio,
+    this.displayName,
     Timestamp? joinedAt,
     this.visitedCaches = const [],
   })  : joinedAt = joinedAt ?? Timestamp.now(),
         super(ref);
 
   CanaUser.fromMap(Map<String, dynamic> map, super.ref)
-      : bio = map["bio"] ?? "",
-        displayName = map["displayName"] ?? "",
+      : bio = map["bio"],
+        displayName = map["displayName"],
         joinedAt = map["joinedAt"],
         visitedCaches = Caches().convertDocumentReferences(
           // need this in case the list is empty

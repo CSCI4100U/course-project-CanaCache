@@ -4,6 +4,7 @@ import "package:canacache/features/firestore/controller/user_profile_page_contro
 import "package:canacache/features/firestore/view/user_profile/editable_avatar.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 
 class UserProfilePage extends StatefulWidget {
@@ -44,7 +45,7 @@ class UserProfilePageState
             OutlinedButton.icon(
               icon: Icon(Icons.logout, color: theme.primaryIconColor),
               label: Text(
-                "Logout",
+                translate("settings.logout"),
                 style: TextStyle(color: theme.primaryTextColor),
               ),
               onPressed: con.onPressedLogout,

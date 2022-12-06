@@ -8,6 +8,8 @@ import "package:canacache/features/firestore/model/storage.dart";
 import "package:canacache/features/firestore/view/user_profile/user_profile_page.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
+import "package:image_cropper/image_cropper.dart";
 
 class UserProfileFutureData {
   final UserAvatar avatar;
@@ -36,38 +38,53 @@ class UserProfilePageController
 
   // select and upload a new avatar image
   void onTapAvatar() async {
+    // pick file
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       allowCompression: true,
       type: FileType.image,
       withData: true,
     );
-    if (result == null || !state.mounted) return;
+    if (result == null) return;
 
-    final platformFile = result.files.first;
+    // crop image
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: result.files.first.path!,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      cropStyle: CropStyle.circle,
+      compressFormat: ImageCompressFormat.png,
+    );
+    final data = await croppedFile?.readAsBytes();
+    if (data == null || !state.mounted) return;
 
-    if (platformFile.size > maxAvatarSize) {
+    // check file size
+    if (data.lengthInBytes > maxAvatarSize) {
       ScaffoldMessenger.of(state.context).showSnackBar(
         errorCanaSnackBar(
           state.context,
-          "Selected file is too large (max size: ${maxAvatarSize / (1024 * 1024)}",
+          translate(
+            "profile.error.file_size",
+            args: {"sizeMB": maxAvatarSize / (1024 * 1024)},
+          ),
         ),
       );
       return;
     }
 
+    // upload avatar
     setState(() => isUploadingAvatar = true);
 
     try {
       await challengeSnackBarAsync(
         state.context,
-        () => setCurrentUserAvatar(platformFile.bytes!),
+        () => setCurrentUserAvatar(data),
       );
     } catch (e) {
       setState(() => isUploadingAvatar = false);
       rethrow;
     }
 
+    // refresh profile data
     future = fetchData();
     await future;
 

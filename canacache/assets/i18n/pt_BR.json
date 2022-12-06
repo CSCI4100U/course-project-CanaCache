@@ -8,6 +8,11 @@
             "account": "Conta"
         }
     },
+    "profile": {
+        "error": {
+            "file_size": "‼️‼️‼️ ESPAÇO RESERVADO 🇧🇷 🇧🇷 🇧🇷 {sizeMB}"
+        }
+    },
     "signin": {
         "google": "Entrar com Google",
         "github": "Entrar com Github",

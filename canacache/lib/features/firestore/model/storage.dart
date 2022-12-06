@@ -14,9 +14,7 @@ Reference getImages() => FirebaseStorage.instance.ref("images");
 Reference getPublicImages() => getImages().child("public");
 
 Future<Uint8List> downloadDefaultAvatar() async {
-  final data = await getPublicImages()
-      .child("default_avatar.png")
-      .getData(maxAvatarSize);
+  final data = await getPublicImages().child("default_avatar.png").getData();
   return data!;
 }
 
@@ -35,7 +33,7 @@ Reference getUserAvatar(String id) => getUserImages(id).child("avatar.png");
 
 Future<UserAvatar> downloadUserAvatar(String id) async {
   try {
-    final data = await getUserAvatar(id).getData(maxAvatarSize);
+    final data = await getUserAvatar(id).getData();
     return UserAvatar(data: data!, isDefault: false);
   } on PlatformException catch (e) {
     if (e.code == "firebase_storage" &&
@@ -52,5 +50,12 @@ Future<UserAvatar> downloadCurrentUserAvatar() {
 }
 
 Future<void> setCurrentUserAvatar(Uint8List data) async {
+  if (data.lengthInBytes > maxAvatarSize) {
+    throw ArgumentError.value(
+      "${data.lengthInBytes} B",
+      "data",
+      "Argument too large",
+    );
+  }
   await getUserAvatar(FirebaseAuth.instance.currentUser!.uid).putData(data);
 }
