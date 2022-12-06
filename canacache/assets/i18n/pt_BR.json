@@ -1,5 +1,16 @@
 {
     "app": "CanaCache",
+    "cache": {
+        "info": {
+            "title": "Informação do Cache",
+            "name": "Nome do Cache: {cache_name}",
+            "created": "Data Criado",
+            "modified": "Data Modificado",
+            "address": "Endereço",
+            "latlng": "Coordenadas",
+            "distance": "Distância"
+        }
+    },
     "navbar": {
         "titles": {
             "home": "Início",
@@ -56,30 +67,30 @@
         }
     },
     "stats": {
-            "nav": {
-                "steps": "BR Steps Taken",
-                "time": "BR Time Spent",
-                "distance": "Br Distance Traveled"
-            },
-            "steps":{
-                "title" :"BR Step Stats",
-                "label": "BR Steps"
-            },
-            "distance":{
-                "title" :"Estatística de distância",
-                "label": "Distância (M)"
-            },
-            "mins": {
-                "title" :"Br Time Stats",
-                "label": "BR Mins"
-            },
-            "intervals" : {
-                "hour": "Hora",
-                "day": "Dia",
-                "week": "Semana",
-                "month": "Mês",
-                "year": "Ano"
-            }
+        "nav": {
+            "steps": "Passos Dados",
+            "time": "Tempo Gasto",
+            "distance": "Distância Percorrida"
+        },
+        "steps":{
+            "title" :"Estatística de passos",
+            "label": "Passos"
+        },
+        "distance":{
+            "title" :"Estatística de distância",
+            "label": "Distância (M)"
+        },
+        "mins": {
+            "title" :"Estatística de tempo",
+            "label": "Minutos"
+        },
+        "intervals" : {
+            "hour": "Hora",
+            "day": "Dia",
+            "week": "Semana",
+            "month": "Mês",
+            "year": "Ano"
+        }
     },
     "error": {
         "init": "Erro na inicialização do app!"
@@ -88,10 +99,10 @@
         "lorem": "Quem é Rakin?🤔 Para o cego, é a luz🌞 Para o faminto, é o pão🍞 Para o sedento, é a fonte de água viva💦 Para o morto, é a vida⚰️ Para o enfermo, é a cura🏥 Para o prisioneiro, é a liberdade🏃‍♂️ Para o solitário, é o companheiro👫 Para o viajante, é o caminho🗺️ Para mim, tudo.",
         "te": "Ç",
         "dummy_stats": {
-            "populate": "Create dummy data (will populate DB)",
-            "delete": "Delete stats",
-            "on_populate": "Added 1000 samples to every stat table",
-            "on_clear": "Cleared database"
+            "populate": "Criar dados fictícios (irá preencher o BD)",
+            "delete": "Deletar dados",
+            "on_populate": "Adicionadas 1000 amostras a cada tabela de estatísticas",
+            "on_clear": "Banco de dados limpo"
         }
     }
 }

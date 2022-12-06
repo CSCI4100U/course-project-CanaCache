@@ -8,6 +8,7 @@ import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
 import "package:flutter_native_timezone/flutter_native_timezone.dart";
 import "package:flutter_translate/flutter_translate.dart";
+import "package:intl/date_symbol_data_local.dart";
 import "package:provider/provider.dart";
 import "package:timezone/data/latest.dart" as tz;
 import "package:timezone/timezone.dart" as tz;
@@ -62,6 +63,7 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
   Future<void> initialize() async {
     await Firebase.initializeApp();
     await _notifications.initialize();
+    await initializeDateFormatting();
     tz.initializeTimeZones();
 
     final localTimezone = await FlutterNativeTimezone.getLocalTimezone();
