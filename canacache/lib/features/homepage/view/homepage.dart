@@ -1,5 +1,4 @@
 import "dart:math";
-
 import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
@@ -8,6 +7,7 @@ import "package:canacache/features/firestore/model/documents/cache.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
 import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
+import "package:geocoding/geocoding.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:flutter_translate/flutter_translate.dart";
@@ -27,8 +27,9 @@ class HomePage extends StatefulWidget {
 class HomePageState extends ViewState<HomePage, HomePageController> {
   HomePageState() : super(HomePageController());
 
-  void showCache(BuildContext context, Cache cache) {
-    final AppLocale locale = Provider.of<SettingsProvider>(context, listen: false).language;
+  Future<void> showCache(BuildContext context, Cache cache) async {
+    final AppLocale locale =
+        Provider.of<SettingsProvider>(context, listen: false).language;
 
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
@@ -48,18 +49,50 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
       LatLng(cache.position.latitude, cache.position.longitude),
     );
 
+    List<Widget> cacheInfo = [
+      Text(
+        "${translate("cache.info.name")}: ${cache.name}",
+        style: style,
+      ),
+      Text(
+        "${translate("cache.info.created")}: $createDate ",
+        style: style,
+      ),
+      Text("${translate("cache.info.modified")}: $modDate", style: style),
+      Text(
+        "${translate("cache.info.latlng")}: ${cache.position.toLatLng()}",
+        style: style,
+      ),
+      Text(
+        "${translate("cache.info.distance")}: $distance",
+        style: style,
+      ),
+    ];
+
+    final List<Placemark> placeMarks = await placemarkFromCoordinates(
+      cache.position.latitude,
+      cache.position.longitude,
+    );
+    if (placeMarks.isNotEmpty) {
+      Placemark place = placeMarks[0];
+      String address = "Address: ";
+      cacheInfo.add(
+        Text(
+          "$address${place.subThoroughfare} ${place.thoroughfare}",
+        ),
+      );
+    }
+
+    if (!mounted) {
+      return;
+    }
+
     canaShowDialog(
       context,
       Padding(
         padding: const EdgeInsets.only(bottom: 30, top: 30),
         child: Column(
-          children: [
-            Text("${translate("cache.info.name")}: ${cache.name}", style: style),
-            Text("${translate("cache.info.created")}: $createDate ", style: style),
-            Text("${translate("cache.info.modified")}: $modDate", style: style),
-            Text("${translate("cache.info.latlng")}: ${cache.position.toLatLng()}", style: style),
-            Text("${translate("cache.info.distance")}: $distance", style: style),
-          ],
+          children: cacheInfo,
         ),
       ),
       translate("cache.info.title"),
