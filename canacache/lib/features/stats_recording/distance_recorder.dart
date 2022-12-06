@@ -94,4 +94,6 @@ class DistanceRecorder {
     }
     lastPos = currentPos;
   }
+
+  Future<Position> Function() get determinePosition => _determinePosition;
 }

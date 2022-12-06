@@ -63,6 +63,7 @@ class CanaAppController extends Controller<CanaApp, CanaAppState>
   Future<void> initialize() async {
     await Firebase.initializeApp();
     await _notifications.initialize();
+    await initializeDateFormatting();
     tz.initializeTimeZones();
 
     final localTimezone = await FlutterNativeTimezone.getLocalTimezone();

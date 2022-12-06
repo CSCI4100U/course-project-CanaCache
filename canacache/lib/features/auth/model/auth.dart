@@ -32,6 +32,9 @@ Future<UserCredential?> signInWithGitHub() async {
   }
 }
 
-Future<void> signOut() => FirebaseAuth.instance.signOut();
+Future<void> signOut() async {
+  await FirebaseAuth.instance.signOut();
+  await GoogleSignIn().signOut();
+}
 
 // for error https://stackoverflow.com/questions/51845559/generate-sha-1-for-flutter-react-native-android-native-app
