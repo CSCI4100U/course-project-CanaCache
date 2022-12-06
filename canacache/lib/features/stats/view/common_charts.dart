@@ -6,6 +6,7 @@ import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/stats/controller/common_stats_controller.dart";
 import "package:fl_chart/fl_chart.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 
 class LineChartTimeView extends StatefulWidget {
@@ -27,11 +28,11 @@ class LineChartTimeViewState
   Widget build(BuildContext context) {
     CanaTheme theme = Provider.of<SettingsProvider>(context).theme;
 
-    List<Widget> dateOptions = const [
-      Text("Day"),
-      Text("Week"),
-      Text("Month"),
-      Text("Year"),
+    List<Widget> dateOptions = [
+      Text(translate("stats.intervals.day")),
+      Text(translate("stats.intervals.week")),
+      Text(translate("stats.intervals.month")),
+      Text(translate("stats.intervals.year")),
     ];
 
     ToggleButtons buttons = ToggleButtons(
@@ -53,7 +54,7 @@ class LineChartTimeViewState
     // it is basically unrecognizable now though
 
     return CanaScaffold(
-      title: widget.title,
+      title: translate(widget.title),
       body: Padding(
         padding: const EdgeInsets.only(left: 5, right: 20, bottom: 30, top: 50),
         child: Column(
@@ -147,7 +148,8 @@ class LineChartTimeViewState
           sideTitles: SideTitles(showTitles: false),
         ),
         bottomTitles: AxisTitles(
-          axisNameWidget: Text(con.plotInfo.bottomAxisLabel, style: style),
+          axisNameWidget:
+              Text(translate(con.plotInfo.bottomAxisLabel), style: style),
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 42,
@@ -156,7 +158,8 @@ class LineChartTimeViewState
           ),
         ),
         leftTitles: AxisTitles(
-          axisNameWidget: Text(con.plotInfo.leftAxisLabel, style: style),
+          axisNameWidget:
+              Text(translate(con.plotInfo.leftAxisLabel), style: style),
           sideTitles: SideTitles(
             showTitles: true,
             interval: (con.plotInfo.maxY / 10) + 1,

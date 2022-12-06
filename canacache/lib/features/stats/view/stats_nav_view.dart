@@ -7,6 +7,7 @@ import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 import "package:random_date/random_date.dart";
 
@@ -43,7 +44,7 @@ class NavItem extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Text(
-                label,
+                translate(label),
                 style: TextStyle(
                   color: selectedTheme.primaryTextColor,
                   fontFamily: selectedTheme.primaryFontFamily,
@@ -82,19 +83,19 @@ class StatHomeView extends StatelessWidget {
     buttons.addAll(
       [
         const NavItem(
-          label: "Steps Stats",
+          label: "stats.navTitles.stepStats",
           iconData: Icons.directions_walk,
           route: CanaRoute.statsSteps,
         ),
         divider,
         const NavItem(
-          label: "Time Spent",
+          label: "stats.navTitles.timeStats",
           iconData: Icons.hourglass_top,
           route: CanaRoute.statsTime,
         ),
         divider,
         const NavItem(
-          label: "Distance Traveled",
+          label: "stats.navTitles.distStats",
           iconData: Icons.speed,
           route: CanaRoute.statsDistance,
         ),
@@ -104,13 +105,13 @@ class StatHomeView extends StatelessWidget {
     if (kDebugMode) {
       buttons.addAll([
         NavItem(
-          label: "Dummy Data (Will populate db with dummy data)",
+          label: "debug.dummyStatsPopulate",
           iconData: Icons.recycling,
           callback: () => generateData(context),
         ),
         divider,
         NavItem(
-          label: "Delete Stats",
+          label: "debug.dummyStatsDelete",
           iconData: Icons.dangerous,
           callback: () => clearData(context),
         ),
@@ -120,7 +121,8 @@ class StatHomeView extends StatelessWidget {
   }
 
   Future<void> clearData(BuildContext context, [bool mounted = true]) async {
-    SnackBar snack = errorCanaSnackBar(context, "Cleared Data");
+    SnackBar snack =
+        errorCanaSnackBar(context, translate("debug.dummyStatsClearSnackBar"));
     var db = await init();
     for (DBTable table in DBTable.values) {
       await db.delete(table.tableTitle);
@@ -142,8 +144,10 @@ class StatHomeView extends StatelessWidget {
   }
 
   Future<void> generateData(BuildContext context, [bool mounted = true]) async {
-    SnackBar snack =
-        successCanaSnackBar(context, "Added 1000 samples to every stat table");
+    SnackBar snack = successCanaSnackBar(
+      context,
+      translate("debug.dummyStatsPopulateSnackBar"),
+    );
     // this function is just for debug/testing
     // not very well written
 

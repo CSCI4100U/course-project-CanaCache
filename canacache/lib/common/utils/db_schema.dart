@@ -3,19 +3,19 @@ enum DBTable {
     tableTitle: "steps",
     columnTypeMap: {"timeSlice": "TEXT UNIQUE", "steps": "INT"},
     statColumn: "steps",
-    statName: "Steps",
+    statName: "stats.steps.statName",
   ),
   mins(
     tableTitle: "mins",
     columnTypeMap: {"timeSlice": "TEXT UNIQUE", "mins": "INT"},
     statColumn: "mins",
-    statName: "Mins",
+    statName: "stats.mins.statName",
   ),
   distance(
     tableTitle: "distance",
     columnTypeMap: {"timeSlice": "TEXT UNIQUE", "distance": "INT"},
     statColumn: "distance",
-    statName: "Distance (M)",
+    statName: "stats.distance.statName",
   );
 
   final String tableTitle;

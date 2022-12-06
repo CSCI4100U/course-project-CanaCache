@@ -4,5 +4,5 @@ import "package:flutter/material.dart";
 
 class StepStatView extends LineChartTimeView {
   const StepStatView({Key? key})
-      : super(key: key, title: "Step Stats", table: DBTable.steps);
+      : super(key: key, title: "stats.steps.statName", table: DBTable.steps);
 }

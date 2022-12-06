@@ -48,13 +48,13 @@ enum DateState {
   static String timePeriodAxisMap(DateState state) {
     switch (state) {
       case day:
-        return "Hour";
+        return "stats.times.day";
       case week:
-        return "Day";
+        return "stats.times.week";
       case month:
-        return "Day";
+        return "stats.times.month";
       case year:
-        return "Month";
+        return "stats.times.year";
     }
   }
 }

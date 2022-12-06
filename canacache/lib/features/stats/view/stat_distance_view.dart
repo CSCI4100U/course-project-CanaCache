@@ -4,5 +4,9 @@ import "package:flutter/material.dart";
 
 class DistanceStatView extends LineChartTimeView {
   const DistanceStatView({Key? key})
-      : super(key: key, title: "Distance Stat", table: DBTable.distance);
+      : super(
+          key: key,
+          title: "stats.distance.title",
+          table: DBTable.distance,
+        );
 }
