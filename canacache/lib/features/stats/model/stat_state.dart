@@ -48,13 +48,13 @@ enum DateState {
   static String timePeriodAxisMap(DateState state) {
     switch (state) {
       case day:
-        return "stats.times.day";
+        return "stats.intervals.hour";
       case week:
-        return "stats.times.week";
+        return "stats.intervals.day";
       case month:
-        return "stats.times.month";
+        return "stats.intervals.day";
       case year:
-        return "stats.times.year";
+        return "stats.intervals.month";
     }
   }
 }
@@ -169,8 +169,8 @@ class FLChartReqInfo {
     }
 
     // to get the last day worth of data
-    String formatedMonth = DateFormat("MMM").format(currentDate);
-    bottomAxisLabels[maxX.toInt()] = "$formatedMonth ${currentDate.day}";
+    String formattedMonth = DateFormat("MMM").format(currentDate);
+    bottomAxisLabels[maxX.toInt()] = "$formattedMonth ${currentDate.day}";
     spots.add(
       FlSpot(
         maxX,
@@ -201,8 +201,8 @@ class FLChartReqInfo {
           DateTime(lastDate.year, lastDate.month);
 
       if (inNewMonth) {
-        String formatedMonth = DateFormat("MMM").format(lastDate);
-        bottomAxisLabels[maxX.toInt()] = formatedMonth;
+        String formattedMonth = DateFormat("MMM").format(lastDate);
+        bottomAxisLabels[maxX.toInt()] = formattedMonth;
 
         if (currentMonthSteps > maxY) {
           maxY = currentMonthSteps;
