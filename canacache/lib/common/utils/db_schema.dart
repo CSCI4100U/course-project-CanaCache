@@ -1,16 +1,36 @@
 enum DBTable {
-  settings("settings", {
-    "selectedTheme": "TEXT",
-    "selectedDistanceUnit": "TEXT",
-    "id": "PRIMARY KEY"
-  });
+  steps(
+    tableTitle: "steps",
+    columnTypeMap: {"timeSlice": "TEXT UNIQUE", "steps": "INT"},
+    statColumn: "steps",
+    statName: "stats.steps.label",
+  ),
+  mins(
+    tableTitle: "mins",
+    columnTypeMap: {"timeSlice": "TEXT UNIQUE", "mins": "INT"},
+    statColumn: "mins",
+    statName: "stats.mins.label",
+  ),
+  distance(
+    tableTitle: "distance",
+    columnTypeMap: {"timeSlice": "TEXT UNIQUE", "distance": "INT"},
+    statColumn: "distance",
+    statName: "stats.distance.label",
+  );
 
   final String tableTitle;
+  final String? statColumn;
+  final String? statName;
 
   /// <column name, type>
   final Map<String, String> columnTypeMap;
 
-  const DBTable(this.tableTitle, this.columnTypeMap);
+  const DBTable({
+    required this.tableTitle,
+    required this.columnTypeMap,
+    this.statColumn,
+    this.statName,
+  });
 
   String createTableString() {
     String schema =

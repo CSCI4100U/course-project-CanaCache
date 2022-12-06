@@ -28,6 +28,7 @@ linter:
     directives_ordering: true
     unawaited_futures: true
     avoid_classes_with_only_static_members: true
+    always_declare_return_types: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

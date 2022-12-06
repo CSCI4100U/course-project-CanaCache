@@ -1,0 +1,97 @@
+{
+    "app": "CanaCache",
+    "navbar": {
+        "titles": {
+            "home": "Home",
+            "caches": "Caches",
+            "stats": "Stats",
+            "account": "Account"
+        }
+    },
+    "signin": {
+        "google": "Sign in with Google",
+        "github": "Sign in with Github",
+        "successful": "Successfully signed in as {email}"
+    },
+    "settings": {
+        "title": "Settings",
+        "logout": "Logout",
+        "locale": {
+            "title": "Locale",
+            "language": {
+                "title": "Language",
+                "subtitle": "Select display language",
+                "options": {
+                    "en": "English",
+                    "pt_BR": "Portuguese (Brazil)"
+                },
+                "change": "Changed language to {locale}"
+            }
+        },
+        "theme": {
+            "title": "Theme",
+            "colour": {
+                "title": "Theme Selection",
+                "subtitle": "Select theme",
+                "options": {
+                    "light": "Light",
+                    "dark": "Dark"
+                },
+                "change": "Changed theme to {theme}"
+            }
+        },
+        "units": {
+            "title": "Units",
+            "distance": {
+                "title": "Distance",
+                "subtitle": "Select unit",
+                "options": {
+                    "kilometer": "Kilometer",
+                    "meter": "Meter",
+                    "mile": "Mile",
+                    "yard": "Yard"
+                },
+                "change": "Changed distance unit to {distance}"
+            }
+        }
+    },
+    "stats": {
+            "nav": {
+                "steps": "Steps Taken",
+                "time": "Time Spent",
+                "distance": "Distance Traveled"
+            },
+            "steps":{
+                "title": "Step Stats",
+                "label": "Steps"
+            },
+            "distance":{
+                "title" :"Distance Stats",
+                "label": "Distance (M)"
+            },
+            "mins": {
+                "title" :"Time Stats",
+                "label": "Minutes"
+            },
+            "intervals" : {
+                "hour": "Hour",
+                "day": "Day",
+                "week": "Week",
+                "month": "Month",
+                "year": "Year"
+            }
+    },
+    "error": {
+        "init": "Error initializing app!"
+    },
+    "debug": {
+        "lorem": "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.",
+        "te": "T",
+        "dummy_stats": {
+            "populate": "Create dummy data (will populate DB)",
+            "delete": "Delete stats",
+            "on_populate": "Added 1000 samples to every stat table",
+            "on_clear": "Cleared database"
+        }
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "app": "CanaCache",
+    "navbar": {
+        "titles": {
+            "home": "Início",
+            "caches": "Caches",
+            "stats": "Estatísticas",
+            "account": "Conta"
+        }
+    },
+    "signin": {
+        "google": "Entrar com Google",
+        "github": "Entrar com Github",
+        "successful": "Conectado com sucesso como {email}"
+    },
+    "settings": {
+        "title": "Configurações",
+        "logout": "Sair",
+        "locale": {
+            "title": "Localidade",
+            "language": {
+                "title": "Idioma",
+                "subtitle": "Selecionar idioma",
+                "options": {
+                    "en": "Inglês",
+                    "pt_BR": "Português (Brasil)"
+                },
+                "change": "Idioma alterado para {locale}"
+            }
+        },
+        "theme": {
+            "title": "Aparência",
+            "colour": {
+                "title": "Seleção de tema",
+                "subtitle": "Selecionar tema",
+                "options": {
+                    "light": "Claro",
+                    "dark": "Escuro"
+                },
+                "change": "Tema alterado para {theme}"
+            }
+        },
+        "units": {
+            "title": "Unidades",
+            "distance": {
+                "title": "Distância",
+                "subtitle": "Selecionar unidade",
+                "options": {
+                    "kilometer": "Quilômetro",
+                    "meter": "Metro",
+                    "mile": "Milha",
+                    "yard": "Jardas"
+                },
+                "change": "Unidade de distância alterada para {distance}"
+            }
+        }
+    },
+    "stats": {
+            "nav": {
+                "steps": "BR Steps Taken",
+                "time": "BR Time Spent",
+                "distance": "Br Distance Traveled"
+            },
+            "steps":{
+                "title" :"BR Step Stats",
+                "label": "BR Steps"
+            },
+            "distance":{
+                "title" :"Estatística de distância",
+                "label": "Distância (M)"
+            },
+            "mins": {
+                "title" :"Br Time Stats",
+                "label": "BR Mins"
+            },
+            "intervals" : {
+                "hour": "Hora",
+                "day": "Dia",
+                "week": "Semana",
+                "month": "Mês",
+                "year": "Ano"
+            }
+    },
+    "error": {
+        "init": "Erro na inicialização do app!"
+    },
+    "debug": {
+        "lorem": "Quem é Rakin?🤔 Para o cego, é a luz🌞 Para o faminto, é o pão🍞 Para o sedento, é a fonte de água viva💦 Para o morto, é a vida⚰️ Para o enfermo, é a cura🏥 Para o prisioneiro, é a liberdade🏃‍♂️ Para o solitário, é o companheiro👫 Para o viajante, é o caminho🗺️ Para mim, tudo.",
+        "te": "Ç",
+        "dummy_stats": {
+            "populate": "Create dummy data (will populate DB)",
+            "delete": "Delete stats",
+            "on_populate": "Added 1000 samples to every stat table",
+            "on_clear": "Cleared database"
+        }
+    }
+}

@@ -5,6 +5,7 @@ import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/app/controller/app_controller.dart";
 import "package:canacache/features/auth/view/sign_in.dart";
 import "package:flutter/material.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:provider/provider.dart";
 
 class CanaApp extends StatefulWidget {
@@ -22,7 +23,10 @@ class CanaAppState extends ViewState<CanaApp, CanaAppController> {
     return MultiProvider(
       providers: con.providers,
       child: MaterialApp(
-        title: "CanaCache",
+        title: translate("app"),
+        localizationsDelegates: con.delegates,
+        supportedLocales: con.localizationDelegate.supportedLocales,
+        locale: con.localizationDelegate.currentLocale,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -36,7 +40,7 @@ class CanaAppState extends ViewState<CanaApp, CanaAppController> {
                 error: snapshot.error,
                 stackTrace: snapshot.stackTrace,
               );
-              return const Center(child: Text("Error initializing app"));
+              return Center(child: Text(translate("error.init")));
             }
             if (snapshot.connectionState == ConnectionState.done) {
               return const SignInForm();
