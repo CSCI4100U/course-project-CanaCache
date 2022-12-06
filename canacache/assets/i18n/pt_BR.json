@@ -19,10 +19,20 @@
             "new": "Adicionar apelido",
             "editing": "Editando: Apelido"
         },
+        "pronouns": {
+            "title": "Pronomes",
+            "new": "Adicionar pronomes",
+            "editing": "Editando: Pronomes"
+        },
         "bio": {
             "title": "Bio",
             "new": "Adicionar bio",
             "editing": "Editando: Bio"
+        },
+        "website": {
+            "title": "Website",
+            "new": "Adicionar website",
+            "editing": "Editando: Website"
         },
         "items_button": "Meus itens",
         "items": {

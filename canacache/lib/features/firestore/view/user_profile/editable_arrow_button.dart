@@ -24,26 +24,49 @@ class EditableArrowButton extends StatelessWidget {
     return ArrowButton(
       onPressed: onPressed,
       child: Expanded(
-        child: Column(
-          children: [
-            Text(
-              text != null ? titleExisting : titleNew,
-              style: TextStyle(
-                color: theme.primaryTextColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            if (text != null)
-              Container(
-                padding: const EdgeInsets.only(top: 4, left: 2, right: 2),
-                child: Text(
-                  text!,
-                  textAlign: TextAlign.justify, // justify looks prettier
-                  style: TextStyle(color: theme.primaryTextColor),
+        child: text == null
+            ? Text(
+                titleNew,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: theme.primaryTextColor,
+                  fontWeight: FontWeight.bold,
                 ),
+              )
+            : Column(
+                children: [
+                  // title
+                  Container(
+                    // because the default underline looks dumb
+                    // and flutter has NO BUILT IN WAY to change underline spacing
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: theme.primaryTextColor,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      titleExisting,
+                      style: TextStyle(
+                        color: theme.primaryTextColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  // text
+                  Container(
+                    padding: const EdgeInsets.only(top: 3, left: 2, right: 2),
+                    child: Text(
+                      text!,
+                      textAlign: TextAlign.justify, // justify looks prettier
+                      style: TextStyle(color: theme.primaryTextColor),
+                    ),
+                  ),
+                ],
               ),
-          ],
-        ),
       ),
     );
   }

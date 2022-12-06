@@ -11,14 +11,18 @@ class CanaUser extends DocumentModel<CanaUser> {
   String? bio;
   String? displayName;
   Timestamp joinedAt;
+  String? pronouns;
   List<DocumentReference<Cache>> visitedCaches;
+  String? website;
 
   CanaUser.withRef({
     required DocumentReference<CanaUser> ref,
     this.bio,
     this.displayName,
+    this.pronouns,
     Timestamp? joinedAt,
     this.visitedCaches = const [],
+    this.website,
   })  : joinedAt = joinedAt ?? Timestamp.now(),
         super(ref);
 
@@ -26,17 +30,21 @@ class CanaUser extends DocumentModel<CanaUser> {
       : bio = map["bio"],
         displayName = map["displayName"],
         joinedAt = map["joinedAt"],
+        pronouns = map["pronouns"],
         visitedCaches = Caches().convertDocumentReferences(
           // need this in case the list is empty
           List<RawDocumentReference>.from(map["visitedCaches"]),
-        );
+        ),
+        website = map["website"];
 
   @override
   Map<String, dynamic> toMap() => {
         "bio": bio,
         "displayName": displayName,
         "joinedAt": joinedAt,
+        "pronouns": pronouns,
         "visitedCaches": visitedCaches,
+        "website": website,
       };
 
   @override
@@ -47,6 +55,7 @@ class CanaUser extends DocumentModel<CanaUser> {
     return super.delete();
   }
 
+  /// The user's display name if set, or a fallback name based on their uid.
   String get fallbackDisplayName =>
       displayName ?? "user-${ref.id.substring(0, 8)}";
 }

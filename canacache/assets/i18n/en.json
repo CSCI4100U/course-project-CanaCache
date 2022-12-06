@@ -19,10 +19,20 @@
             "new": "Add display name",
             "editing": "Editing: Display name"
         },
+        "pronouns": {
+            "title": "Pronouns",
+            "new": "Add pronouns",
+            "editing": "Editing: Pronouns"
+        },
         "bio": {
             "title": "Bio",
             "new": "Add bio",
             "editing": "Editing: Bio"
+        },
+        "website": {
+            "title": "Website",
+            "new": "Add website",
+            "editing": "Editing: Website"
         },
         "items_button": "My items",
         "items": {

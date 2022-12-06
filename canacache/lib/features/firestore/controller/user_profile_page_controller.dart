@@ -42,6 +42,11 @@ class UserProfilePageController
     if (state.mounted) setState(() {});
   }
 
+  Future<void> saveUserAndRefresh(CanaUser user) async {
+    await user.update();
+    await refresh();
+  }
+
   // select and upload a new avatar image
   Future<void> onTapAvatar() async {
     // pick file
@@ -96,18 +101,6 @@ class UserProfilePageController
     setState(() {
       isUploadingAvatar = false;
     });
-  }
-
-  Future<void> setDisplayName(CanaUser user, String? displayName) async {
-    user.displayName = displayName;
-    await user.update();
-    await refresh();
-  }
-
-  Future<void> setBio(CanaUser user, String? bio) async {
-    user.bio = bio;
-    await user.update();
-    await refresh();
   }
 
   void onPressedLogout() {
