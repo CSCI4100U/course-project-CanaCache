@@ -3,6 +3,7 @@ import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
 import "package:canacache/features/homepage/model/map_model.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
+import "package:canacache/features/stats_recording/distance_recorder.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:geolocator/geolocator.dart";
 import "package:latlong2/latlong.dart";
@@ -60,6 +61,13 @@ class HomePageController extends Controller<HomePage, HomePageState> {
       locationSettings: _mapModel.locationSettings,
     ).listen(onPositionUpdate);
     mapEventStream = mapController.mapEventStream.listen(mapEventListener);
+    try {
+      DistanceRecorder().determinePosition().then((Position pos) {
+        onPositionUpdate(pos);
+      });
+    } on LocationPermException catch (_) {
+      return;
+    }
   }
 
   @override

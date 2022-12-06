@@ -1,6 +1,7 @@
 library map;
 
 import "dart:math";
+import "package:canacache/features/stats_recording/distance_recorder.dart";
 import "package:canacache/features/firestore/model/collections/caches.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
