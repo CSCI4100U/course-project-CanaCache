@@ -22,7 +22,7 @@ enum CanaRoute {
   Widget Function(BuildContext context) get builder {
     switch (this) {
       case home:
-        return (context) => const NavigationPage();
+        return (context) => NavigationPage();
       case settings:
         return (context) => const SettingsPageView();
       case signIn:

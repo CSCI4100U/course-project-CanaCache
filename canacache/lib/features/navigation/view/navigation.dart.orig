@@ -22,8 +22,13 @@ class NavigationPage extends StatefulWidget {
     ),
     const TabBarItem(
       iconData: Icons.multiline_chart,
-      titleKey: "navbar.titles.stats",
+<<<<<<< HEAD
+      title: "Stats",
       page: StatHomeView(),
+=======
+      titleKey: "navbar.titles.stats",
+      page: Placeholder(),
+>>>>>>> main
     ),
     const TabBarItem(
       iconData: Icons.person,

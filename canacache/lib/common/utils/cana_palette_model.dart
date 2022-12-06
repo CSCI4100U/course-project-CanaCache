@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 
 enum CanaTheme {
   light(
-    themeName: "Light Theme",
     primaryBgColor: Color(0xFFFFFFFF),
     primaryIconColor: Color(0xFF8E918F),
     primaryTextColor: Color(0xFF0F0F0F),
@@ -17,7 +16,6 @@ enum CanaTheme {
     errorFontFamily: "RaleWay",
   ),
   dark(
-    themeName: "Dark Theme",
     primaryBgColor: Color(0xFF1C1B1F),
     primaryIconColor: Color(0xFF8E918F),
     primaryTextColor: Color(0xFFFFFFFF),
@@ -33,8 +31,6 @@ enum CanaTheme {
   );
 
   static const defaultTheme = light;
-
-  final String themeName;
 
   final Color primaryBgColor;
   final Color primaryIconColor;
@@ -52,7 +48,6 @@ enum CanaTheme {
   final String errorFontFamily;
 
   const CanaTheme({
-    required this.themeName,
     required this.primaryBgColor,
     required this.primaryIconColor,
     required this.primaryTextColor,
@@ -68,5 +63,8 @@ enum CanaTheme {
   });
 
   @override
-  String toString() => themeName;
+  String toString() => name;
+
+  /// i18n translation key
+  String get nameKey => "settings.theme.colour.options.$name";
 }
