@@ -128,21 +128,20 @@ class UserProfilePageState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // creepy hello message
-              Container(
-                padding: const EdgeInsets.only(top: 10, bottom: 22),
-                child: Text(
-                  translate(
-                    "profile.hello",
-                    args: {"name": data.user.fallbackDisplayName},
-                  ),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: theme.primaryTextColor,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const SizedBox(height: 10),
+              Text(
+                translate(
+                  "profile.hello",
+                  args: {"name": data.user.fallbackDisplayName},
+                ),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: theme.primaryTextColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(height: 22),
 
               // avatar
               EditableAvatar(

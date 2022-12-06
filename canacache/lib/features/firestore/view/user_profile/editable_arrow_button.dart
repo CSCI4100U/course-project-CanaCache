@@ -62,7 +62,10 @@ class EditableArrowButton extends StatelessWidget {
                     child: Text(
                       text!,
                       textAlign: TextAlign.justify, // justify looks prettier
-                      style: TextStyle(color: theme.primaryTextColor),
+                      style: TextStyle(
+                        color: theme.primaryTextColor,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ],
