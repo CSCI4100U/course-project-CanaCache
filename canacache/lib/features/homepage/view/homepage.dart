@@ -93,15 +93,15 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
     }
 
     List<Widget> actions = [
-      TextButton(
-        onPressed: () {},
-        child: Text(
-          translate("cache.info.show_items_button").toUpperCase(),
-          style: TextStyle(
-            color: selectedTheme.primaryTextColor,
-          ),
-        ),
-      )
+      // TextButton(
+      //   onPressed: () {},
+      //   child: Text(
+      //     translate("cache.info.show_items_button").toUpperCase(),
+      //     style: TextStyle(
+      //       color: selectedTheme.primaryTextColor,
+      //     ),
+      //   ),
+      // )
     ];
 
     await Users().getCurrentUser().then((user) {
