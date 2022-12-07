@@ -1,5 +1,7 @@
 {
     "app": "CanaCache",
+    "yes": "Yes",
+    "no": "No",
     "cache": {
         "info": {
             "title": "Cache Info",
@@ -9,6 +11,13 @@
             "address": "Address",
             "latlng": "Coordinates",
             "distance": "Distance"
+        },
+        "edit": {
+            "alert": {
+                "title": "Create New Cache",
+                "content": "Would you like to create a cache at {location}?"
+            },
+            "name": "Name"
         }
     },
     "navbar": {

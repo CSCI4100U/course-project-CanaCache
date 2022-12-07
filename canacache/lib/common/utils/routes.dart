@@ -1,4 +1,5 @@
 import "package:canacache/features/auth/view/sign_in.dart";
+import "package:canacache/features/firestore/view/create_cache/modify_cache_page.dart";
 import "package:canacache/features/firestore/view/user_profile/user_items_list_page.dart";
 import "package:canacache/features/navigation/view/navigation.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
@@ -7,11 +8,15 @@ import "package:canacache/features/stats/view/stat_time_view.dart";
 import "package:canacache/features/stats/view/stats_steps_view.dart";
 import "package:flutter/material.dart";
 
+// TODO: give better name
+class SkillIssueError extends Error {}
+
 /// Main named routes for the app.
 ///
 /// Usage: `Navigator.pushNamed(context, CanaRoute.home.name);`
 enum CanaRoute {
   home,
+  createCache,
   profileItems,
   statsSteps,
   statsTime,
@@ -25,6 +30,17 @@ enum CanaRoute {
     switch (this) {
       case home:
         return (context) => NavigationPage();
+      case createCache:
+        return (context) {
+          try {
+            return CreateCache(
+              args: ModalRoute.of(context)?.settings.arguments
+                  as CreateCacheArguments,
+            );
+          } catch (e) {
+            throw SkillIssueError();
+          }
+        };
       case profileItems:
         return (context) => const UserItemsListPage();
       case settings:

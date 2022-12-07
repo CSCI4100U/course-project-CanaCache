@@ -47,7 +47,4 @@ class Cache extends DocumentModel<Cache> {
     }
     return super.delete();
   }
-
-  // TODO: implement this
-  // static List<Cache> getNearbyCaches(User user) {};
 }

@@ -1,5 +1,7 @@
 {
     "app": "CanaCache",
+    "yes": "Sim",
+    "no": "i don't have the letter to type no",
     "cache": {
         "info": {
             "title": "Informação do Cache",
@@ -9,6 +11,13 @@
             "address": "Endereço",
             "latlng": "Coordenadas",
             "distance": "Distância"
+        },
+        "edit": {
+            "alert": {
+                "title": "Create new cache but in pt-BR",
+                "content": "Would you like to create a cache at {location}? but in pt-BR"
+            },
+            "name": "Nome"
         }
     },
     "navbar": {

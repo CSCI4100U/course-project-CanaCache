@@ -1,10 +1,14 @@
 import "dart:async";
 import "package:canacache/common/utils/mvc.dart";
+import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
+import "package:canacache/features/firestore/view/modify_cache/modify_cache_page.dart";
 import "package:canacache/features/homepage/model/map_model.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/stats_recording/distance_recorder.dart";
+import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:flutter_translate/flutter_translate.dart";
 import "package:geolocator/geolocator.dart";
 import "package:latlong2/latlong.dart";
 
@@ -36,7 +40,44 @@ class HomePageController extends Controller<HomePage, HomePageState> {
 
     if (event.source == MapEventSource.longPress) {
       // put popup or redirect to new page to add a cache
+      // event.center is coordinates
+      LatLng coords = event.center;
+      displayDialog(state.context, coords);
     }
+  }
+
+  // should this be in controller?
+  Future<void> displayDialog(
+    BuildContext context,
+    LatLng coordinates,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(translate("cache.edit.alert.title")),
+          content: Text(
+            translate("cache.edit.alert.content", args: {
+                "location": coordinates,
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(state.context).pushNamed(
+                CanaRoute.createCache.name,
+                arguments: CreateCacheArguments(coordinates: coordinates),
+              ),
+              child: Text(translate("yes")),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(state.context).pop(),
+              child: Text(translate("no")),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void onPositionUpdate(Position? position) {
