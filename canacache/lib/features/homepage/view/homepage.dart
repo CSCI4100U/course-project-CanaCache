@@ -116,7 +116,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
           builder: (context) => IconButton(
             icon: Icon(
               size: 20 * (log(con.mapOptions.maxZoom! - con.currentZoomLevel)),
-              Icons.all_inbox,
+              Icons.location_pin,
               color: selectedTheme.secIconColor,
             ),
             onPressed: () => showCache(context, cache),
