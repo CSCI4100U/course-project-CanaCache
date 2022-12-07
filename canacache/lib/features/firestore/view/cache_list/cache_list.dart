@@ -1,6 +1,7 @@
 import "package:canacache/common/utils/formatting.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/controller/cache_list_controller.dart";
+import "package:canacache/features/firestore/model/documents/user.dart";
 import "package:canacache/features/firestore/view/cache_list/cache_list_page.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
@@ -9,8 +10,9 @@ import "package:provider/provider.dart";
 
 class CacheList extends StatefulWidget {
   final List<CacheAndDistance> items;
+  final CanaUser user;
 
-  const CacheList({super.key, required this.items});
+  const CacheList({super.key, required this.items, required this.user});
 
   @override
   State<CacheList> createState() => CacheListState();
@@ -34,47 +36,72 @@ class CacheListState extends ViewState<CacheList, CacheListController> {
       con.sortCaches(sortColumnIndex!, sortAscending);
     }
 
-    return DataTable(
-      sortColumnIndex: sortColumnIndex,
-      sortAscending: sortAscending,
-      columns: [
-        DataColumn(
-          label: Text(
-            translate("list.title"),
-            style: TextStyle(color: theme.primaryTextColor),
+    return InteractiveViewer(
+      constrained: false,
+      child: DataTable(
+        columnSpacing: 1,
+        sortColumnIndex: sortColumnIndex,
+        sortAscending: sortAscending,
+        columns: [
+          DataColumn(
+            label: Icon(Icons.star, color: theme.primaryIconColor),
+            onSort: con.sortCachesAndUpdate,
           ),
-          numeric: false,
-          onSort: con.sortCachesAndUpdate,
-        ),
-        DataColumn(
-          label: Text(
-            translate("list.distance"),
-            style: TextStyle(color: theme.primaryTextColor),
-          ),
-          numeric: true,
-          onSort: con.sortCachesAndUpdate,
-        ),
-      ],
-      rows: widget.items
-          .map(
-            (item) => DataRow(
-              cells: [
-                DataCell(
-                  Text(
-                    item.cache.name,
-                    style: TextStyle(color: theme.primaryTextColor),
-                  ),
-                ),
-                DataCell(
-                  Text(
-                    formatDistance(item.distance, settings),
-                    style: TextStyle(color: theme.primaryTextColor),
-                  ),
-                ),
-              ],
+          DataColumn(
+            label: Text(
+              translate("list.title"),
+              style: TextStyle(color: theme.primaryTextColor),
             ),
-          )
-          .toList(),
+            numeric: false,
+            onSort: con.sortCachesAndUpdate,
+          ),
+          DataColumn(
+            label: Text(
+              translate("list.distance"),
+              style: TextStyle(color: theme.primaryTextColor),
+            ),
+            numeric: true,
+            onSort: con.sortCachesAndUpdate,
+          ),
+        ],
+        rows: widget.items
+            .map(
+              (item) => DataRow(
+                cells: [
+                  DataCell(
+                    Stack(
+                      children: [
+                        // fancy two-tone star uwu
+                        if (item.isStarred)
+                          Icon(
+                            Icons.star,
+                            color: theme.secIconColor,
+                          ),
+                        Icon(
+                          Icons.star_border,
+                          color: theme.primaryIconColor,
+                        ),
+                      ],
+                    ),
+                    onTap: () => con.toggleCacheStar(item),
+                  ),
+                  DataCell(
+                    Text(
+                      item.cache.name,
+                      style: TextStyle(color: theme.primaryTextColor),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      formatDistance(item.distance, settings),
+                      style: TextStyle(color: theme.primaryTextColor),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

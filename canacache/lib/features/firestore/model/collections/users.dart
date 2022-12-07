@@ -33,4 +33,12 @@ class Users extends CollectionModel<CanaUser> {
     await newUser.create();
     return newUser;
   }
+
+  /// Stream the user object for the current user.
+  ///
+  /// Throws if not logged in or if the object doesn't exist. Sorry. I'm tired.
+  Stream<CanaUser> streamCurrentUser() {
+    return streamObject(FirebaseAuth.instance.currentUser!.uid)
+        .map((user) => user!);
+  }
 }

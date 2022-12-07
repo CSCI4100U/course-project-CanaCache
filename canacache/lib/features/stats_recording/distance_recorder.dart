@@ -2,7 +2,7 @@ import "dart:async";
 import "dart:math";
 import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
-import "package:canacache/common/utils/formatting_extensions.dart";
+import "package:canacache/common/utils/extensions.dart";
 import "package:canacache/common/utils/geo.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:geolocator/geolocator.dart";
