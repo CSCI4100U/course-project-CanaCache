@@ -177,6 +177,24 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
         ),
       );
     }
+    // position
+    markers.add(
+      Marker(
+        builder: (context) => Stack(
+          children: [
+            Icon(
+              Icons.circle,
+              color: selectedTheme.secIconColor,
+            ),
+            Icon(
+              Icons.circle_outlined,
+              color: selectedTheme.primaryIconColor,
+            ),
+          ],
+        ),
+        point: con.currentPos,
+      ),
+    );
     return markers;
   }
 
