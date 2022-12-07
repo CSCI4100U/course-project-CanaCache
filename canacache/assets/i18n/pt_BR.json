@@ -1,7 +1,7 @@
 {
     "app": "CanaCache",
     "yes": "Sim",
-    "no": "i don't have the letter to type no",
+    "no": "Não",
     "cache": {
         "info": {
             "title": "Informação do Cache",
@@ -14,8 +14,8 @@
         },
         "edit": {
             "alert": {
-                "title": "Create new cache but in pt-BR",
-                "content": "Would you like to create a cache at {location}? but in pt-BR"
+                "title": "Criar novo cache",
+                "content": "Você gostaria de criar um novo cache em {location}?"
             },
             "name": "Nome"
         }
