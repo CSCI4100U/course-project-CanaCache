@@ -1,10 +1,12 @@
 import "dart:async";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
+import "package:canacache/features/firestore/model/documents/user.dart";
 import "package:canacache/features/homepage/model/map_model.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/stats_recording/distance_recorder.dart";
 import "package:flutter_map/flutter_map.dart";
+import 'package:geocoding/geocoding.dart';
 import "package:geolocator/geolocator.dart";
 import "package:latlong2/latlong.dart";
 
@@ -36,8 +38,34 @@ class HomePageController extends Controller<HomePage, HomePageState> {
 
     if (event.source == MapEventSource.longPress) {
       // put popup or redirect to new page to add a cache
+      // event.center is coordinates
+      LatLng coords = event.center;
+      handleLongPress(coords);
     }
   }
+
+  bool isCacheCreator(Cache cache, CanaUser user) {
+    return cache.uid == user.ref.id;
+  }
+
+  Future<String> getAddressFromLatLng(LatLng coords) async {
+    final List<Placemark> placeMarks = await placemarkFromCoordinates(
+      coords.latitude,
+      coords.longitude,
+    );
+    if (placeMarks.isNotEmpty) {
+      Placemark place = placeMarks[0];
+      return "${place.subThoroughfare} ${place.thoroughfare}";
+    }
+    return "(${coords.latitude}, ${coords.longitude})";
+  }
+
+  Future<void> handleLongPress(LatLng coords) async {
+    String address = await getAddressFromLatLng(coords).then((value) => value);
+
+    state.displayCreateCacheDialog(address, coords);
+  }
+
 
   void onPositionUpdate(Position? position) {
     if (position == null) {

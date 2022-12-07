@@ -1,6 +1,9 @@
 {
     "app": "CanaCache",
+    "yes": "Sim",
+    "no": "Não",
     "cache": {
+        "name": "cache",
         "info": {
             "title": "Informação do Cache",
             "name": "Nome do Cache: {cache_name}",
@@ -8,7 +11,17 @@
             "modified": "Data Modificado",
             "address": "Endereço",
             "latlng": "Coordenadas",
-            "distance": "Distância"
+            "distance": "Distância",
+            "edit_button": "Editar",
+            "show_items_button": "Itens",
+            "delete_button": "Delete"
+        },
+        "edit": {
+            "alert": {
+                "title": "Criar novo cache",
+                "content": "Você gostaria de criar um novo cache em {location}?"
+            },
+            "name": "Nome"
         }
     },
     "navbar": {

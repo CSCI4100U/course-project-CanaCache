@@ -18,7 +18,7 @@ class HomePageMapModel {
   final String _token =
       "pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
   final String _mapID =
-      "https://api.mapbox.com/styles/v1/map7331/clag6jg8a000215rvo3v6xq14/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWFwNzMzMSIsImEiOiJjbGFnNmNkYWQxYXlhM29xeXJpY2I0dzVvIn0.YchBb4ONJyhaPMzXanClEQ";
+      "https://api.mapbox.com/styles/v1/map7331/clag6jg8a000215rvo3v6xq14/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}";
 
   double currentZoomLevel = 25;
   final manhattanDistance = 20; // units are km
@@ -82,7 +82,7 @@ class HomePageMapModel {
     auth = TileLayerOptions(
       urlTemplate: _mapID,
       additionalOptions: {
-        "accessToken": _token,
+        "access_token": _token,
       },
     );
   }

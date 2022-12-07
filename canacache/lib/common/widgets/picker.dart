@@ -7,6 +7,7 @@ void canaShowDialog(
   BuildContext context,
   Widget content,
   String title,
+  {List<Widget>? actions,}
 ) async {
   CanaTheme selectedTheme =
       Provider.of<SettingsProvider>(context, listen: false).theme;
@@ -25,6 +26,7 @@ void canaShowDialog(
         ),
       ),
       content: content,
+      actions: actions ?? [],
     ),
   );
 }
