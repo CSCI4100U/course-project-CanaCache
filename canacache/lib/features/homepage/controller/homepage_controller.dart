@@ -87,7 +87,7 @@ class HomePageController extends Controller<HomePage, HomePageState> {
     _mapModel.currentPos = LatLng(position.latitude, position.longitude);
 
     if (_mapModel.firstLocation) {
-      _mapModel.mapController.move(_mapModel.currentPos, 10);
+      _mapModel.mapController.move(_mapModel.currentPos, 12);
       _mapModel.firstLocation = false;
     }
 
