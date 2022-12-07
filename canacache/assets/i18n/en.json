@@ -73,6 +73,11 @@
         "github": "Sign in with Github",
         "successful": "Successfully signed in as {email}"
     },
+    "list": {
+        "title": "Title",
+        "location": "Location",
+        "distance": "Distance"
+    },
     "settings": {
         "title": "Settings",
         "logout": "Logout",

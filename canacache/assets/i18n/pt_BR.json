@@ -73,6 +73,11 @@
         "github": "Entrar com Github",
         "successful": "Conectado com sucesso como {email}"
     },
+    "list": {
+        "title": "Título",
+        "location": "Localização",
+        "distance": "Distância"
+    },
     "settings": {
         "title": "Configurações",
         "logout": "Sair",

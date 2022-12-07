@@ -12,8 +12,12 @@ class CanaUser extends DocumentModel<CanaUser> {
   String? displayName;
   Timestamp joinedAt;
   String? pronouns;
+  List<DocumentReference<Cache>> starredCaches;
   List<DocumentReference<Cache>> visitedCaches;
   String? website;
+
+  /// not a field, inserting won't do anything
+  final Set<String> starredCacheIds;
 
   CanaUser.withRef({
     required DocumentReference<CanaUser> ref,
@@ -21,9 +25,11 @@ class CanaUser extends DocumentModel<CanaUser> {
     this.displayName,
     this.pronouns,
     Timestamp? joinedAt,
+    this.starredCaches = const [],
     this.visitedCaches = const [],
     this.website,
   })  : joinedAt = joinedAt ?? Timestamp.now(),
+        starredCacheIds = Set.from(starredCaches.map((r) => r.id)),
         super(ref);
 
   CanaUser.fromMap(Map<String, dynamic> map, super.ref)
@@ -31,11 +37,17 @@ class CanaUser extends DocumentModel<CanaUser> {
         displayName = map["displayName"],
         joinedAt = map["joinedAt"],
         pronouns = map["pronouns"],
-        visitedCaches = Caches().convertDocumentReferences(
+        starredCaches = Caches().convertDocumentReferences(
           // need this in case the list is empty
-          List<RawDocumentReference>.from(map["visitedCaches"]),
+          List<RawDocumentReference>.from(map["starredCaches"] ?? []),
         ),
-        website = map["website"];
+        visitedCaches = Caches().convertDocumentReferences(
+          List<RawDocumentReference>.from(map["visitedCaches"] ?? []),
+        ),
+        website = map["website"],
+        starredCacheIds = Set.from(
+          map["starredCaches"]?.map((r) => r.id) ?? [],
+        );
 
   @override
   Map<String, dynamic> toMap() => {
@@ -43,6 +55,7 @@ class CanaUser extends DocumentModel<CanaUser> {
         "displayName": displayName,
         "joinedAt": joinedAt,
         "pronouns": pronouns,
+        "starredCaches": starredCaches,
         "visitedCaches": visitedCaches,
         "website": website,
       };

@@ -1,8 +1,12 @@
 enum DistanceUnit {
-  kilometer,
-  meter,
-  mile,
-  yard;
+  kilometer("km"),
+  meter("m"),
+  mile("mi"),
+  yard("y");
+
+  final String abbreviation;
+
+  const DistanceUnit(this.abbreviation);
 
   @override
   String toString() => name;

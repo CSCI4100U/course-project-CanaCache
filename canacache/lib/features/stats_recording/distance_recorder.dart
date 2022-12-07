@@ -2,8 +2,36 @@ import "dart:async";
 import "dart:math";
 import "package:canacache/common/utils/db_ops.dart";
 import "package:canacache/common/utils/db_schema.dart";
+import "package:canacache/common/utils/extensions.dart";
+import "package:canacache/common/utils/geo.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:geolocator/geolocator.dart";
 import "package:vector_math/vector_math.dart";
+
+// "borrowed" from here https://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
+double haversineGeoPoint(GeoPoint pos1, GeoPoint pos2) {
+  double lat1 = radians(pos1.latitude);
+  double lat2 = radians(pos2.latitude);
+
+  double lon1 = radians(pos1.longitude);
+  double lon2 = radians(pos2.longitude);
+
+  double dLon = lon2 - lon1;
+  double dLat = lat2 - lat1;
+
+  double a =
+      pow(sin(dLat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dLon / 2), 2);
+
+  double c = 2 * asin(sqrt(a));
+
+  // accepted value for radius of earth in meters
+  // https://en.wikipedia.org/wiki/Earth_radius#History
+  double m = 6378100.0 * c;
+  return m;
+}
+
+double haversinePosition(Position pos1, Position pos2) =>
+    haversineGeoPoint(pos1.toGeoPoint(), pos2.toGeoPoint());
 
 class LocationPermException implements Exception {
   String cause;
@@ -16,51 +44,9 @@ class DistanceRecorder {
 
   // this is ripped directly from https://pub.dev/packages/geolocator
   Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      throw LocationPermException("Location services are disabled.");
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        throw LocationPermException("Location permissions are denied");
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      throw LocationPermException(
-        "Location permissions are permanently denied, we cannot request permissions.",
-      );
-    }
+    await verifyLocationPermissions();
 
     return await Geolocator.getCurrentPosition();
-  }
-
-  // "borrowed" from here https://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
-  double haversine(Position pos1, Position pos2) {
-    double lat1 = radians(pos1.latitude);
-    double lat2 = radians(pos2.latitude);
-
-    double lon1 = radians(pos1.longitude);
-    double lon2 = radians(pos2.longitude);
-
-    double dLon = lon2 - lon1;
-    double dLat = lat2 - lat1;
-
-    double a =
-        pow(sin(dLat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dLon / 2), 2);
-
-    double c = 2 * asin(sqrt(a));
-
-    // accepted value for radius of earth in meters
-    // https://en.wikipedia.org/wiki/Earth_radius#History
-    double m = 6378100.0 * c;
-    return m;
   }
 
   Future<void> newEpoch() async {
@@ -74,7 +60,7 @@ class DistanceRecorder {
     if (lastPos != null) {
       DateTime now = DateTime.now();
       DateTime currentHour = DateTime(now.year, now.month, now.day, now.hour);
-      int distance = haversine(currentPos, lastPos!).floor();
+      int distance = haversinePosition(currentPos, lastPos!).floor();
 
       // more than a few meters of noise in most gps
       // 4 meters should be more than enought to ignore most noise

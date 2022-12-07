@@ -1,7 +1,7 @@
 import "dart:math";
 
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/formatting_extensions.dart";
+import "package:canacache/common/utils/extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/widgets/picker.dart";
@@ -169,7 +169,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
           builder: (context) => IconButton(
             icon: Icon(
               size: 20 * (log(con.mapOptions.maxZoom! - con.currentZoomLevel)),
-              Icons.all_inbox,
+              Icons.location_pin,
               color: selectedTheme.secIconColor,
             ),
             onPressed: () => showCache(context, cache),

@@ -2,7 +2,7 @@ import "dart:convert";
 import "dart:io";
 
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/formatting_extensions.dart";
+import "package:canacache/common/utils/extensions.dart";
 import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/units.dart";
 import "package:path_provider/path_provider.dart";

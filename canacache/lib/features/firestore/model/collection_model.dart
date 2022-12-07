@@ -88,6 +88,12 @@ abstract class CollectionModel<Doc extends DocumentModel<Doc>> {
     return snapshot.docs.map((doc) => doc.data()).toList();
   }
 
+  Stream<Doc?> streamObject(String id, {bool includeMetadataChanges = false}) {
+    return getDocumentReference(id)
+        .snapshots(includeMetadataChanges: includeMetadataChanges)
+        .map((s) => s.data());
+  }
+
   Stream<List<Doc>> streamObjects({bool includeMetadataChanges = false}) {
     return getCollection()
         .snapshots(includeMetadataChanges: includeMetadataChanges)
