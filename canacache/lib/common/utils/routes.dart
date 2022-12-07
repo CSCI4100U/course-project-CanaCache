@@ -8,8 +8,7 @@ import "package:canacache/features/stats/view/stat_time_view.dart";
 import "package:canacache/features/stats/view/stats_steps_view.dart";
 import "package:flutter/material.dart";
 
-// TODO: give better name
-class SkillIssueError extends Error {}
+class NoArgumentsError extends Error {}
 
 /// Main named routes for the app.
 ///
@@ -38,7 +37,7 @@ enum CanaRoute {
                   as ModifyCacheArguments,
             );
           } catch (e) {
-            throw SkillIssueError();
+            throw NoArgumentsError();
           }
         };
       case profileItems:

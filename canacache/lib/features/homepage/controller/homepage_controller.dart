@@ -1,14 +1,10 @@
 import "dart:async";
 import "package:canacache/common/utils/mvc.dart";
-import "package:canacache/common/utils/routes.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
-import "package:canacache/features/firestore/view/modify_cache/modify_cache_page.dart";
 import "package:canacache/features/homepage/model/map_model.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/stats_recording/distance_recorder.dart";
-import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
-import "package:flutter_translate/flutter_translate.dart";
 import "package:geolocator/geolocator.dart";
 import "package:latlong2/latlong.dart";
 
