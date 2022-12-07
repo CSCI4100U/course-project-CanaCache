@@ -61,8 +61,9 @@
         "successful": "Conectado com sucesso como {email}"
     },
     "list": {
-        "title": "título",
-        "location": "localização"
+        "title": "Título",
+        "location": "Localização",
+        "distance": "Distância"
     },
     "settings": {
         "title": "Configurações",

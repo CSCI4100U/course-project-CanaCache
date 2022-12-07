@@ -1,4 +1,5 @@
 import "package:cloud_firestore/cloud_firestore.dart";
+import "package:geolocator/geolocator.dart";
 
 extension GeoPointToString on GeoPoint {
   String toLatLng() {
@@ -16,4 +17,8 @@ extension EnumTryByName<T extends Enum> on Iterable<T> {
     }
     return null;
   }
+}
+
+extension PositionToGeoPoint on Position {
+  GeoPoint toGeoPoint() => GeoPoint(latitude, longitude);
 }

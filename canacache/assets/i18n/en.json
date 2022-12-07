@@ -62,7 +62,8 @@
     },
     "list": {
         "title": "Title",
-        "location": "Location"
+        "location": "Location",
+        "distance": "Distance"
     },
     "settings": {
         "title": "Settings",
