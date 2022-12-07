@@ -1,10 +1,12 @@
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
+import "package:canacache/features/settings/view/locale_picker.dart";
+import "package:canacache/features/settings/view/theme_picker_content.dart";
+import "package:canacache/features/settings/view/unit_picker_content.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_translate/flutter_translate.dart";
@@ -19,132 +21,6 @@ class SettingsPageView extends StatefulWidget {
 }
 
 class _SettingsPage extends State<SettingsPageView> {
-  Widget generatePickerItem(
-    BuildContext context,
-    String Function() buildSnackBarText,
-    String itemText,
-    bool highlight,
-    Future<void> Function() callback,
-  ) {
-    CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).theme;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
-      child: InkWell(
-        onTap: () async {
-          await callback();
-          if (!mounted) return;
-
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            successCanaSnackBar(context, buildSnackBarText()),
-          );
-        },
-        child: Container(
-          color: highlight
-              ? selectedTheme.secBgColor
-              : selectedTheme.primaryBgColor,
-          child: Center(
-            child: Text(
-              itemText,
-              style: TextStyle(
-                color: selectedTheme.primaryTextColor,
-                fontSize: 40,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Column generateUnitPickerContent(BuildContext context) {
-    List<Widget> content = [];
-
-    Unit providedUnit =
-        Provider.of<SettingsProvider>(context, listen: false).unit;
-
-    for (DistanceUnit k in DistanceUnit.values) {
-      Unit currentUnit = Unit(distanceUnit: k);
-
-      content.add(
-        generatePickerItem(
-          context,
-          () => translate(
-            "settings.units.distance.change",
-            args: {
-              "distance": translate(currentUnit.distanceUnit.nameKey),
-            },
-          ),
-          translate(k.nameKey),
-          currentUnit.distanceUnit == providedUnit.distanceUnit,
-          () async => Provider.of<SettingsProvider>(context, listen: false)
-              .unit = currentUnit,
-        ),
-      );
-    }
-    return Column(children: content);
-  }
-
-  Column generateThemePickerContent(BuildContext context) {
-    /*
-BuildContext context,
-    String snackBarText,
-    String itemText,
-    bool highlight,
-    VoidCallback callback,
-
-         */
-    List<Widget> content = [];
-    CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).theme;
-
-    for (final theme in CanaTheme.values) {
-      content.add(
-        generatePickerItem(
-          context,
-          () => translate(
-            "settings.theme.colour.change",
-            args: {"theme": translate(theme.nameKey)},
-          ),
-          translate(theme.nameKey),
-          theme == selectedTheme,
-          () async => Provider.of<SettingsProvider>(context, listen: false)
-              .theme = theme,
-        ),
-      );
-    }
-
-    return Column(children: content);
-  }
-
-  Column generateLocalePickerContent(BuildContext context) {
-    List<Widget> content = [];
-
-    AppLocale selectedLanguage =
-        Provider.of<SettingsProvider>(context, listen: false).language;
-
-    for (AppLocale locale in AppLocale.values) {
-      content.add(
-        generatePickerItem(
-          context,
-          () => translate(
-            "settings.locale.language.change",
-            args: {
-              "locale": translate(locale.nameKey),
-            },
-          ),
-          translate(locale.nameKey),
-          selectedLanguage.name == locale.name,
-          () async => Provider.of<SettingsProvider>(context, listen: false)
-              .setLanguage(context, locale),
-        ),
-      );
-    }
-    return Column(children: content);
-  }
-
   SettingsTile generateSettingsTile(
     BuildContext context,
     String tileText,
@@ -188,7 +64,7 @@ BuildContext context,
             translate("settings.theme.colour.title"),
             () => canaShowDialog(
               context,
-              generateThemePickerContent(context),
+              const ThemePickerContent(),
               translate("settings.theme.colour.subtitle"),
             ),
             Icons.format_paint,
@@ -207,7 +83,7 @@ BuildContext context,
             translate("settings.units.distance.title"),
             () => canaShowDialog(
               context,
-              generateUnitPickerContent(context),
+              const UnitPickerContent(),
               translate("settings.units.distance.subtitle"),
             ),
             Icons.speed,
@@ -226,7 +102,7 @@ BuildContext context,
             translate("settings.locale.language.title"),
             () => canaShowDialog(
               context,
-              generateLocalePickerContent(context),
+              const LocalePickerContent(),
               translate("settings.locale.language.subtitle"),
             ),
             Icons.translate,
