@@ -1,5 +1,5 @@
 import "package:canacache/features/auth/view/sign_in.dart";
-import "package:canacache/features/firestore/view/create_cache/modify_cache_page.dart";
+import "package:canacache/features/firestore/view/modify_cache/modify_cache_page.dart";
 import "package:canacache/features/firestore/view/user_profile/user_items_list_page.dart";
 import "package:canacache/features/navigation/view/navigation.dart";
 import "package:canacache/features/settings/view/settings_view.dart";
@@ -16,7 +16,7 @@ class SkillIssueError extends Error {}
 /// Usage: `Navigator.pushNamed(context, CanaRoute.home.name);`
 enum CanaRoute {
   home,
-  createCache,
+  modifyCache,
   profileItems,
   statsSteps,
   statsTime,
@@ -30,12 +30,12 @@ enum CanaRoute {
     switch (this) {
       case home:
         return (context) => NavigationPage();
-      case createCache:
+      case modifyCache:
         return (context) {
           try {
-            return CreateCache(
+            return ModifyCache(
               args: ModalRoute.of(context)?.settings.arguments
-                  as CreateCacheArguments,
+                  as ModifyCacheArguments,
             );
           } catch (e) {
             throw SkillIssueError();

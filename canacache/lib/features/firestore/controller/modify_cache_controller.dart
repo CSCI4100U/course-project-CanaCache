@@ -6,7 +6,7 @@ import "package:canacache/features/firestore/view/modify_cache/modify_cache_page
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
-class CreateCacheController extends Controller<CreateCache, CreateCacheState> {
+class ModifyCacheController extends Controller<ModifyCache, ModifyCacheState> {
   final formKey = GlobalKey<FormState>();
   Cache? cache;
   String name = "";

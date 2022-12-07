@@ -1,41 +1,45 @@
+import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/firestore/controller/modify_cache_controller.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
+import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:flutter/material.dart";
 import "package:flutter_translate/flutter_translate.dart";
 import "package:latlong2/latlong.dart";
+import "package:provider/provider.dart";
 
-class CreateCacheArguments {
+class ModifyCacheArguments {
   LatLng? coordinates;
   Cache? cache;
 
-  CreateCacheArguments({this.coordinates, this.cache});
+  ModifyCacheArguments({this.coordinates, this.cache});
 }
 
-class CreateCache extends StatefulWidget {
-  const CreateCache({
+class ModifyCache extends StatefulWidget {
+  const ModifyCache({
     super.key,
     required this.args,
   });
 
-  final CreateCacheArguments args;
+  final ModifyCacheArguments args;
 
   @override
-  State<CreateCache> createState() => CreateCacheState();
+  State<ModifyCache> createState() => ModifyCacheState();
 }
 
-class CreateCacheState extends ViewState<CreateCache, CreateCacheController> {
-  CreateCacheState() : super(CreateCacheController());
+class ModifyCacheState extends ViewState<ModifyCache, ModifyCacheController> {
+  ModifyCacheState() : super(ModifyCacheController());
 
   @override
   Widget build(BuildContext context) {
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context).theme;
+
     return CanaScaffold(
       body: Form(
         key: con.formKey,
         child: Column(
           children: [
-            // TODO: refactor and localize
             TextFormField(
               decoration: InputDecoration(
                 icon: const Icon(Icons.drive_file_rename_outline),
@@ -44,7 +48,6 @@ class CreateCacheState extends ViewState<CreateCache, CreateCacheController> {
               initialValue: widget.args.cache?.name ?? "",
               onChanged: (value) => con.name = value,
             ),
-            // TODO: center this
             ElevatedButton(
               onPressed: con.saveCacheAndClose,
               child: Text(translate("edit_dialog.save")),

@@ -65,8 +65,8 @@ class HomePageController extends Controller<HomePage, HomePageState> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(state.context).pushNamed(
-                CanaRoute.createCache.name,
-                arguments: CreateCacheArguments(coordinates: coordinates),
+                CanaRoute.modifyCache.name,
+                arguments: ModifyCacheArguments(coordinates: coordinates),
               ),
               child: Text(translate("yes")),
             ),
