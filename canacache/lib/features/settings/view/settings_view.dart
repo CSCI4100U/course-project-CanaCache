@@ -1,10 +1,12 @@
 import "package:canacache/common/utils/cana_palette_model.dart";
-import "package:canacache/common/utils/snackbars.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/common/widgets/scaffold.dart";
 import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
 import "package:canacache/features/settings/model/units.dart";
+import "package:canacache/features/settings/view/locale_picker.dart";
+import "package:canacache/features/settings/view/theme_picker_content.dart";
+import "package:canacache/features/settings/view/unit_picker_content.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_translate/flutter_translate.dart";
@@ -16,151 +18,6 @@ class SettingsPageView extends StatefulWidget {
 
   @override
   State<SettingsPageView> createState() => _SettingsPage();
-}
-
-class PickerItem extends StatelessWidget {
-  final String Function() buildSnackBarText;
-  final String itemText;
-  final bool highlight;
-  final Future<void> Function() callback;
-
-  const PickerItem({
-    super.key,
-    required this.buildSnackBarText,
-    required this.itemText,
-    required this.highlight,
-    required this.callback,
-  });
-
-  @override
-  Widget build(BuildContext context, {mounted = true}) {
-    CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).theme;
-    // mounted is always true in StatelessWidget
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20),
-      child: InkWell(
-        onTap: () async {
-          await callback();
-          if (!mounted) {
-            return;
-          }
-
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            successCanaSnackBar(context, buildSnackBarText()),
-          );
-        },
-        child: Container(
-          color: highlight
-              ? selectedTheme.secBgColor
-              : selectedTheme.primaryBgColor,
-          child: Center(
-            child: Text(
-              itemText,
-              style: TextStyle(
-                color: selectedTheme.primaryTextColor,
-                fontSize: 40,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class UnitPickerContent extends StatelessWidget {
-  const UnitPickerContent({super.key});
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> content = [];
-
-    Unit providedUnit =
-        Provider.of<SettingsProvider>(context, listen: false).unit;
-
-    for (DistanceUnit k in DistanceUnit.values) {
-      Unit currentUnit = Unit(distanceUnit: k);
-
-      content.add(
-        PickerItem(
-          buildSnackBarText: () => translate(
-            "settings.units.distance.change",
-            args: {
-              "distance": translate(currentUnit.distanceUnit.nameKey),
-            },
-          ),
-          itemText: translate(k.nameKey),
-          highlight: currentUnit.distanceUnit == providedUnit.distanceUnit,
-          callback: () async =>
-              Provider.of<SettingsProvider>(context, listen: false).unit =
-                  currentUnit,
-        ),
-      );
-    }
-    return Column(children: content);
-  }
-}
-
-class ThemePickerContent extends StatelessWidget {
-  const ThemePickerContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> content = [];
-    CanaTheme selectedTheme =
-        Provider.of<SettingsProvider>(context, listen: false).theme;
-
-    for (final theme in CanaTheme.values) {
-      content.add(
-        PickerItem(
-          buildSnackBarText: () => translate(
-            "settings.theme.colour.change",
-            args: {"theme": translate(theme.nameKey)},
-          ),
-          itemText: translate(theme.nameKey),
-          highlight: theme == selectedTheme,
-          callback: () async =>
-              Provider.of<SettingsProvider>(context, listen: false).theme =
-                  theme,
-        ),
-      );
-    }
-
-    return Column(children: content);
-  }
-}
-
-class LocalePickerContent extends StatelessWidget {
-  const LocalePickerContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> content = [];
-
-    AppLocale selectedLanguage =
-        Provider.of<SettingsProvider>(context, listen: false).language;
-
-    for (AppLocale locale in AppLocale.values) {
-      content.add(
-        PickerItem(
-          buildSnackBarText: () => translate(
-            "settings.locale.language.change",
-            args: {
-              "locale": translate(locale.nameKey),
-            },
-          ),
-          itemText: translate(locale.nameKey),
-          highlight: selectedLanguage.name == locale.name,
-          callback: () async =>
-              Provider.of<SettingsProvider>(context, listen: false)
-                  .setLanguage(context, locale),
-        ),
-      );
-    }
-    return Column(children: content);
-  }
 }
 
 class _SettingsPage extends State<SettingsPageView> {
