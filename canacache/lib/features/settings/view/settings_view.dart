@@ -18,34 +18,23 @@ class SettingsPageView extends StatefulWidget {
   State<SettingsPageView> createState() => _SettingsPage();
 }
 
-class PickerItem extends StatelessWidget {
-  final String Function() buildSnackBarText;
-  final String itemText;
-  final bool highlight;
-  final Future<void> Function() callback;
-
-  const PickerItem({
-    super.key,
-    required this.buildSnackBarText,
-    required this.itemText,
-    required this.highlight,
-    required this.callback,
-  });
-
-  @override
-  Widget build(BuildContext context, {mounted = true}) {
+class _SettingsPage extends State<SettingsPageView> {
+  Widget generatePickerItem(
+    BuildContext context,
+    String Function() buildSnackBarText,
+    String itemText,
+    bool highlight,
+    Future<void> Function() callback,
+  ) {
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
-    // mounted is always true in StatelessWidget
 
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 20),
       child: InkWell(
         onTap: () async {
           await callback();
-          if (!mounted) {
-            return;
-          }
+          if (!mounted) return;
 
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -69,12 +58,8 @@ class PickerItem extends StatelessWidget {
       ),
     );
   }
-}
 
-class UnitPickerContent extends StatelessWidget {
-  const UnitPickerContent({super.key});
-  @override
-  Widget build(BuildContext context) {
+  Column generateUnitPickerContent(BuildContext context) {
     List<Widget> content = [];
 
     Unit providedUnit =
@@ -84,59 +69,57 @@ class UnitPickerContent extends StatelessWidget {
       Unit currentUnit = Unit(distanceUnit: k);
 
       content.add(
-        PickerItem(
-          buildSnackBarText: () => translate(
+        generatePickerItem(
+          context,
+          () => translate(
             "settings.units.distance.change",
             args: {
               "distance": translate(currentUnit.distanceUnit.nameKey),
             },
           ),
-          itemText: translate(k.nameKey),
-          highlight: currentUnit.distanceUnit == providedUnit.distanceUnit,
-          callback: () async =>
-              Provider.of<SettingsProvider>(context, listen: false).unit =
-                  currentUnit,
+          translate(k.nameKey),
+          currentUnit.distanceUnit == providedUnit.distanceUnit,
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .unit = currentUnit,
         ),
       );
     }
     return Column(children: content);
   }
-}
 
-class ThemePickerContent extends StatelessWidget {
-  const ThemePickerContent({super.key});
+  Column generateThemePickerContent(BuildContext context) {
+    /*
+BuildContext context,
+    String snackBarText,
+    String itemText,
+    bool highlight,
+    VoidCallback callback,
 
-  @override
-  Widget build(BuildContext context) {
+         */
     List<Widget> content = [];
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
 
     for (final theme in CanaTheme.values) {
       content.add(
-        PickerItem(
-          buildSnackBarText: () => translate(
+        generatePickerItem(
+          context,
+          () => translate(
             "settings.theme.colour.change",
             args: {"theme": translate(theme.nameKey)},
           ),
-          itemText: translate(theme.nameKey),
-          highlight: theme == selectedTheme,
-          callback: () async =>
-              Provider.of<SettingsProvider>(context, listen: false).theme =
-                  theme,
+          translate(theme.nameKey),
+          theme == selectedTheme,
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .theme = theme,
         ),
       );
     }
 
     return Column(children: content);
   }
-}
 
-class LocalePickerContent extends StatelessWidget {
-  const LocalePickerContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  Column generateLocalePickerContent(BuildContext context) {
     List<Widget> content = [];
 
     AppLocale selectedLanguage =
@@ -144,26 +127,24 @@ class LocalePickerContent extends StatelessWidget {
 
     for (AppLocale locale in AppLocale.values) {
       content.add(
-        PickerItem(
-          buildSnackBarText: () => translate(
+        generatePickerItem(
+          context,
+          () => translate(
             "settings.locale.language.change",
             args: {
               "locale": translate(locale.nameKey),
             },
           ),
-          itemText: translate(locale.nameKey),
-          highlight: selectedLanguage.name == locale.name,
-          callback: () async =>
-              Provider.of<SettingsProvider>(context, listen: false)
-                  .setLanguage(context, locale),
+          translate(locale.nameKey),
+          selectedLanguage.name == locale.name,
+          () async => Provider.of<SettingsProvider>(context, listen: false)
+              .setLanguage(context, locale),
         ),
       );
     }
     return Column(children: content);
   }
-}
 
-class _SettingsPage extends State<SettingsPageView> {
   SettingsTile generateSettingsTile(
     BuildContext context,
     String tileText,
@@ -207,7 +188,7 @@ class _SettingsPage extends State<SettingsPageView> {
             translate("settings.theme.colour.title"),
             () => canaShowDialog(
               context,
-              const ThemePickerContent(),
+              generateThemePickerContent(context),
               translate("settings.theme.colour.subtitle"),
             ),
             Icons.format_paint,
@@ -226,7 +207,7 @@ class _SettingsPage extends State<SettingsPageView> {
             translate("settings.units.distance.title"),
             () => canaShowDialog(
               context,
-              const UnitPickerContent(),
+              generateUnitPickerContent(context),
               translate("settings.units.distance.subtitle"),
             ),
             Icons.speed,
@@ -245,7 +226,7 @@ class _SettingsPage extends State<SettingsPageView> {
             translate("settings.locale.language.title"),
             () => canaShowDialog(
               context,
-              const LocalePickerContent(),
+              generateLocalePickerContent(context),
               translate("settings.locale.language.subtitle"),
             ),
             Icons.translate,
