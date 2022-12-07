@@ -1,9 +1,12 @@
 import "dart:math";
+
 import "package:canacache/common/utils/cana_palette_model.dart";
 import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
+import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/widgets/picker.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
+import "package:canacache/features/firestore/view/modify_cache/modify_cache_page.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
 import "package:canacache/features/settings/model/i18n.dart";
 import "package:canacache/features/settings/model/settings_provider.dart";
@@ -125,6 +128,39 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
       );
     }
     return markers;
+  }
+
+  Future<void> displayDialog(
+      BuildContext context,
+      LatLng coordinates,
+      ) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(translate("cache.edit.alert.title")),
+          content: Text(
+            translate("cache.edit.alert.content", args: {
+              "location": coordinates,
+            },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pushNamed(
+                CanaRoute.modifyCache.name,
+                arguments: ModifyCacheArguments(coordinates: coordinates),
+              ),
+              child: Text(translate("yes")),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(translate("no")),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

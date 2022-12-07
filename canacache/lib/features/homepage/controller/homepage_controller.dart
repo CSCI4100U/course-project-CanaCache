@@ -42,43 +42,10 @@ class HomePageController extends Controller<HomePage, HomePageState> {
       // put popup or redirect to new page to add a cache
       // event.center is coordinates
       LatLng coords = event.center;
-      displayDialog(state.context, coords);
+      state.displayDialog(state.context, coords);
     }
   }
 
-  // should this be in controller?
-  Future<void> displayDialog(
-    BuildContext context,
-    LatLng coordinates,
-  ) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(translate("cache.edit.alert.title")),
-          content: Text(
-            translate("cache.edit.alert.content", args: {
-                "location": coordinates,
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(state.context).pushNamed(
-                CanaRoute.modifyCache.name,
-                arguments: ModifyCacheArguments(coordinates: coordinates),
-              ),
-              child: Text(translate("yes")),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(state.context).pop(),
-              child: Text(translate("no")),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   void onPositionUpdate(Position? position) {
     if (position == null) {
