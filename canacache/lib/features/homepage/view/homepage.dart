@@ -130,36 +130,48 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
     return markers;
   }
 
-  Future<void> displayDialog(
+  void displayCreateCacheDialog(
       BuildContext context,
       LatLng coordinates,
       ) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(translate("cache.edit.alert.title")),
-          content: Text(
-            translate("cache.edit.alert.content", args: {
-              "location": coordinates,
-            },
+    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context, listen: false).theme;
+
+    return canaShowDialog(
+      context,
+      Text(
+        translate("cache.edit.alert.content",
+          args: {
+            "location": coordinates,
+          },
+        ),
+        style: TextStyle(
+          color: selectedTheme.primaryTextColor,
+        ),
+      ),
+      translate("cache.edit.alert.title"),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pushNamed(
+            CanaRoute.modifyCache.name,
+            arguments: ModifyCacheArguments(coordinates: coordinates),
+          ),
+          child: Text(
+            translate("yes"),
+            style: TextStyle(
+              color: selectedTheme.primaryTextColor,
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                CanaRoute.modifyCache.name,
-                arguments: ModifyCacheArguments(coordinates: coordinates),
-              ),
-              child: Text(translate("yes")),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            translate("no"),
+            style: TextStyle(
+              color: selectedTheme.primaryTextColor,
             ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(translate("no")),
-            ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 

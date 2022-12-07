@@ -42,7 +42,7 @@ class HomePageController extends Controller<HomePage, HomePageState> {
       // put popup or redirect to new page to add a cache
       // event.center is coordinates
       LatLng coords = event.center;
-      state.displayDialog(state.context, coords);
+      state.displayCreateCacheDialog(state.context, coords);
     }
   }
 

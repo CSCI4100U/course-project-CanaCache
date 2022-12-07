@@ -42,13 +42,26 @@ class ModifyCacheState extends ViewState<ModifyCache, ModifyCacheController> {
           children: [
             TextFormField(
               decoration: InputDecoration(
-                icon: const Icon(Icons.drive_file_rename_outline),
+                icon: Icon(
+                  Icons.drive_file_rename_outline,
+                  color: selectedTheme.primaryIconColor,
+                ),
                 labelText: translate("cache.edit.name"),
+                labelStyle: TextStyle(
+                  color: selectedTheme.primaryTextColor,
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: selectedTheme.secTextColor),
+                ),
               ),
               initialValue: widget.args.cache?.name ?? "",
               onChanged: (value) => con.name = value,
             ),
             ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(selectedTheme.primaryBgColor),
+                foregroundColor: MaterialStatePropertyAll(selectedTheme.primaryTextColor),
+              ),
               onPressed: con.saveCacheAndClose,
               child: Text(translate("edit_dialog.save")),
             ),
