@@ -96,7 +96,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
       TextButton(
         onPressed: (){},
         child: Text(
-          translate("cache.info.show_items_button"),
+          translate("cache.info.show_items_button").toUpperCase(),
           style: TextStyle(
             color: selectedTheme.primaryTextColor,
           ),
@@ -115,7 +115,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
               );
             },
             child: Text(
-              translate("cache.info.edit_button"),
+              translate("cache.info.edit_button").toUpperCase(),
               style: TextStyle(
                 color: selectedTheme.primaryTextColor,
               ),
@@ -130,7 +130,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
               Navigator.pop(context);
             },
             child: Text(
-              translate("cache.info.delete_button"),
+              translate("cache.info.delete_button").toUpperCase(),
               style: TextStyle(
                 color: selectedTheme.primaryTextColor,
               ),
@@ -181,8 +181,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
   }
 
   void displayCreateCacheDialog(
-    BuildContext context,
-    LatLng coordinates,
+    String address, LatLng coordinates,
   ) {
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
@@ -193,7 +192,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
         translate(
           "cache.edit.alert.content",
           args: {
-            "location": coordinates,
+            "location": address,
           },
         ),
         style: TextStyle(
@@ -208,7 +207,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
             arguments: ModifyCacheArguments(coordinates: coordinates),
           ),
           child: Text(
-            translate("yes"),
+            translate("yes").toUpperCase(),
             style: TextStyle(
               color: selectedTheme.primaryTextColor,
             ),
@@ -217,7 +216,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(
-            translate("no"),
+            translate("no").toUpperCase(),
             style: TextStyle(
               color: selectedTheme.primaryTextColor,
             ),
