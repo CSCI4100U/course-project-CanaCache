@@ -25,7 +25,8 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
 
   void onSuccessfulSignIn(String email) {
     ScaffoldMessenger.of(context).showSnackBar(
-      successCanaSnackBar(context, translate("signin.successful", args: {"email": email})),
+      successCanaSnackBar(
+          context, translate("signin.successful", args: {"email": email})),
     );
 
     Navigator.pushReplacementNamed(context, CanaRoute.home.name);
@@ -47,7 +48,7 @@ class SignInFormState extends ViewState<SignInForm, SignInFormController> {
                 child: SizedBox(
                   width: 200,
                   child: Text(
-                    translate("debug.lorem"),
+                    translate("app"),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: theme.primaryTextColor,
