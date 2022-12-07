@@ -3,6 +3,7 @@
     "yes": "Sim",
     "no": "Não",
     "cache": {
+        "name": "cache",
         "info": {
             "title": "Informação do Cache",
             "name": "Nome do Cache: {cache_name}",
@@ -10,7 +11,10 @@
             "modified": "Data Modificado",
             "address": "Endereço",
             "latlng": "Coordenadas",
-            "distance": "Distância"
+            "distance": "Distância",
+            "edit_button": "Editar",
+            "show_items_button": "Itens",
+            "delete_button": "Delete"
         },
         "edit": {
             "alert": {
@@ -138,7 +142,7 @@
         }
     },
     "error": {
-        "init": "Erro na inicialização do app!"
+        "init": "Erro na inicialização do app!",
     },
     "debug": {
         "lorem": "Quem é Rakin?🤔 Para o cego, é a luz🌞 Para o faminto, é o pão🍞 Para o sedento, é a fonte de água viva💦 Para o morto, é a vida⚰️ Para o enfermo, é a cura🏥 Para o prisioneiro, é a liberdade🏃‍♂️ Para o solitário, é o companheiro👫 Para o viajante, é o caminho🗺️ Para mim, tudo.",

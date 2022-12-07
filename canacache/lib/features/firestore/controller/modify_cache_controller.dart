@@ -23,7 +23,7 @@ class ModifyCacheController extends Controller<ModifyCache, ModifyCacheState> {
   void close() {
     Navigator.pushNamedAndRemoveUntil(
       state.context,
-      CanaRoute.signIn.name,
+      CanaRoute.home.name,
       (_) => false,
     );
   }

@@ -1,6 +1,7 @@
 import "dart:async";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
+import "package:canacache/features/firestore/model/documents/user.dart";
 import "package:canacache/features/homepage/model/map_model.dart";
 import "package:canacache/features/homepage/view/homepage.dart";
 import "package:canacache/features/stats_recording/distance_recorder.dart";
@@ -40,6 +41,10 @@ class HomePageController extends Controller<HomePage, HomePageState> {
       LatLng coords = event.center;
       state.displayCreateCacheDialog(state.context, coords);
     }
+  }
+
+  bool isCacheCreator(Cache cache, CanaUser user) {
+    return cache.uid == user.ref.id;
   }
 
 

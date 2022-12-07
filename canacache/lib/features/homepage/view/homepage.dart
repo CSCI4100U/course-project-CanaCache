@@ -5,6 +5,7 @@ import "package:canacache/common/utils/formatting_extensions.dart";
 import "package:canacache/common/utils/mvc.dart";
 import "package:canacache/common/utils/routes.dart";
 import "package:canacache/common/widgets/picker.dart";
+import "package:canacache/features/firestore/model/collections/users.dart";
 import "package:canacache/features/firestore/model/documents/cache.dart";
 import "package:canacache/features/firestore/view/modify_cache/modify_cache_page.dart";
 import "package:canacache/features/homepage/controller/homepage_controller.dart";
@@ -91,6 +92,54 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
       );
     }
 
+    List<Widget> actions = [
+      TextButton(
+        onPressed: (){},
+        child: Text(
+          translate("cache.info.show_items_button"),
+          style: TextStyle(
+            color: selectedTheme.primaryTextColor,
+          ),
+        ),
+      )
+    ];
+
+    await Users().getCurrentUser().then((user) {
+      if (con.isCacheCreator(cache, user)) {
+        actions.addAll([
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                CanaRoute.modifyCache.name,
+                arguments: ModifyCacheArguments(cache: cache),
+              );
+            },
+            child: Text(
+              translate("cache.info.edit_button"),
+              style: TextStyle(
+                color: selectedTheme.primaryTextColor,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                con.caches.remove(cache);
+                cache.delete();
+              });
+              Navigator.pop(context);
+            },
+            child: Text(
+              translate("cache.info.delete_button"),
+              style: TextStyle(
+                color: selectedTheme.primaryTextColor,
+              ),
+            ),
+          ),
+        ]);
+      }
+    });
+
     if (!mounted) {
       return;
     }
@@ -104,6 +153,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
         ),
       ),
       translate("cache.info.title"),
+      actions: actions,
     );
   }
 
@@ -131,15 +181,17 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
   }
 
   void displayCreateCacheDialog(
-      BuildContext context,
-      LatLng coordinates,
-      ) {
-    CanaTheme selectedTheme = Provider.of<SettingsProvider>(context, listen: false).theme;
+    BuildContext context,
+    LatLng coordinates,
+  ) {
+    CanaTheme selectedTheme =
+        Provider.of<SettingsProvider>(context, listen: false).theme;
 
     return canaShowDialog(
       context,
       Text(
-        translate("cache.edit.alert.content",
+        translate(
+          "cache.edit.alert.content",
           args: {
             "location": coordinates,
           },
