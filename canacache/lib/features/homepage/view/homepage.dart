@@ -94,7 +94,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
 
     List<Widget> actions = [
       TextButton(
-        onPressed: (){},
+        onPressed: () {},
         child: Text(
           translate("cache.info.show_items_button").toUpperCase(),
           style: TextStyle(
@@ -181,7 +181,8 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
   }
 
   void displayCreateCacheDialog(
-    String address, LatLng coordinates,
+    String address,
+    LatLng coordinates,
   ) {
     CanaTheme selectedTheme =
         Provider.of<SettingsProvider>(context, listen: false).theme;
@@ -192,7 +193,7 @@ class HomePageState extends ViewState<HomePage, HomePageController> {
         translate(
           "cache.edit.alert.content",
           args: {
-            "location": address,
+            "location": "${coordinates.latitude}, ${coordinates.longitude}",
           },
         ),
         style: TextStyle(
